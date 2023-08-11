@@ -1,0 +1,12 @@
+.tick {
+  animation: tick 1s ease-in-out;
+}
+@keyframes tick {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,91 @@
+.after-clicked {
+  position: absolute;
+  background-color: #000000;
+  height: 90%;
+  width: 100%;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.chart-main-div {
+  width: 195px;
+  height: 250px;
+}
+
+@media screen and (max-width: 768px) {
+  .chart-main-div {
+    width: 300px;
+    height: 400px;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .chart-main-div {
+    /* width: 290px;
+    height: 300px; */
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .chart-main-div {
+    /* width: 420px;
+    height: 390px; */
+  }
+}
+
+@media only screen and (max-width: 1256px) and (min-width: 1199px) {
+  .chart-main-div {
+    /* width: 390px;
+    height: 390px; */
+  }
+}
+
+@media screen and (min-width: 1390px) {
+  .chart-main-div {
+    /* width: 490px;
+    height: 420px; */
+  }
+}
+
+@media screen and (min-width: 1300px) {
+  .chart-main-div {
+    /* width: 490px;
+    height: 420px; */
+  }
+}
+
+@media only screen and (max-width: 1572px) and (min-width: 1300px) {
+  .chart-main-div {
+    /* width: 100%;
+    height: 100%; */
+  }
+}
+
+@media screen and (min-width: 1900px) {
+  .chart-main-div {
+    /* width: 650px;
+    height: 500px; */
+  }
+}
+
+@media screen and (min-width: 2000px) {
+  .chart-main-div {
+    /* width: 590px;
+    height: 500px; */
+  }
+}
+
+@media screen and (min-width: 2560px) {
+  .chart-main-div {
+    /* width: 800px;
+    height: 500px; */
+  }
+}
+
+.chart-text-div {
+  font-size: 16px;
+  line-height: 1.6;
+}

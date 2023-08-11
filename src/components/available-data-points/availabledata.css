@@ -1,0 +1,52 @@
+.div {
+  width: 100%;
+}
+
+.backgroud-right {
+  overflow-x: hidden;
+}
+
+.second-conatiner {
+  border-radius: 10px;
+}
+
+.overflow {
+  overflow-x: hidden;
+  height: 28rem;
+  scroll-behavior: smooth;
+}
+
+.font {
+  /* font-family: 'Poppins', sans-serif; */
+  font-weight: normal;
+  font-size: 1.3rem;
+}
+
+.search-icon {
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  fill: black;
+}
+
+.search-bar {
+  height: 2rem;
+  /* flex: 0 0 50%; */
+  padding-right: 2rem;
+}
+
+.input:focus {
+  color: #fcd04f;
+  outline: none !important;
+  outline-width: 0 !important;
+  box-shadow: none;
+}
+
+p.total {
+  font-size: 1rem !important;
+  margin-bottom: 0;
+}
+
+.margin-left {
+  margin-left: auto;
+}

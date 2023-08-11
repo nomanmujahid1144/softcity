@@ -1,0 +1,17 @@
+.text-lbl1 {
+  color: #040404;
+  font-weight: 400;
+  opacity: 70%;
+}
+
+.text1-div > input {
+  background-color: #f6f6f6 !important;
+  height: 48px;
+  color: blue;
+}
+
+.select-lbl {
+  color: #040404;
+  font-weight: 400;
+  opacity: 70%;
+}

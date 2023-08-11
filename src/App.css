@@ -1,0 +1,387 @@
+/* Global/Reset */
+body {
+  overflow-x: hidden;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  border-radius: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.form-control {
+  background-color: #f4f4f4 !important;
+  border: 0 !important;
+}
+
+.form-control:focus {
+  box-shadow: none !important;
+}
+
+.bg-theme {
+  background-color: #14365d !important;
+}
+
+.btn-theme {
+  background-color: #14365d !important;
+  border-color: #14365d !important;
+  color: #ffffff !important;
+}
+
+.softcity-navbar form {
+  position: relative;
+  background: #f4f4f4;
+  border-radius: 8px;
+}
+
+.softcity-navbar form .form-control {
+  background: transparent;
+  border: 0;
+}
+
+.app-main {
+  flex: 1;
+  display: flex;
+  position: relative;
+  padding-top: 67px;
+}
+
+.app-sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 0 0 210px;
+  width: 210px;
+  min-width: 210px;
+  z-index: 8;
+
+  padding-top: 20px;
+  align-self: stretch;
+  position: fixed;
+  left: 0;
+  overflow: hidden;
+  height: 100%;
+  transition: width 0.3s cubic-bezier(0.19, 0.46, 0.75, 0.84) !important;
+}
+
+.app-main .app-main__outer {
+  flex: 1;
+  flex-direction: column;
+  display: flex;
+  z-index: 5;
+  padding-left: 200px;
+  transition: padding-left 0.2s ease-out;
+}
+
+.closed-sidebar .app-main__outer {
+  padding-left: 50px;
+  transition: all 0.4s !important;
+}
+
+.closed-sidebar .app-sidebar {
+  transition: flex 0.5s ease-in;
+  min-width: 55px;
+  align-items: start;
+  flex: 0;
+  width: 55px;
+  z-index: 13;
+}
+
+.closed-sidebar .sidebar-title .menu-icon {
+  font-size: 1.3rem;
+  transition: font-size 0.3s 0.1s ease-out;
+  width: 10px;
+  height: 40px;
+  justify-content: start;
+}
+
+.closed-sidebar .closed-text {
+  display: none !important;
+  transition: display 1s 1s;
+}
+
+/* for sidebar text */
+@media only screen and (max-width: 800px) {
+  .closed-sidebar .closed-text {
+    display: block !important;
+    padding-left: 20px;
+  }
+
+  .closed-sidebar .button-group {
+    flex-direction: row;
+  }
+}
+
+.closed-sidebar .button-group {
+  display: flex;
+  transition: all 0.3s;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 0 0.4rem;
+  gap: 0.5rem !important;
+}
+
+/* for buttons below tablet view */
+@media only screen and (max-width: 800px) {
+  .closed-sidebar .button-group {
+    flex-direction: row;
+  }
+}
+
+.closed-sidebar #sidebar_softcity .closed-buttons {
+  display: none;
+}
+
+.closed-sidebar .closed-buttons {
+  display: none !important;
+}
+
+.closed-sidebar .sidebar-footer {
+  display: none;
+}
+
+.app-main .app-main__inner {
+  padding: 30px 30px;
+  flex: 1;
+  min-height: calc(100vh - 70px);
+}
+
+/* Vertical menu */
+.vertical-nav-menu {
+  margin: 0;
+  padding: 20px 15px 0;
+  position: relative;
+  list-style: none;
+  width: 100%;
+  overflow-y: auto;
+  height: calc(100% - 60px);
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .app-main .app-main__outer {
+    padding-left: 0;
+  }
+
+  .app-sidebar {
+    min-height: 100vh;
+    top: 70px;
+    bottom: 0;
+    overflow: auto;
+    left: -280px;
+    -webkit-transition: all 0.3s ease-out;
+    transition: all 0.25s ease-out;
+  }
+
+  .closed-sidebar .app-sidebar {
+    left: 0;
+    width: 244px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .app-main .app-main__outer {
+    padding-left: 0;
+  }
+
+  .app-sidebar {
+    min-height: 100vh;
+    top: 50px;
+    bottom: 0;
+    overflow: auto;
+    left: -280px;
+    -webkit-transition: all 0.3s ease-out;
+    transition: all 0.25s ease-out;
+  }
+
+  .closed-sidebar .app-sidebar {
+    left: 0;
+    width: 209px;
+  }
+  .carousel-content h5 {
+    font-size: 13px;
+    line-height: 16px;
+    font-weight: 500;
+  }
+
+  .carousel-content p {
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: 300;
+    margin-bottom: 0;
+  }
+
+  .owl-theme .owl-nav [class*="owl-"] {
+    width: 23px;
+    height: 23px;
+    line-height: 20px !important;
+    border-radius: 40%;
+    box-shadow: 0 0.3rem 0.7rem rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* Dahboard */
+.card-title {
+  position: relative;
+  padding-left: 20px;
+  font-size: 18px !important;
+}
+
+.card-title:before {
+  content: "";
+  width: 10px;
+  height: 90%;
+  background: #ffbc99;
+  border-radius: 3px;
+  position: absolute;
+  left: 0px;
+  top: 0;
+}
+
+.light-mode .app-main__inner {
+  background-color: #eee !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+.dark-mode.bg-dashboard {
+  background-color: #547aa7;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.dark-mode .menu-icons-text {
+  color: white;
+  font-size: 0.9rem;
+  letter-spacing: 0.1px;
+}
+
+.dark-mode .icons-menu {
+  color: white;
+}
+
+.dark-mode .menu-toggler {
+  color: white;
+}
+
+.dark-mode .react-menu-icon {
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.418);
+  border-radius: 5px;
+
+  padding: 0.1rem;
+  font-size: 1.5rem !important;
+}
+
+.dark-mode .react-menu-icon:hover {
+  color: rgb(255, 255, 255);
+  border: 2px solid rgba(255, 255, 255, 0.774);
+}
+
+.dark-mode .nav-link:hover .icons-menu {
+  color: rgba(255, 255, 255, 0.767) !important;
+}
+
+.dark-mode .nav-link:hover .menu-icons-text {
+  color: rgba(255, 255, 255, 0.767) !important;
+}
+
+.sidebar-footer {
+  color: rgb(255, 255, 255) !important;
+  letter-spacing: 0.2px;
+  font-weight: 500;
+  margin-top: auto;
+}
+
+.dark-mode .menu-notification {
+  color: rgb(243, 243, 243) !important;
+}
+
+.dark-mode .app-main__inner {
+  transition: all 0.3s ease-out;
+  background-color: #1b1b24 !important;
+}
+
+.dark-mode .app-main__outer {
+  background-color: #1b1b24 !important;
+}
+
+.light-mode .app-main__inner {
+  background-color: #ccd3db !important;
+}
+
+.light-mode .app-main__outer {
+  background-color: #ccd3db !important;
+}
+
+.react-datepicker {
+  font-family: " Poppins", sans-serif !important;
+}
+
+.modal-content {
+  z-index: 24 !important;
+}
+
+.modal-dialog {
+  position: fixed;
+  top: 7%;
+}
+
+.button-hover button:hover {
+  background-color: #eee !important;
+  border-radius: 4px !important;
+}
+
+.minus-icon {
+  stroke: none !important;
+  fill: black;
+  color: white;
+  font-weight: 300;
+}
+
+.layout-transition {
+  transition: all 0.4s cubic-bezier(0.19, 0.33, 0.53, 0.96) !important;
+}
+
+.show {
+  backdrop-filter: blur(1px) !important;
+}
+
+.modal-backdrop {
+  --bs-backdrop-opacity: 0.55 !important;
+}
+.modal {
+  overflow-y: hidden !important;
+}
+.modal-header {
+  border-top-left-radius: 4px !important;
+  border-top-right-radius: 4px !important;
+}
+.tooltip {
+  overflow: hidden !important;
+}
+.availabledatacontainer .Availabledata {
+  padding: 0 0 1rem 0 !important;
+}
+.popover {
+  --bs-popover-body-padding-y: 0.65rem;
+}

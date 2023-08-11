@@ -1,0 +1,25 @@
+.text-lbl1 {
+  color: #040404;
+  font-weight: 400;
+  opacity: 70%;
+}
+.radio-div {
+  margin-right: 30px;
+}
+
+.checkbox-lbl {
+  font-size: 14px;
+  color: #9a9fa5;
+}
+
+.radio {
+  color: #9a9fa5;
+}
+.radio-div1 > input:checked {
+  background-color: gray;
+}
+
+.radio-lbl {
+  font-size: 14px;
+  color: #9a9fa5;
+}

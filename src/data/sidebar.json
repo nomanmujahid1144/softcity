@@ -1,0 +1,36 @@
+[
+  {
+    "title": "2 Columns",
+    "icon": "bi-grid",
+    "path": "/"
+  },
+  {
+    "title": "3 Columns",
+    "icon": "bi bi-grid-3x3-gap",
+    "path": "/"
+  },
+  {
+    "title": "4 Columns",
+    "icon": "bi-columns-gap",
+    "path": "/"
+  },
+  {
+    "title": "Print",
+    "icon": " bi-printer",
+    "path": "/admin"
+  },
+  {
+    "title": "Comments",
+    "icon": " bi-chat-left-text"
+  },
+  {
+    "title": "Downloads",
+    "icon": "bi-download",
+    "path": "/downloads"
+  },
+  {
+    "title": "Admin",
+    "icon": "bi-person-check",
+    "path": "/admin"
+  }
+]

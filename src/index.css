@@ -1,0 +1,163 @@
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+.primary-inputs {
+  background-color: #f6f6f6 !important;
+  outline: none !important;
+  font-size: 13px !important;
+}
+
+.primary-btns {
+  background-color: #14365d !important;
+}
+
+.header-before {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-before::before {
+  content: "";
+  width: 13px;
+  height: 2rem;
+  background-color: #ffbc99;
+  border-radius: 4px;
+}
+.header-beforeAdmin {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-beforeAdmin::before {
+  content: "";
+  width: 13px;
+  height: 2rem;
+  background-color: #547ba8;
+  border-radius: 4px;
+}
+.header-beforeComment {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-family2);
+  font-weight: 500;
+
+  /* white-space: nowrap; */
+}
+
+.header-beforeComment::before {
+  content: "";
+  width: 4px;
+  height: 22px;
+  background-color: #0dcaf0;
+  border-radius: 4px;
+}
+
+.fs-7 {
+  font-size: 0.9rem !important;
+}
+.fs-7-5 {
+  font-size: 0.95rem;
+  color: #555;
+}
+.fs-8 {
+  font-size: 0.8rem;
+}
+
+.fs-9 {
+  font-size: 0.75rem;
+}
+.fs-10 {
+  font-size: 3rem;
+}
+
+:root {
+  --display: block;
+  --bs-modal-width: "830px" !important;
+  --font-family1: "Josefin Sans", sans-serif;
+  --font-family2: "Poppins", sans-serif;
+  --font-family3: "Rubik", sans-serif;
+  --font-family4: "Inter", sans-serif;
+}
+.h-30 {
+  height: 25%;
+}
+.mb--10 {
+  margin-bottom: -10px;
+}
+.bg-gray {
+  background-color: #f0f0f0 !important;
+}
+
+.bg-blue {
+  background-color: #003879 !important;
+  transition: all 0.2s;
+}
+button.bg-blue {
+  background-color: #033d80 !important;
+  transition: all 0.2s;
+}
+.bg-blue:hover {
+  background-color: #184b85e3 !important;
+}
+
+.bg-java {
+  background-color: #168491;
+}
+.form-input-height {
+  min-height: 2.5rem !important;
+  font-size: 0.93rem !important;
+}
+.form-select-outline {
+  outline: unset !important;
+  border: unset !important;
+}
+.checkbox-label label {
+  font-weight: 400 !important;
+  font-size: 0.85rem;
+}
+.checkbox-label {
+  display: flex;
+  align-items: center;
+}
+.bg-lightdark {
+  background-color: #547aa7;
+  color: white;
+}
+button.btn-darkblue {
+  background-color: #113a68 !important;
+  border: #123b6b;
+}
+button.btn-darkblue:hover {
+  background-color: #135096 !important;
+}
+
+.dark-mode
+  .table-pagination
+  .css-r93niq-MuiButtonBase-root-MuiPaginationItem-root {
+  color: white !important;
+  border-color: rgba(255, 255, 255, 0.623);
+}
+.dark-mode
+  .table-pagination
+  .css-r93niq-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+  background-color: #135096 !important;
+  border-color: #135096;
+}
+.css-g2z002-MuiSvgIcon-root-MuiPaginationItem-icon {
+  width: 2.4em !important;
+  height: 1.3em !important;
+}
+.css-r93niq-MuiButtonBase-root-MuiPaginationItem-root {
+  padding: 1rem 0.8rem !important;
+  font-family: var(--font-family2);
+  font-weight: 300 !important;
+  height: 36px !important;
+}
+.css-r93niq-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+  background-color: #135096 !important;
+  color: white !important;
+}

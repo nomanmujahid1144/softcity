@@ -1,0 +1,10 @@
+#mulColPositon{
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+    
+
+}

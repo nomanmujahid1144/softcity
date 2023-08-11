@@ -1,0 +1,160 @@
+[
+  {
+    "title": "Data Point",
+    "icon": "bi-grid",
+    "childrens": [
+      {
+        "title": "Create Data Point",
+        "path": "/admin/create-datapoint"
+      },
+      {
+        "title": "View Data Point",
+        "path": "/admin/datapoints"
+      },
+      {
+        "title": "Data Points",
+        "path": "/admin/Assigned/data-point"
+      }
+    ]
+  },
+  {
+    "title": "Collections",
+    "icon": "bi-collection",
+    "childrens": [
+      {
+        "title": "Multi collections",
+        "path": "/admin/reorder-collection-elements"
+      },
+      {
+        "title": "Single collections",
+        "path": "/admin/Scollections"
+      },
+      {
+        "title": "Assign Template",
+        "path": "/admin/AssignTemplate"
+      },
+      {
+        "title": "Create Collection",
+        "path": "/admin/create"
+      },
+      {
+        "title": "Modify",
+        "path": "/admin/modify"
+      },
+      {
+        "title": "Collections",
+        "path": "/admin/collection-templates"
+      }
+    ]
+  },
+  {
+    "title": "Charts",
+    "icon": "bi-pie-chart",
+    "childrens": [
+      {
+        "title": "Profile",
+        "path": "/admin/create-data-charts"
+      }
+    ]
+  },
+  {
+    "title": "Dashboard",
+    "icon": "bi-columns-gap",
+    "path": "/",
+    "childrens": [
+      {
+        "title": "Create Dashboard",
+        "path": "/admin/createdashboard"
+      },
+      {
+        "title": "Available Charts",
+        "path": "/admin/all-available-elements"
+      },
+      {
+        "title": "Delete Charts",
+        "path": "/admin/delete-data-point"
+      }
+    ]
+  },
+  {
+    "title": "User Group",
+    "icon": "bi bi-people",
+    "childrens": [
+      {
+        "title": "Manage User",
+        "path": "/admin/users/profile"
+      },
+      {
+        "title": "User Setting",
+        "path": "/admin/profile"
+      },
+      {
+        "title": "Admin",
+        "path": "/admin/admin-role"
+      }
+    ]
+  },
+  {
+    "title": "Users",
+    "icon": "bi-person",
+    "childrens": [
+      {
+        "title": "Profile",
+        "path": "/admin/users/account"
+      },
+      {
+        "title": "Accounts",
+        "path": "/admin/accounts"
+      },
+      {
+        "title": "Create User",
+        "path": "/admin/createUser"
+      },
+      {
+        "title": "Check Users",
+        "path": "/admin/check-Users"
+      },
+      {
+        "title": "All Users",
+        "path": "/admin/all-users"
+      },
+      {
+        "title": "Users Groups",
+        "path": "/admin/all-user-groups"
+      }
+    ]
+  },
+  {
+    "title": "Company",
+    "icon": "bi-person",
+    "childrens": [
+      {
+        "title": "Create Company",
+        "path": "/admin/company/createCompany"
+      },
+      {
+        "title": "Manage comapnies",
+        "path": "/admin/company/manage"
+      },
+      {
+        "title": "All Companies",
+        "path": "/admin/company/all-companies"
+      },
+      {
+        "title": "Company Users",
+        "path": "/admin/company/Company-Users"
+      }
+    ]
+  },
+  {
+    "title": "Support",
+    "icon": "bi-person-gear",
+    "path": "/admin/support"
+  },
+  {
+    "user": "admin",
+    "title": "Report Bug",
+    "icon": "bi-bug",
+    "path": "/admin/report-bug"
+  }
+]
