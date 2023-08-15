@@ -15,6 +15,7 @@ const PORT = 5000
 app.use('/api', require('./routes/admin'))
 app.use('/api/v1/auth', require('./routes/auth'))
 app.use('/api/v1/admin/datapoints', require('./routes/admin/datapoints'))
+app.use('/api/v1/admin/datatemplate', require('./routes/admin/datatemplate'))
 
 
 app.listen(PORT, () => {

@@ -6,6 +6,9 @@ import Stepper from '../All-user-groups/Stepper'
 import '../All-user-groups/Stepper/stepper.css'
 import Context from '../../Context/DashboardContext'
 import { Link, useNavigate } from 'react-router-dom'
+import DeleteAlert from '../alertProceed/DeleteAlert'
+import { useDispatch } from 'react-redux'
+import { deleteDataCollection, getDataCollections } from '../../redux/slices/DataCollections/createDataCollectionsSlice'
 const Table_Grid = ({
   allUserGroups,
   data,
@@ -20,10 +23,18 @@ const Table_Grid = ({
   heading9,
   dataPointsAvailable,
   dataCollectionTemplate,
+  handleRefresh
 }) => {
   const url = useNavigate()
-  const [stepper, setStepper] = useState()
-  const { createcollectiontemplate } = useContext(Context)
+  const [stepper, setStepper] = useState();
+  const [show, setShow] = useState(false);
+  const [deleteId, setDeleteId] = useState({
+    popUpHeading: '',
+    ButtonHeading: '',
+    id: '',
+  });
+  const { createcollectiontemplate } = useContext(Context);
+  const dispatch = useDispatch();
   const handleClick = (id) => {
     setStepper(id)
     console.log('key', id)
@@ -108,8 +119,34 @@ const Table_Grid = ({
   // const i = data.map((item) => item.createdAt)
   // console.log('data', i[0].split('T')[0])
 
+
+  const handleDeleteClick = (id, heading, buttonHeading) => {
+    setDeleteId({
+      popUpHeading: heading,
+      ButtonHeading : buttonHeading,
+      id : id
+    })
+    setShow(true);
+  }
+
+  const getDeleteId = (id) => {
+    const ids = [];
+    ids.push(id);
+    dispatch(deleteDataCollection(ids));
+    handleRefresh();
+    // dispatch(getDataCollections());
+    setShow(false);
+  }
+
   return (
     <div>
+      <DeleteAlert
+        show={show} setShow={setShow}
+        heading={deleteId.popUpHeading}
+        deleteButton={deleteId.ButtonHeading}
+        id={deleteId.id}
+        getDeleteId={getDeleteId}
+      />
       <Table
         responsive="sm md lg xl"
         className="mytable"
@@ -151,9 +188,9 @@ const Table_Grid = ({
                   )}
                   {dataCollectionTemplate && (
                     <>
-                      <td>{res.collectionTemplateName}</td>
-                      <td>{res.availableDataPoints.length + 1}</td>
-                      <td>{res.description}</td>
+                      <td>{res?.collectionTemplateName}</td>
+                      <td>{res?.selectedDataPoints?.length }</td>
+                      <td>{res?.description}</td>
                       {/* <td>{res.createdAt.split('T')[0]}</td>
                       <td>{res.lastUpdated.split('T')[0]}</td>
                       <td>{res.createdBy}</td>
@@ -181,15 +218,27 @@ const Table_Grid = ({
                         class="dropdown-menu ul-dropdown"
                         aria-labelledby="dropdownMenu2"
                       >
-                        <li>
-                          <button
-                            class="dropdown-item dropdown-menu-buttons"
-                            type="button"
-                            onClick={(e) => url(`/admin/update-datapoint/${res._id}`)}
-                          >
-                            Edit Data Point
-                          </button>
-                        </li>
+                        {dataPointsAvailable && (
+                          <>
+                            <li>
+                              <button
+                                class="dropdown-item dropdown-menu-buttons"
+                                type="button"
+                                onClick={(e) => url(`/admin/update-datapoint/${res._id}`)}
+                                >
+                                Edit Data Point
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                class="dropdown-item dropdown-menu-buttons"
+                                type="button"
+                                >
+                                Delete Data Point
+                              </button>
+                            </li>
+                          </>
+                        )}
                         <li>
                           <button
                             class="dropdown-item dropdown-menu-buttons"
@@ -207,8 +256,9 @@ const Table_Grid = ({
                           </button>
                         </li>
                         <li>
-                          <button
+                          <button 
                             class="dropdown-item dropdown-menu-buttons"
+                            onClick={() => handleDeleteClick(res._id, "Do you want to delete this Data Collection", "Delete")}
                             type="button"
                           >
                             Delete Collection Template

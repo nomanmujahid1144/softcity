@@ -3,7 +3,7 @@ import { AUTH_TOKEN, BASE_URL } from "../../constants/reduxContants";
 import axios from "axios";
 const initialState = {
   msg: "",
-  user: [],
+  collectionTemplates: [],
   token: "",
   loading: false,
   error: "",
@@ -18,7 +18,7 @@ export const createDataCollections = createAsyncThunk(
 
     try {
       const res = await fetch(
-        `${BASE_URL}/api/collections/createdatacollectiontemplate`,
+        `${BASE_URL}/api/v1/admin/datatemplate/createdatatemplate`,
         {
           method: "POST",
           headers: {
@@ -30,7 +30,6 @@ export const createDataCollections = createAsyncThunk(
         }
       );
 
-      console.log("res", res.json());
       return await res.json();
     } catch (error) {
       console.log("error in createData collection");
@@ -45,7 +44,7 @@ export const getDataCollections = createAsyncThunk(
 
     try {
       const response = await axios.get(
-        `${BASE_URL}/api/collections/getalldatacollectiontemplates`,
+        `${BASE_URL}/api/v1/admin/datatemplate/getalldatatemplates`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -54,7 +53,31 @@ export const getDataCollections = createAsyncThunk(
         }
       );
 
-      return response.data;
+      return response.data.data;
+    } catch (error) {
+      console.log("error in fetching get data collections", error);
+    }
+  }
+);
+
+export const deleteDataCollection = createAsyncThunk( "deleteDataCollection", async (ids) => {
+    console.log("entered in Delete data collections action");
+
+    try {
+      const response = await axios.delete(
+        `${BASE_URL}/api/v1/admin/datatemplate/deletedatatemplates`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": `${AUTH_TOKEN}`,
+          },
+          params: {
+            IDS : ids
+          }
+        }
+      );
+
+      return response.data.data;
     } catch (error) {
       console.log("error in fetching get data collections", error);
     }
@@ -66,32 +89,51 @@ const createDataCollectionsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(createDataCollections.pending, (state) => {
-      state.loading = true;
-    }),
-      builder.addCase(createDataCollections.rejected, (state, action) => {
-        state.loading = false;
-        (state.user = []), (state.error = action.payload);
-      }),
-      builder.addCase(createDataCollections.fulfilled, (state, action) => {
-        (state.loading = false), state.user.push(action.payload);
-        // (state.user = [...state.user, ...action.payload]);
-        state.error = "";
-      });
-    builder.addCase(getDataCollections.pending, (state) => {
-      state.loading = true;
-    }),
-      builder.addCase(getDataCollections.rejected, (state, action) => {
-        state.loading = false;
-        (state.user = []), (state.error = action.payload);
-      }),
-      builder.addCase(getDataCollections.fulfilled, (state, action) => {
-        (state.loading = false),
-          (state.user = action.payload),
-          // (state.user = [...state.user, ...action.payload]);
 
-          (state.error = "");
-      });
+    builder
+    .addCase(createDataCollections.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(createDataCollections.rejected, (state, action) => {
+      state.loading = false;
+      state.collectionTemplates = [];
+      state.error = action.payload;
+    })
+    .addCase(createDataCollections.fulfilled, (state, action) => {
+      state.loading = false;
+      state.collectionTemplates = action.payload;
+      state.error = "";
+    })
+      
+    .addCase(getDataCollections.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(getDataCollections.rejected, (state, action) => {
+      state.loading = false;
+      state.collectionTemplates = [];
+      state.error = action.payload;
+    })
+    .addCase(getDataCollections.fulfilled, (state, action) => {
+      state.loading = false;
+      state.collectionTemplates = action.payload;
+      state.error = "";
+    })
+      
+      
+    .addCase(deleteDataCollection.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(deleteDataCollection.rejected, (state, action) => {
+      state.loading = false;
+      state.collectionTemplates = [];
+      state.error = action.payload;
+    })
+    .addCase(deleteDataCollection.fulfilled, (state, action) => {
+      state.loading = false;
+      state.collectionTemplates = action.payload;
+      state.error = "";
+    });
+    
   },
 });
 

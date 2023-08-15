@@ -18,12 +18,17 @@ const Collection_Templates_Comp = () => {
   } = useContext(Context)
 
   const dispatch = useDispatch()
-
+  const [handleRefresh, setHandleRefresh] = useState(false);
+  const { collectionTemplates, loading } = useSelector((state) => state.createDataCollections);
+  
   useEffect(() => {
-    dispatch(getDataCollections())
-  }, [createDataArr])
+    dispatch(getDataCollections());
+  }, [createDataArr, handleRefresh])
   // const allData = useSelector((state) => state.createDataPoints)
-  const { user, loading } = useSelector((state) => state.createDataCollections)
+
+  const handleRefreshfun = () => {
+    setHandleRefresh(!handleRefresh)
+  }
 
   return (
     <>
@@ -38,7 +43,7 @@ const Collection_Templates_Comp = () => {
             <div className="data-point-heading header-beforeAdmin">
               Collection Templates
             </div>
-            <div className="total-head mt-2">Total: 390</div>
+            <div className="total-head mt-2">Total: {collectionTemplates?.length}</div>
           </div>
         </div>
 
@@ -63,7 +68,9 @@ const Collection_Templates_Comp = () => {
       </div>
 
       <div style={{ marginTop: '30px' }}>
-        <Table_Grid data={user} dataCollectionTemplate={true} />
+        {collectionTemplates?.length > 0 ?
+          <Table_Grid data={collectionTemplates} dataCollectionTemplate={true} handleRefresh={handleRefreshfun} />
+        :null}
       </div>
 
       <div className="py-2 d-flex justify-content-end table-pagination">

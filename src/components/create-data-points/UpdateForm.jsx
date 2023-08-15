@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useContext } from 'react'
+import React, { useState, useCallback, useEffect, useContext } from 'react';
 import { useParams } from "react-router-dom"
 import './createdatapoints.css'
 import { BsArrowRightShort } from 'react-icons/bs'
@@ -23,7 +23,7 @@ const Form = () => {
   const { register, handleSubmit, watch, reset, setValue } = methods
   //
   const dispatch = useDispatch()
-  const { params } = useParams();
+  const params = useParams();
   console.log("params", params)
   //
   const [inputFields, setInputFields] = useState([

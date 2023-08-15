@@ -23,6 +23,7 @@ const CreateTemplateMain = () => {
 
   const { register, handleSubmit, reset } = useForm()
   const onSubmit = (data) => {
+    console.log(data, 'Data')
     assignCollectionTemplate(data)
 
     if (data) {
@@ -37,7 +38,7 @@ const CreateTemplateMain = () => {
     }, 2000)
   }
   useEffect(() => {
-    console.log(createcollectiontemplate)
+    console.log(createcollectiontemplate, 'dataTemplateName')
   }, [onSubmit])
 
   return (

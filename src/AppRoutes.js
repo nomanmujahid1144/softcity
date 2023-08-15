@@ -51,12 +51,14 @@ function AppRoutes() {
 
         <Route path="downloads" element={<AlertEditDataPoint />} />
         <Route path="admin" element={<Welcome />} />
+
+        {/* Data Points Routes */}
         <Route path="admin/create-datapoint" element={<Create_Data_Points />} />
+        <Route path="admin/Assigned/data-point" element={<Available_datapoints_table />} />
         <Route path="admin/update-datapoint/:id" element={<Update_Data_Points />} />
-        <Route
-          path="admin/datapoints"
-          element={<AvailableDataPointsContainer />}
-        />
+        <Route path="admin/datapoints" element={<AvailableDataPointsContainer />} />
+
+        
         <Route path="admin/admin-role" element={<MultiColDataCollection />} />
         <Route path="admin/collections" element={<Collections />} />
         <Route path="admin/createUser" element={<CreateAdmin />} />
@@ -67,38 +69,20 @@ function AppRoutes() {
         <Route path="admin/register" element={<AvailableDataPoints />} />
         <Route path="admin/modify" element={<CreateUserGroup />} />
         <Route path="admin/accounts" element={<AdminsTable />} />
+
+        {/* Collection Template Routes */}
         <Route path="admin/create" element={<CreateTemplateMain />} />
-        <Route
-          path="admin/check-Users"
-          element={<AdminRoleManagementContainer />}
-        />
-        <Route
-          path="admin/AssignTemplate"
-          element={<AssignDataCollTemplate />}
-        />
-        <Route
-          path="admin/Scollections"
-          element={<SingleColDataCollection />}
-        />
-        <Route
-          path="admin/collection-templates"
-          element={<Collection_Templates_Comp />}
-        />
+        <Route path="admin/collection-templates" element={<Collection_Templates_Comp />} />
+
+
+        <Route path="admin/check-Users" element={<AdminRoleManagementContainer />} />
+        <Route path="admin/AssignTemplate" element={<AssignDataCollTemplate />}/>
+        <Route path="admin/Scollections" element={<SingleColDataCollection />} />
         <Route path="admin/all-user-groups" element={<AllUserGroups />} />
         <Route path="admin/all-users" element={<AllUsers />} />
-        <Route
-          path="admin/Assigned/data-point"
-          element={<Available_datapoints_table />}
-        />
-        <Route
-          path="admin/reorder-collection-elements"
-          element={<Reorder_Collection_Elements />}
-        />
+        <Route path="admin/reorder-collection-elements" element={<Reorder_Collection_Elements />} />
         <Route path="admin/create-data-charts" element={<CreateDataCharts />} />
-        <Route
-          path="admin/all-available-elements"
-          element={<All_Available_Elements />}
-        />
+        <Route path="admin/all-available-elements" element={<All_Available_Elements />} />
         <Route path="admin/all-dashboards" element={<All_Dashboard />} />
         <Route path="admin/createdashboard" element={<CreateDashboard />} />
         <Route path="admin/company/createCompany" element={<CreateCompany />} />

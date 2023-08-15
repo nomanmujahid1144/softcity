@@ -34,4 +34,4 @@ const CreateDataPointSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('Data Points', CreateDataPointSchema)
+module.exports = mongoose.model('DataPoints', CreateDataPointSchema)

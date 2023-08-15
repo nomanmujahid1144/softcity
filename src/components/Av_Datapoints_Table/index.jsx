@@ -33,7 +33,7 @@ const Av_Datapoints_Table = () => {
         <div>
           <TitleHeader
             title={'Available Data Points'}
-            subTitle={390}
+            subTitle={user?.length}
             assignBtn={false}
           />
         </div>
