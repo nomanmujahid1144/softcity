@@ -9,6 +9,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import DeleteAlert from '../alertProceed/DeleteAlert'
 import { useDispatch } from 'react-redux'
 import { deleteDataCollection, getDataCollections } from '../../redux/slices/DataCollections/createDataCollectionsSlice'
+import {
+  deleteDataPoint,
+  getDataPoints
+} from '../../redux/slices/createDataPointsSlice'
 const Table_Grid = ({
   allUserGroups,
   data,
@@ -129,10 +133,16 @@ const Table_Grid = ({
     setShow(true);
   }
 
+  const deleteDataPointHandler = (id) => {
+    dispatch(deleteDataPoint(id));
+    dispatch(getDataPoints());
+    url(`/admin/Assigned/data-point`)
+  }
+
   const getDeleteId = (id) => {
     const ids = [];
     ids.push(id);
-    dispatch(deleteDataCollection(ids));
+    dispatch(deleteDataCollection(id));
     handleRefresh();
     // dispatch(getDataCollections());
     setShow(false);
@@ -233,7 +243,8 @@ const Table_Grid = ({
                               <button
                                 class="dropdown-item dropdown-menu-buttons"
                                 type="button"
-                                >
+                                onClick={(e) => deleteDataPointHandler(res._id)}
+                              >
                                 Delete Data Point
                               </button>
                             </li>

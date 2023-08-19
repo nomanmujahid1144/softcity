@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect, useContext } from 'react';
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import './createdatapoints.css'
 import { BsArrowRightShort } from 'react-icons/bs'
 import { useForm, FormProvider, useFormState } from 'react-hook-form'
@@ -9,32 +9,33 @@ import DashboardContext from '../../Context/DashboardContext'
 import { BsFillCaretLeftFill } from 'react-icons/bs'
 import { BsFillCaretRightFill } from 'react-icons/bs'
 import Carousel from 'react-bootstrap/Carousel'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {
-  createDataPoints,
+  updateDataPoint,
   getDataPoints,
   getDataPoint,
 } from '../../redux/slices/createDataPointsSlice'
 
 const Form = () => {
+  const url = useNavigate()
   const submit = useContext(DashboardContext)
   const { fetch_data, mode, dataForm, createDataArr, setCreateDataArr } = submit
+  const { datapoint, loading } = useSelector((state) => state.createDataPoints)
   const methods = useForm()
   const { register, handleSubmit, watch, reset, setValue } = methods
   //
   const dispatch = useDispatch()
   const params = useParams();
-  console.log("params", params)
   //
   const [inputFields, setInputFields] = useState([
     { dataPointName: '', description: '', checkbox: '' },
   ])
   const [descheck, setdescheck] = useState(false)
   const [refs, setrefs] = useState('hidden')
-  const [ischecked, setischecked] = useState(false)
+  const [ischecked, setischecked] = useState(datapoint?.enableSheetMode)
   const [columns, setcolumns] = useState([])
   const [state, setstate] = useState(false)
-  const [dataPoint, setDataPoint] = useState("")
+  const [dataPoint, setDataPoint] = useState({})
   //
 
   //add
@@ -48,8 +49,11 @@ const Form = () => {
   }
 
   useEffect(() => {
-    // setDataPoint(getDataPoint(params.id))
-  }, [dataPoint])
+    dispatch(getDataPoint(params.id))
+    setischecked(datapoint ? datapoint?.enableSheetMode : false)
+  }, [datapoint?.dataPointName])
+  
+  console.log(datapoint?.enableSheetMode, ischecked, "ischecked")
 
   //checkbox logic
   const checkbox = function () {
@@ -148,28 +152,31 @@ const Form = () => {
   }
 
   const [labelColArr, setLabelColArr] = useState([])
-  const labelColumnhandler = (e) => {
-    labelColArr.push(e.target.value)
+  const labelColumnhandler = (e, ind) => {
+    console.log(e.target.value, ind)
+    labelColArr[ind] = e.target.value
     setValue('LabelColumns', labelColArr)
     console.log('log', labelColArr)
   }
+
 
   const onSubmit = (data) => {
     fetch_data(data)
     // fetch_data(data)
     // const { dataForm } = dataForm
     const dataArr = {
-      dataPointName: data.DataPointName,
-      dataPointType: data.dataFieldType,
-      description: data.Description,
-      enableSheetMode: data.enableSheetMode,
-      noOfColumns: +data.NoOfColumns,
-      labelColumns: labelColArr,
+      dataPointName: data.DataPointName == "" ? datapoint?.DataPointName : data.DataPointName,
+      dataPointType: data.dataFieldType == "" ? datapoint?.dataFieldType : data.dataFieldType,
+      description: data.Description == "" ? datapoint?.Description : data.Description,
+      enableSheetMode: data.enableSheetMode == "" ? datapoint?.enableSheetMode : data.enableSheetMode,
+      noOfColumns: data.NoOfColumns !== null ? +data.NoOfColumns : datapoint?.noOfColumns,
+      labelColumns: labelColArr.length > 0 ? labelColArr : datapoint?.labelColArr,
     }
     
-    dispatch(createDataPoints(dataArr))
+    dispatch(updateDataPoint({dataArr: dataArr, id: params.id}))
     dispatch(getDataPoints())
     setCreateDataArr(true)
+    url(`/admin/Assigned/data-point`)
     // formreset();
   }
 
@@ -221,7 +228,7 @@ const Form = () => {
                     {...register('DataPointName')}
                     onChange={onchangetext}
                     required="true"
-                    // value={textField.datapointname || ""}
+                    defaultValue={datapoint?.dataPointName || ""}
                     autofocus="true"
                     placeholder="Data point name"
                     type="text"
@@ -242,9 +249,15 @@ const Form = () => {
                     name="dataFieldType"
                     className="form-select select"
                   >
+                    <option className="options"
+                      selected
+                      value={datapoint?.dataPointType}
+                      name={datapoint?.dataPointType + " Field"}
+                      hidden>
+                      {datapoint?.dataPointType}
+                    </option>
                     <option
                       className="options"
-                      selected
                       value="Text"
                       name="Text Field"
                     >
@@ -357,12 +370,13 @@ const Form = () => {
                   minLength="5"
                   maxLength="30"
                   placeholder="Description"
+                  defaultValue={datapoint?.description}
                 ></textarea>
               </div>
               <div className="flex-grow-1 d-flex flex-column">
                 <div className="form-check mb-2">
                   <label className="form-check-label" htmlFor="exampleCheck1">
-                    Enable Sheet Mode
+                    Enable Sheet Mode {ischecked}
                   </label>
                   <input
                     {...register('enableSheetMode')}
@@ -389,7 +403,7 @@ const Form = () => {
                     className="form-select select"
                   >
                     <option value="1" selected hidden>
-                      -- select an option
+                      {ischecked ? datapoint?.noOfColumns : '-- select an option'}
                     </option>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -426,13 +440,45 @@ const Form = () => {
                       </Carousel.Item>
                     )}
                     {ischecked &&
-                      columns.map((res, ind) => {
+                      datapoint?.labelColumns.length > 0 ?
+                      datapoint?.labelColumns.map((res, ind) => {
                         return (
                           <Carousel.Item key={ind}>
                             <div>
                               <input
                                 // onChange={(e) => labelcolumns(e, ind)}
-                                onChange={labelColumnhandler}
+                                onChange={(e) => labelColumnhandler(e, ind)}
+                                // {...register(
+                                //   `${
+                                //     ischecked &&
+                                //     `${state.label || 'LabelColumns Column'}-${
+                                //       ind + 1
+                                //     }`
+                                //   }`,
+                                // )}
+                                
+                                defaultValue={datapoint?.enableSheetMode ? datapoint?.labelColumns[ind] : ''}
+                                autoFocus={true}
+                                placeholder={`Column-${ind + 1}`}
+                                // name={`${
+                                //   state.label || 'LabelColumns Column'
+                                // }-${ind + 1}`}
+                                type="text"
+                                className="form-control form-column "
+                                id="DataPointname"
+                                aria-describedby="Data-Point-name"
+                              />
+                            </div>
+                          </Carousel.Item>
+                        )
+                      }) :
+                      columns.map((res, ind) => {
+                        return (
+                          <Carousel.Item key={ind}>
+                            <div>
+                              <input
+                                onChange={(e) => labelColumnhandler(e, ind)}
+                                // onChange={labelColumnhandler}
                                 // {...register(
                                 //   `${
                                 //     ischecked &&

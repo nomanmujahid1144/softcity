@@ -4,6 +4,7 @@ import axios from "axios";
 const initialState = {
   msg: "",
   user: null,
+  datapoint: null,
   token: "",
   loading: false,
   error: "",
@@ -13,14 +14,37 @@ export const createDataPoints = createAsyncThunk(
   "createDataPoints",
   async (data) => {
     console.log("entered in create data points action", data);
-    const res = await fetch(`${BASE_URL}/api/v1/admin/datapoints/createdatapoint`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "auth-token": `${AUTH_TOKEN}`,
-      },
-      body: JSON.stringify(data)
-    });
+    const res = await fetch(
+      `${BASE_URL}/api/v1/admin/datapoints/createdatapoint`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": `${AUTH_TOKEN}`,
+        },
+        body: JSON.stringify(data),
+      }
+    );
+    console.log("res", res.json());
+    return await res.json();
+  }
+);
+
+export const updateDataPoint = createAsyncThunk(
+  "updateDataPoint",
+  async (obj) => {
+    var { dataArr, id } = obj;
+    const res = await fetch(
+      `${BASE_URL}/api/v1/admin/datapoints/updatedatapoint/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": `${AUTH_TOKEN}`,
+        },
+        body: JSON.stringify(dataArr),
+      }
+    );
     console.log("res", res.json());
     return await res.json();
   }
@@ -28,9 +52,8 @@ export const createDataPoints = createAsyncThunk(
 
 export const getDataPoint = createAsyncThunk("getDataPoint", async (id) => {
   try {
-    console.log(id)
     const response = await axios.get(
-      `${BASE_URL}/api/v1/admin/datapoints/getalldatapoint/${id}`,
+      `${BASE_URL}/api/v1/admin/datapoints/getdatapoint/${id}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -64,6 +87,28 @@ export const getDataPoints = createAsyncThunk("getDataPoints", async () => {
     console.log("error in fetching get data point", error);
   }
 });
+
+export const deleteDataPoint = createAsyncThunk(
+  "deleteDataPoint",
+  async (id) => {
+    try {
+      const res = await fetch(
+        `${BASE_URL}/api/v1/admin/datapoints/deletedatapoint/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": `${AUTH_TOKEN}`,
+          }
+        }
+      );
+      console.log("res", res.json());
+      return await res.json();
+    } catch (error) {
+      console.log("error in fetching get data point", error);
+    }
+  }
+);
 
 const createDataPointsSlice = createSlice({
   name: "DataPoints",
@@ -118,7 +163,17 @@ const createDataPointsSlice = createSlice({
       }),
       builder.addCase(createDataPoints.fulfilled, (state, action) => {
         (state.loading = false), state.user.push(action.payload);
-        // (state.user = [...state.user, ...action.payload]);
+        state.error = "";
+      });
+    builder.addCase(updateDataPoint.pending, (state) => {
+      state.loading = true;
+    }),
+      builder.addCase(updateDataPoint.rejected, (state, action) => {
+        state.loading = false;
+        (state.user = []), (state.error = action.payload);
+      }),
+      builder.addCase(updateDataPoint.fulfilled, (state, action) => {
+        (state.loading = false), state.user.push(action.payload);
         state.error = "";
       });
     builder.addCase(getDataPoints.pending, (state) => {
@@ -131,8 +186,30 @@ const createDataPointsSlice = createSlice({
       builder.addCase(getDataPoints.fulfilled, (state, action) => {
         (state.loading = false),
           (state.user = action.payload),
-          // (state.user = [...state.user, ...action.payload]);
-
+          (state.error = "");
+      });
+    builder.addCase(getDataPoint.pending, (state) => {
+      state.loading = true;
+    }),
+      builder.addCase(getDataPoint.rejected, (state, action) => {
+        state.loading = false;
+        (state.user = []), (state.error = action.payload);
+      }),
+      builder.addCase(getDataPoint.fulfilled, (state, action) => {
+        (state.loading = false),
+          (state.datapoint = action.payload),
+          (state.error = "");
+      });
+    builder.addCase(deleteDataPoint.pending, (state) => {
+      state.loading = true;
+    }),
+      builder.addCase(deleteDataPoint.rejected, (state, action) => {
+        state.loading = false;
+        (state.user = []), (state.error = action.payload);
+      }),
+      builder.addCase(deleteDataPoint.fulfilled, (state, action) => {
+        (state.loading = false),
+          (state.user = action.payload),
           (state.error = "");
       });
   },
