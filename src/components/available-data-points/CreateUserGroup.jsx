@@ -4,7 +4,7 @@ import context from '../../Context/DashboardContext'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDataPoints } from '../../redux/slices/createDataPointsSlice'
 
-const CreateUserGroup = () => {
+const CreateUserGroup = () => {  
   const finalData = useContext(context)
   const { dataForm, createDataArr, setCreateDataArr } = finalData
   const id = useId(null)

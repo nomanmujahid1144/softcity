@@ -32,90 +32,13 @@ const Table_Grid = ({
   const url = useNavigate()
   const [stepper, setStepper] = useState();
   const [show, setShow] = useState(false);
-  const [deleteId, setDeleteId] = useState({
-    popUpHeading: '',
-    ButtonHeading: '',
-    id: '',
-  });
+  const [deleteId, setDeleteId] = useState(null)
   const { createcollectiontemplate } = useContext(Context);
   const dispatch = useDispatch();
   const handleClick = (id) => {
     setStepper(id)
     console.log('key', id)
   }
-
-  const [tabledata, settabledata] = useState([
-    {
-      no: 1,
-      CollectionName: 'Admin',
-      TotalDataPoints: 12,
-      Description: 'Click to view',
-      CreateTimestamp: '15/03/2023',
-      LastUpdated: '15/03/2023',
-      CreatedBy: 'Adeola Hopewell',
-      DataSubmissions: 340,
-    },
-    {
-      no: 2,
-      CollectionName: 'Election Questionnaire',
-      TotalDataPoints: 12,
-      Description: 'Click to view',
-      CreateTimestamp: '15/03/2023',
-      LastUpdated: '15/03/2023',
-      CreatedBy: 'Adeola Hopewell',
-      DataSubmissions: 340,
-    },
-    {
-      no: 3,
-      CollectionName: 'Election Questionnaire',
-      TotalDataPoints: 12,
-      Description: 'Click to view',
-      CreateTimestamp: '15/03/2023',
-      LastUpdated: '15/03/2023',
-      CreatedBy: 'Adeola Hopewell',
-      DataSubmissions: 340,
-    },
-    {
-      no: 4,
-      CollectionName: 'Election Questionnaire',
-      TotalDataPoints: 12,
-      Description: 'Click to view',
-      CreateTimestamp: '15/03/2023',
-      LastUpdated: '15/03/2023',
-      CreatedBy: 'Adeola Hopewell',
-      DataSubmissions: 340,
-    },
-    {
-      no: 5,
-      CollectionName: 'Election Questionnaire',
-      TotalDataPoints: 12,
-      Description: 'Click to view',
-      CreateTimestamp: '15/03/2023',
-      LastUpdated: '15/03/2023',
-      CreatedBy: 'Adeola Hopewell',
-      DataSubmissions: 340,
-    },
-    {
-      no: 6,
-      CollectionName: 'Election Questionnaire',
-      TotalDataPoints: 12,
-      Description: 'Click to view',
-      CreateTimestamp: '15/03/2023',
-      LastUpdated: '15/03/2023',
-      CreatedBy: 'Adeola Hopewell',
-      DataSubmissions: 340,
-    },
-    {
-      no: 7,
-      CollectionName: 'Election Questionnaire',
-      TotalDataPoints: 12,
-      Description: 'Click to view',
-      CreateTimestamp: '15/03/2023',
-      LastUpdated: '15/03/2023',
-      CreatedBy: 'Adeola Hopewell',
-      DataSubmissions: 340,
-    },
-  ])
   // useEffect(() => {
   //   settabledata(createcollectiontemplate);
   // }, []);
@@ -124,12 +47,8 @@ const Table_Grid = ({
   // console.log('data', i[0].split('T')[0])
 
 
-  const handleDeleteClick = (id, heading, buttonHeading) => {
-    setDeleteId({
-      popUpHeading: heading,
-      ButtonHeading : buttonHeading,
-      id : id
-    })
+  const handleDeleteClick = (id) => {
+    setDeleteId(id)
     setShow(true);
   }
 
@@ -139,11 +58,11 @@ const Table_Grid = ({
     url(`/admin/Assigned/data-point`)
   }
 
+  // deleteDataPointHandler(res._id)
   const getDeleteId = (id) => {
-    const ids = [];
-    ids.push(id);
-    dispatch(deleteDataCollection(id));
-    handleRefresh();
+    dispatch(deleteDataPoint(id));
+    dispatch(getDataPoints());
+    url(`/admin/Assigned/data-point`)
     // dispatch(getDataCollections());
     setShow(false);
   }
@@ -152,9 +71,9 @@ const Table_Grid = ({
     <div>
       <DeleteAlert
         show={show} setShow={setShow}
-        heading={deleteId.popUpHeading}
-        deleteButton={deleteId.ButtonHeading}
-        id={deleteId.id}
+        heading={'Are you sure?'}
+        deleteButton={'Yes'}
+        id={deleteId}
         getDeleteId={getDeleteId}
       />
       <Table
@@ -243,7 +162,7 @@ const Table_Grid = ({
                               <button
                                 class="dropdown-item dropdown-menu-buttons"
                                 type="button"
-                                onClick={(e) => deleteDataPointHandler(res._id)}
+                                onClick={(e) => handleDeleteClick(res._id)}
                               >
                                 Delete Data Point
                               </button>

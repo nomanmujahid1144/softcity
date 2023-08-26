@@ -5,8 +5,10 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Popover from 'react-bootstrap/Popover'
 import context from '../../../Context/DashboardContext'
 import { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
 const DataPoint = ({ data, index, arr }) => {
+  const url = useNavigate()
   // const {
   //   dataPointName,
   //   dataPointType,
@@ -56,11 +58,13 @@ const DataPoint = ({ data, index, arr }) => {
         className={`data__point-container d-flex justify-content-center align-items-center mb-2 mx-1 cursor ${
           name.selected && 'data__point-select'
         }`}
+        
       >
         <p
-          onClick={(e) => {
-            onclick(e, name._id)
-          }}
+          // onClick={(e) => {
+          //   onclick(e, name._id)
+          // }}
+          onClick={(e) => url(`/admin/update-datapoint/${name._id}`)}
           className={`fs-6 select-point data-point-template text-white px-4 rounded-start d-flex align-items-center justify-content-center align-self-stretch`}
         >
           {name.dataPointName}
