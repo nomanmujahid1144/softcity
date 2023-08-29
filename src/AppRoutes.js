@@ -67,13 +67,13 @@ function AppRoutes() {
         <Route path="admin/userGroup/admin-role" element={<UserGroup />} />
         <Route path="admin/users/account" element={<Users />} />
         <Route path="admin/register" element={<AvailableDataPoints />} />
-        <Route path="admin/modify" element={<CreateUserGroup />} />
         <Route path="admin/accounts" element={<AdminsTable />} />
 
         {/* Collection Template Routes */}
         <Route path="admin/create" element={<CreateTemplateMain />} />
         <Route path="admin/collection-templates" element={<Collection_Templates_Comp />} />
 
+        <Route path="admin/create-user-group" element={<CreateUserGroup />} />
 
         <Route path="admin/check-Users" element={<AdminRoleManagementContainer />} />
         <Route path="admin/AssignTemplate" element={<AssignDataCollTemplate />}/>
