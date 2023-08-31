@@ -2,7 +2,7 @@ const CreateDataPoint = require('../models/CreateDataPoint');
 
 exports.createDataPoint = async (req, res, next) => {
     try {
-        const { dataPointName, description, dataPointType, enableSheetMode, noOfColumns, labelColumns } = req.body;
+        const { dataPointName, description, dataPointType, enableSheetMode, noOfColumns, labelColumns, dataColumns } = req.body;
 
         // if noOfColumns is provided, it must be a valid integer
         if (noOfColumns && !Number.isInteger(noOfColumns)) {
@@ -20,7 +20,8 @@ exports.createDataPoint = async (req, res, next) => {
             dataPointType,
             enableSheetMode,
             noOfColumns,
-            labelColumns
+            labelColumns,
+            dataColumns
         });
 
         const savedDataPoint = await createDataPoint.save();

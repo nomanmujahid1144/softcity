@@ -24,6 +24,9 @@ const CreateDataPointSchema = new Schema({
     labelColumns: {
         type: [String],
     },
+    dataColumns: {
+        type: [String],
+    },
     createdAt: {
         type: Date,
         default: new Date()

@@ -4,21 +4,18 @@ import './DataPoint.css'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Popover from 'react-bootstrap/Popover'
 import context from '../../../Context/DashboardContext'
+import OptionAlert from '../../alertProceed/OptionAlert'
 import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import {
+  deleteDataPoint,
+  getDataPoints
+} from '../../../redux/slices/createDataPointsSlice'
 
 const DataPoint = ({ data, index, arr }) => {
   const url = useNavigate()
-  // const {
-  //   dataPointName,
-  //   dataPointType,
-  //   description,
-  //   enableSheetMode,
-  //   labelColumns,
-  //   date,
-  //   noOfColumns,
-  // } = data
-
+  const dispatch = useDispatch();
   const name = data
 
   const indexData = useContext(context)
@@ -31,7 +28,8 @@ const DataPoint = ({ data, index, arr }) => {
     selectedDataPoints,
     setSelectedDataPoints,
   } = indexData
-  const [show, setShow] = useState(true)
+  const [show, setShow] = useState(false)
+  const [deleteId, setDeleteId] = useState(name._id)
   const [classselect, setclassselect] = useState(false)
   const [tooltip, settooltip] = useState()
   // for changing datapoint color on selecttion
@@ -51,8 +49,21 @@ const DataPoint = ({ data, index, arr }) => {
     // selectedDataPoints.push([data._id])
   }, [selectedDataPoints])
 
+  // deleteDataPointHandler(res._id)
+  const getDeleteId = (id) => {
+    dispatch(deleteDataPoint(id));
+    dispatch(getDataPoints());
+    setShow(false);
+  }
+
   return (
     <>
+    <OptionAlert
+        show={show} setShow={setShow}
+        heading={'Do you want to Delete or Edit?'}
+        id={deleteId}
+        getDeleteId={getDeleteId}
+      />
       <div
         key={index}
         className={`data__point-container d-flex justify-content-center align-items-center mb-2 mx-1 cursor ${
@@ -63,8 +74,8 @@ const DataPoint = ({ data, index, arr }) => {
         <p
           // onClick={(e) => {
           //   onclick(e, name._id)
-          // }}
-          onClick={(e) => url(`/admin/update-datapoint/${name._id}`)}
+          // }} 
+          onClick={e => setShow(true)}
           className={`fs-6 select-point data-point-template text-white px-4 rounded-start d-flex align-items-center justify-content-center align-self-stretch`}
         >
           {name.dataPointName}
