@@ -38,10 +38,6 @@
         "path": "/admin/create"
       },
       {
-        "title": "Modify",
-        "path": "/admin/modify"
-      },
-      {
         "title": "Collections",
         "path": "/admin/collection-templates"
       }
@@ -80,6 +76,10 @@
     "title": "User Group",
     "icon": "bi bi-people",
     "childrens": [
+      {
+        "title": "Create User Group",
+        "path": "/admin/create-user-group"
+      },
       {
         "title": "Manage User",
         "path": "/admin/users/profile"

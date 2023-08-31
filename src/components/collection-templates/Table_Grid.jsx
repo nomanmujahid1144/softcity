@@ -13,6 +13,7 @@ import {
   deleteDataPoint,
   getDataPoints
 } from '../../redux/slices/createDataPointsSlice'
+import DescriptionAlert from '../alertProceed/DescriptionAlert'
 const Table_Grid = ({
   allUserGroups,
   data,
@@ -32,7 +33,9 @@ const Table_Grid = ({
   const url = useNavigate()
   const [stepper, setStepper] = useState();
   const [show, setShow] = useState(false);
+  const [showDescription, setDescriptionShow] = useState(false);
   const [deleteId, setDeleteId] = useState(null)
+  const [description, setDescription] = useState('')
   const { createcollectiontemplate } = useContext(Context);
   const dispatch = useDispatch();
   const handleClick = (id) => {
@@ -62,19 +65,40 @@ const Table_Grid = ({
   const getDeleteId = (id) => {
     dispatch(deleteDataPoint(id));
     dispatch(getDataPoints());
-    url(`/admin/Assigned/data-point`)
+    // url(`/admin/Assigned/data-point`)
     // dispatch(getDataCollections());
     setShow(false);
+  }
+  // deleteDataCollectionTemplateHandler
+  const deleteCollectionTemplateId = (id) => {
+    let ids = [];
+    ids.push(id);
+    dispatch(deleteDataCollection(ids));
+    dispatch(getDataCollections());
+    url(`/admin/collection-templates`)
+    // dispatch(getDataCollections());
+    setShow(false);
+  }
+
+  const handleSeeDescription = (description) => {
+    console.log(description, 'description')
+    setDescriptionShow(true);
+    setDescription(description);
   }
 
   return (
     <div>
       <DeleteAlert
         show={show} setShow={setShow}
-        heading={'Are you sure?'}
+        heading={'Are you sure to delete this Data Collection?'}
         deleteButton={'Yes'}
         id={deleteId}
-        getDeleteId={getDeleteId}
+        getDeleteId={deleteCollectionTemplateId}
+      />
+      <DescriptionAlert
+        showDescription={showDescription} setDescriptionShow={setDescriptionShow}
+        heading={'Description'}
+        description={description}
       />
       <Table
         responsive="sm md lg xl"
@@ -108,7 +132,7 @@ const Table_Grid = ({
                     <>
                       <td>{res.dataPointName}</td>
                       <td>{res.dataPointType}</td>
-                      <td>{res.description}</td>
+                      <td className='cursor-pointer' onClick={() => handleSeeDescription(res.description)}>Click to View</td>
                       <td>{res.createdAt.split('T')[0]}</td>
                       <td>{res.lastUpdated.split('T')[0]}</td>
                       <td>{res.createdBy}</td>
@@ -119,7 +143,7 @@ const Table_Grid = ({
                     <>
                       <td>{res?.collectionTemplateName}</td>
                       <td>{res?.selectedDataPoints?.length }</td>
-                      <td>{res?.description}</td>
+                      <td className='cursor-pointer' onClick={() => handleSeeDescription(res.description)}>Click to View</td>
                       {/* <td>{res.createdAt.split('T')[0]}</td>
                       <td>{res.lastUpdated.split('T')[0]}</td>
                       <td>{res.createdBy}</td>

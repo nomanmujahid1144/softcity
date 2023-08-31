@@ -161,3 +161,7 @@ button.btn-darkblue:hover {
   background-color: #135096 !important;
   color: white !important;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}
