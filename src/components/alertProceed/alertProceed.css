@@ -17,6 +17,13 @@
   color: #fff;
 }
 
+.btn-red {
+  height: 38px;
+  font-size: 11px;
+  background-color: #791818;
+  color: #fff;
+}
+
 .btn-black {
   height: 38px;
   font-size: 11px;
