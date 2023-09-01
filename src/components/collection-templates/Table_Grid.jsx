@@ -14,6 +14,7 @@ import {
   getDataPoints
 } from '../../redux/slices/createDataPointsSlice'
 import DescriptionAlert from '../alertProceed/DescriptionAlert'
+import { deleteUserGroup, getUserGroups } from '../../redux/slices/UserGroups/UserGroups'
 const Table_Grid = ({
   allUserGroups,
   data,
@@ -35,8 +36,11 @@ const Table_Grid = ({
   const [show, setShow] = useState(false);
   const [showDescription, setDescriptionShow] = useState(false);
   const [deleteId, setDeleteId] = useState(null)
+  const [headingMessage, setHeadingMessage] = useState('')
+  const [buttonLabel, setButtonLabel] = useState('')
   const [description, setDescription] = useState('')
-  const { createcollectiontemplate } = useContext(Context);
+  const [triggerFunction, setTriggerFunction] = useState('')
+
   const dispatch = useDispatch();
   const handleClick = (id) => {
     setStepper(id)
@@ -50,15 +54,19 @@ const Table_Grid = ({
   // console.log('data', i[0].split('T')[0])
 
 
-  const handleDeleteClick = (id) => {
-    setDeleteId(id)
+  const handleDeleteClick = (id, Message, label, functionTrigger) => {
+    setDeleteId(id);
+    setHeadingMessage(Message);
+    setButtonLabel(label);
+    setTriggerFunction(functionTrigger);
     setShow(true);
   }
 
   const deleteDataPointHandler = (id) => {
     dispatch(deleteDataPoint(id));
-    dispatch(getDataPoints());
-    url(`/admin/Assigned/data-point`)
+    handleRefresh();
+    url(`/admin/Assigned/data-point`);
+    setShow(false);
   }
 
   // deleteDataPointHandler(res._id)
@@ -74,14 +82,24 @@ const Table_Grid = ({
     let ids = [];
     ids.push(id);
     dispatch(deleteDataCollection(ids));
-    dispatch(getDataCollections());
+    handleRefresh();
     url(`/admin/collection-templates`)
     // dispatch(getDataCollections());
     setShow(false);
   }
 
+  // deleteUserGroupHandler
+  const deleteUserGroupHandler = (id) => {
+    let ids = [];
+    ids.push(id);
+    dispatch(deleteUserGroup(ids));
+    handleRefresh();
+    url(`/admin/all-user-groups`)
+    // dispatch(getDataCollections());
+    setShow(false);
+  }
+
   const handleSeeDescription = (description) => {
-    console.log(description, 'description')
     setDescriptionShow(true);
     setDescription(description);
   }
@@ -90,10 +108,10 @@ const Table_Grid = ({
     <div>
       <DeleteAlert
         show={show} setShow={setShow}
-        heading={'Are you sure to delete this Data Collection?'}
-        deleteButton={'Yes'}
+        heading={headingMessage}
+        deleteButton={buttonLabel}
         id={deleteId}
-        getDeleteId={deleteCollectionTemplateId}
+        getDeleteId={triggerFunction === "Data Point" ? deleteDataPointHandler : triggerFunction === "User Group" ? deleteUserGroupHandler : deleteCollectionTemplateId}
       />
       <DescriptionAlert
         showDescription={showDescription} setDescriptionShow={setDescriptionShow}
@@ -124,9 +142,7 @@ const Table_Grid = ({
               <>
                 <tr
                   className="first-tr"
-                  key={ind}
-                  onClick={() => handleClick(ind)}
-                >
+                  key={ind}>
                   <td>{ind + 1}</td>
                   {dataPointsAvailable && (
                     <>
@@ -144,6 +160,23 @@ const Table_Grid = ({
                       <td>{res?.collectionTemplateName}</td>
                       <td>{res?.selectedDataPoints?.length }</td>
                       <td className='cursor-pointer' onClick={() => handleSeeDescription(res.description)}>Click to View</td>
+                      {/* <td>{res.createdAt.split('T')[0]}</td>
+                      <td>{res.lastUpdated.split('T')[0]}</td>
+                      <td>{res.createdBy}</td>
+                      <td>{res.dataHits}</td> */}
+
+                      {/* hard coded waiting for API correction*/}
+                      <td>{new Date().toLocaleDateString('en-GB')}</td>
+                      <td>15/03/2023</td>
+                      <td>Admin</td>
+                      <td>340</td>
+                    </>
+                  )}
+                  {allUserGroups && (
+                    <>
+                      <td>{res?.GroupName}</td>
+                      <td>0</td>
+                      <td className='cursor-pointer' onClick={() => handleClick(ind)}>Click to View</td>
                       {/* <td>{res.createdAt.split('T')[0]}</td>
                       <td>{res.lastUpdated.split('T')[0]}</td>
                       <td>{res.createdBy}</td>
@@ -186,61 +219,71 @@ const Table_Grid = ({
                               <button
                                 class="dropdown-item dropdown-menu-buttons"
                                 type="button"
-                                onClick={(e) => handleDeleteClick(res._id)}
+                                onClick={() => handleDeleteClick(res._id, "Do you want to delete this Data Point", "Delete", "Data Point")}
                               >
                                 Delete Data Point
                               </button>
                             </li>
                           </>
                         )}
-                        <li>
-                          <button
-                            class="dropdown-item dropdown-menu-buttons"
-                            type="button"
-                          >
-                            View Assigned Users
-                          </button>
-                        </li>
-                        <li>
-                          <button
-                            class="dropdown-item dropdown-menu-buttons"
-                            type="button"
-                          >
-                            Edit Collection Template
-                          </button>
-                        </li>
-                        <li>
-                          <button 
-                            class="dropdown-item dropdown-menu-buttons"
-                            onClick={() => handleDeleteClick(res._id, "Do you want to delete this Data Collection", "Delete")}
-                            type="button"
-                          >
-                            Delete Collection Template
-                          </button>
-                        </li>
+                        {dataCollectionTemplate && (
+                          <>
+                            <li>
+                              <button
+                                class="dropdown-item dropdown-menu-buttons"
+                                type="button"
+                              >
+                                View Assigned Users
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                class="dropdown-item dropdown-menu-buttons"
+                                type="button"
+                              >
+                                Edit Collection Template
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                class="dropdown-item dropdown-menu-buttons"
+                                onClick={() => handleDeleteClick(res._id, "Do you want to delete this Data Collection", "Delete", "Collection Template")}
+                                type="button"
+                              >
+                                Delete Collection Template
+                              </button>
+                            </li>
+                          </>
+                        )}
+                        {allUserGroups && (
+                          <>
+                            <li>
+                              <button
+                                class="dropdown-item dropdown-menu-buttons"
+                                type="button"
+                              >
+                                Edit User Group
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                class="dropdown-item dropdown-menu-buttons"
+                                onClick={() => handleDeleteClick(res._id, "Do you want to delete this User Group", "Delete", "User Group")}
+                                type="button"
+                              >
+                                Delete User Group
+                              </button>
+                            </li>
+                          </>
+                        )}
                       </ul>
                     </div>
                   </td>
                 </tr>
-
+                
                 {allUserGroups && stepper === ind && (
-                  <tr
-                    className="second-tr"
-                    key={ind}
-                    style={{
-                      backgroundColor: 'none',
-                      padding: '0px',
-                    }}
-                  >
-                    <td
-                      className="second-tr"
-                      colspan="9"
-                      style={{
-                        width: '100%',
-                        backgroundColor: 'none',
-                        padding: '0px',
-                      }}
-                    >
+                  <tr className="second-tr" key={ind} style={{ backgroundColor: 'none', padding: '0px',}}>
+                    <td className="second-tr" colspan="9" style={{ width: '100%', backgroundColor: 'none', padding: '0px', }}>
                       <div className="stepper-div">
                         <Stepper />
                       </div>

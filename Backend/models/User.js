@@ -36,8 +36,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
-    userGroup: [
-        { type: mongoose.Schema.Types.ObjectId, ref: 'UserGroup' },
+    userGroup: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'UserGroup'
+    },
     ],
     password: {
         type: String,

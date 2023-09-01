@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import SelectionField from "../fields/SelectField";
 import CheckBoxField from "../fields/CheckBoxField";
 import { createUserGroup, getUserGroups } from "../../redux/slices/UserGroups/UserGroups";
+import AvailableDatapoints from "../../pages/availableDatapoints/AvailableDatapoints";
+import { getAllUsers } from "../../redux/slices/createUserSlice";
 const CreateUserGroup = () => {
   const { mode } = useContext(Context);
 
@@ -30,8 +32,12 @@ const CreateUserGroup = () => {
   const { userGroups } = useSelector(
     (state) => state.userGroups
   );
+  const { users } = useSelector(
+    (state) => state.users
+  );
 
   useEffect(() => {
+    dispatch(getAllUsers());
     dispatch(getUserGroups());
   }, [])
   
@@ -87,7 +93,6 @@ const onChange = (e) => {
             assign={false}
             create={true}
           />
-          {console.log(subGroups, 'subGroups')}
           <main>
             <div className={`bg-white my-4 rounded-3 p-4 shadow-sm `}>
                 <div className="row gap-3">
@@ -126,6 +131,7 @@ const onChange = (e) => {
                       required={true}
                       id="dataCollectors"
                       value={userGroup.roles.dataCollectors}
+                      checked={userGroup.roles.dataCollectors}
                       onChange={onChange}
                     />
                     <CheckBoxField
@@ -134,6 +140,7 @@ const onChange = (e) => {
                       required={true}
                       id="dashboardViewers"
                       value={userGroup.roles.dashboardViewers}
+                      checked={userGroup.roles.dashboardViewers}
                       onChange={onChange}
                     />
                     <CheckBoxField
@@ -142,6 +149,7 @@ const onChange = (e) => {
                         required={true}
                         id="administrators"
                         value={userGroup.roles.administrators}
+                        checked={userGroup.roles.administrators}
                         onChange={onChange}
                       />
                     </div>
@@ -161,8 +169,12 @@ const onChange = (e) => {
             </div>
           </main>
           <main>
-            <ContainerHeading title={"Add Users"} UserGroup={true} />
-            <AvailableData />
+            <AvailableDatapoints
+              title={"Add Users"}
+              UserGroup={true}
+              data={users.length > 0 ? users : []}
+              totalLength={users.length > 0 ? users.length : 0}
+            />
           </main>
         </form>
       </section>

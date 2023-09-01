@@ -6,8 +6,9 @@ import ContainerHeading from '../DataPointscontainer/ContainerHeading'
 import Context from '../../Context/DashboardContext'
 import { useForm } from 'react-hook-form'
 import $ from 'jquery'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { createDataCollections } from './../../redux/slices/DataCollections/createDataCollectionsSlice'
+import { getDataPoints } from '../../redux/slices/createDataPointsSlice'
 
 const CreateTemplateMain = () => {
   const {
@@ -23,7 +24,6 @@ const CreateTemplateMain = () => {
 
   const { register, handleSubmit, reset } = useForm()
   const onSubmit = (data) => {
-    console.log(data, 'Data')
     assignCollectionTemplate(data)
 
     if (data) {
@@ -40,6 +40,13 @@ const CreateTemplateMain = () => {
   useEffect(() => {
     console.log(createcollectiontemplate, 'dataTemplateName')
   }, [onSubmit])
+
+
+  const { dataPoints, loading } = useSelector((state) => state.createDataPoints)
+
+  useEffect(() => {
+    dispatch(getDataPoints())
+  }, [])
 
   return (
     <>
@@ -91,8 +98,12 @@ const CreateTemplateMain = () => {
         </div>
       </form>
       <div className="available-datapoints">
-        <ContainerHeading title={'Select Available Data Point'} />
-        <AvailableDatapoints />
+        <AvailableDatapoints
+          title={'Available Data Point'}
+          totalLength={dataPoints.length > 0 ? dataPoints.length : 0}
+          data={dataPoints.length > 0 ? dataPoints : []}
+          selected={true}
+        />
       </div>
     </>
   )

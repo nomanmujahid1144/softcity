@@ -5,14 +5,16 @@ function CheckBoxField(props) {
     label,
     id,
     extra,
+    style,
     state,
     disabled,
     value,
+    checked,
     onChange,
   } = props;
 
   return (
-      <div className="form-check checkbox-label">
+    <div className={`form-check checkbox-label ${extra}`}>
           <input
               className={`form-check-input`}
               type="checkbox"
@@ -21,9 +23,9 @@ function CheckBoxField(props) {
               value={value}
               onChange={onChange}
               disabled={disabled}
-              checked={value}
+              checked={checked}
         />
-        <label className="form-check-label" htmlFor={id}>
+        <label className="form-check-label" style={style} htmlFor={id}>
           {label}
         </label>
       </div>

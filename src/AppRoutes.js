@@ -61,7 +61,12 @@ function AppRoutes() {
         
         <Route path="admin/admin-role" element={<MultiColDataCollection />} />
         <Route path="admin/collections" element={<Collections />} />
+        
+        {/* CREATE ADMIN USER ROUTES */}
         <Route path="admin/createUser" element={<CreateAdmin />} />
+        <Route path="admin/check-Users" element={<AdminRoleManagementContainer />} />
+
+        
         <Route path="admin/dashboard" element={<Dashboard />} />
         <Route path="admin/users/profile" element={<UserAssigned />} />
         <Route path="admin/userGroup/admin-role" element={<UserGroup />} />
@@ -71,16 +76,16 @@ function AppRoutes() {
 
         {/* Collection Template Routes */}
         <Route path="admin/create" element={<CreateTemplateMain />} />
+        <Route path="admin/reorder-collection-elements" element={<Reorder_Collection_Elements />} />
         <Route path="admin/collection-templates" element={<Collection_Templates_Comp />} />
 
+        {/* USER-GROUPS ROUTES */}
         <Route path="admin/create-user-group" element={<CreateUserGroup />} />
+        <Route path="admin/all-user-groups" element={<AllUserGroups />} />
 
-        <Route path="admin/check-Users" element={<AdminRoleManagementContainer />} />
         <Route path="admin/AssignTemplate" element={<AssignDataCollTemplate />}/>
         <Route path="admin/Scollections" element={<SingleColDataCollection />} />
-        <Route path="admin/all-user-groups" element={<AllUserGroups />} />
         <Route path="admin/all-users" element={<AllUsers />} />
-        <Route path="admin/reorder-collection-elements" element={<Reorder_Collection_Elements />} />
         <Route path="admin/create-data-charts" element={<CreateDataCharts />} />
         <Route path="admin/all-available-elements" element={<All_Available_Elements />} />
         <Route path="admin/all-dashboards" element={<All_Dashboard />} />

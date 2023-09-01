@@ -4,6 +4,8 @@ import { BsArrowRight } from 'react-icons/bs'
 import Context from '../../Context/DashboardContext'
 import { useDispatch } from 'react-redux'
 import { createUser } from './../../redux/slices/createUserSlice'
+import InputField from '../fields/InputField'
+import SelectionField from '../fields/SelectField'
 
 export default function CreateAdminContainer() {
   // const [name, setName] = useState('')
@@ -66,114 +68,90 @@ export default function CreateAdminContainer() {
 
         <div className="row mt-5 px-6">
           <div className="col-6 my-3 mx-0 d-flex flex-column">
-            <label className="form-labels-admin" htmlFor="fName">
-              First Name
-            </label>
-            <input
-              className="primary-inputs p-2 border-0 rounded-3 mt-2"
+            <InputField
+              label="First Name"
+              required={true}
+              id="firstName"
               type="text"
-              id="fName"
-              name="firstName"
-              // onChange={(e) => {
-              //   setName(e.target.value)
-              // }}
-              onChange={handleChange}
+              // value={userGroup.GroupName}
+              // onChange={onChange}
             />
           </div>
           <div className="col-6 my-3 mx-0 d-flex flex-column">
-            <label className="form-labels-admin" htmlFor="lName">
-              Last Name
-            </label>
-            <input
-              className="primary-inputs p-2 border-0 rounded-3 mt-2"
+            <InputField
+              label="Last Name"
+              required={true}
+              id="lastName"
               type="text"
-              id="lName"
-              name="lastName"
-              // onChange={(e) => {
-              //   setName(e.target.value)
-              // }}
-              onChange={handleChange}
+              // value={userGroup.GroupName}
+              // onChange={onChange}
             />
           </div>
           {/* //// */}
           <div className="col-6 my-3 mx-0 d-flex flex-column">
-            <label className="form-labels-admin" htmlFor="phone">
-              Phone
-            </label>
-            <input
-              className="primary-inputs p-2 border-0 rounded-3 mt-2"
-              type="tel"
+            <InputField
+              label="Phone"
+              required={true}
               id="phone"
-              name="phone"
-              onChange={handleChange}
+              type="tel"
+              // value={userGroup.GroupName}
+              // onChange={onChange}
             />
           </div>
           <div className="col-6 my-3 mx-0 d-flex flex-column">
-            <label className="form-labels-admin" htmlFor="email">
-              Email
-            </label>
-            <input
-              className="primary-inputs p-2 border-0 rounded-3 mt-2"
-              type="email"
+           <InputField
+              label="Email"
+              required={true}
               id="email"
-              name="email"
-              onChange={handleChange}
+              type="email"
+              // value={userGroup.GroupName}
+              // onChange={onChange}
             />
           </div>
           {/* // */}
           <div className="col-6 my-3 mx-0 d-flex flex-column">
-            <label className="form-labels-admin" htmlFor="phone">
-              Country
-            </label>
-            <input
-              className="primary-inputs p-2 border-0 rounded-3 mt-2"
-              type="text"
+           <InputField
+              label="Country"
+              required={true}
               id="country"
-              name="password"
-              onChange={handleChange}
+              type="text"
+              // value={userGroup.GroupName}
+              // onChange={onChange}
             />
           </div>
           <div className="col-6 my-3 mx-0 d-flex flex-column">
-            <label className="form-labels-admin" htmlFor="email">
-              Company
-            </label>
-            <input
-              className="primary-inputs p-2 border-0 rounded-3 mt-2"
-              type="text"
+           <InputField
+              label="Company"
+              required={true}
               id="company"
-              name="company"
-              onChange={handleChange}
+              type="text"
+              // value={userGroup.GroupName}
+              // onChange={onChange}
             />
           </div>
           {/* ///// */}
           <div className="col-6 my-3 mx-0 d-flex flex-column">
-            <label className="form-labels-admin" htmlFor="userRole">
-              Assign User Role
-            </label>
-            <select
-              className="primary-inputs p-2 border-0 rounded-3 mt-2"
-              name="role"
+            <SelectionField
+              label="Assign User Role"
+              htmlFor="userRole"
+              placeholder="Select a role"
+              required={true}
               id="userRole"
-              form="userRole"
-              onChange={handleChange}
-            >
-              <option selected disabled value="">
-                Select a role
-              </option>
-              <option value="admin">Admin</option>
-            </select>
+              type="text"
+              options={[]}
+              // value={userGroup.subGroup}
+              // onChange={onChange}
+            />
           </div>
           <div className="col-6 my-3 mx-0 d-flex flex-column">
-            <label className="form-labels-admin" htmlFor="userGroups">
-              Assign to User Group(s)
-            </label>
-            <input
-              className="primary-inputs p-2 border-0 rounded-3 mt-2"
-              type="text"
-              id="userGroups"
-              name="userGroup"
+           <InputField
+              label="Assign to User Group(s)"
+              required={true}
               placeholder=" Select one or More User Groups "
-              onChange={handleChange}
+              id="userGroups"
+              type="text"
+              // value={userGroup.GroupName}
+              // onChange={onChange}
             />
           </div>
         </div>

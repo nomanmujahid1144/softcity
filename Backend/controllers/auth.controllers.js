@@ -68,3 +68,27 @@ exports.userLogin = async (req, res, next) => {
     }
 }
 
+exports.getAllUsers = async (req, res, next) => {
+    try {
+        const allUsers = await User.find({});
+
+        if (allUsers) {
+            return res.status(200).json({
+                success: true,
+                message: 'Got All Users Successfully',
+                data: allUsers
+            });
+
+        }
+        return res.status(200).json({
+            success: false,
+            message: 'No User Found',
+            data: []
+        });
+
+    }
+    catch (err) {
+        return next(new ErrorResponse(err, 400))
+    }
+}
+

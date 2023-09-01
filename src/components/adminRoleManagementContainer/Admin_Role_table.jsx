@@ -3,6 +3,7 @@ import Table from "react-bootstrap/Table";
 import "./adminRoleManagementContainer.css";
 import { BsThreeDots } from "react-icons/bs";
 const Admin_Role_table = ({
+  data,
   heading1,
   heading2,
   heading3,
@@ -12,29 +13,18 @@ const Admin_Role_table = ({
   heading7,
   heading8,
   heading9,
+  handleEdit,
+  handleDelete,
 }) => {
-  const [tabledata, settabledata] = useState([
-    {
-      no: 1,
-      RoleName: "Election Questionnaire",
-      AssignedUsers: 23,
-    },
-    {
-      no: 1,
-      RoleName: "Election Questionnaire",
-      AssignedUsers: 23,
-    },
-    {
-      no: 1,
-      RoleName: "Election Questionnaire",
-      AssignedUsers: 23,
-    },
-    {
-      no: 1,
-      RoleName: "Election Questionnaire",
-      AssignedUsers: 23,
-    },
-  ]);
+
+  const handleEditRole = (id) => {
+    handleEdit(id)
+  }
+
+  const handleDeleteRole = (id) => {
+    handleDelete(id)
+  }
+
   return (
     <div>
       <Table
@@ -51,12 +41,12 @@ const Admin_Role_table = ({
           </tr>
         </thead>
         <tbody className="tbody ">
-          {tabledata?.map((res, ind) => {
+          {data?.map((res, ind) => {
             return (
               <tr key={ind}>
                 <td>{ind + 1}</td>
-                <td>{res.RoleName}</td>
-                <td>{res.AssignedUsers}</td>
+                <td>{res.roleName}</td>
+                <td>Noman</td>
                 <td>
                   <div class="dropdown dropdown-ul">
                     <button
@@ -72,28 +62,14 @@ const Admin_Role_table = ({
                       class="dropdown-menu ul-dropdown"
                       aria-labelledby="dropdownMenu2"
                     >
-                      <li>
-                        <button
-                          class="dropdown-item dropdown-menu-buttons"
-                          type="button"
-                        >
-                          View Assigned Users
+                      <li onClick={() => handleEditRole(res._id)}>
+                        <button class="dropdown-item dropdown-menu-buttons"type="button">
+                          Edit Role
                         </button>
                       </li>
-                      <li>
-                        <button
-                          class="dropdown-item dropdown-menu-buttons"
-                          type="button"
-                        >
-                          Edit Collection Template
-                        </button>
-                      </li>
-                      <li>
-                        <button
-                          class="dropdown-item dropdown-menu-buttons"
-                          type="button"
-                        >
-                          Delete Collection Template
+                      <li onClick={() => handleDeleteRole(res._id)}>
+                        <button class="dropdown-item dropdown-menu-buttons" type="button">
+                          Delete Role
                         </button>
                       </li>
                     </ul>

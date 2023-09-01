@@ -19,21 +19,26 @@ const Av_Datapoints_Table = () => {
   } = datapoints
 
   const dispatch = useDispatch()
+  const [handleRefresh, setHandleRefresh] = useState(false);
+
+  // const allData = useSelector((state) => state.createDataPoints)
+  const { dataPoints, loading } = useSelector((state) => state.createDataPoints);
 
   useEffect(() => {
     dispatch(getDataPoints())
-  }, [createDataArr])
+  }, [createDataArr, handleRefresh])
 
-  console.log('createDataArr', createDataArr)
-  // const allData = useSelector((state) => state.createDataPoints)
-  const { user, loading } = useSelector((state) => state.createDataPoints)
+  const handleRefreshfun = () => {
+    setHandleRefresh(!handleRefresh)
+  }
+
   return (
     <>
       <div className="div">
         <div>
           <TitleHeader
             title={'Available Data Points'}
-            subTitle={user?.length}
+            subTitle={dataPoints?.length}
             assignBtn={false}
           />
         </div>
@@ -41,7 +46,7 @@ const Av_Datapoints_Table = () => {
         <div className="my-3">
           <Table_Grid
             // data={datapointtable}
-            data={user}
+            data={dataPoints?.length > 0 ? dataPoints : []}
             heading1={'SN'}
             heading2={'Data Points'}
             heading3={'Data Points Type'}
@@ -52,6 +57,7 @@ const Av_Datapoints_Table = () => {
             heading8={'Data Hits'}
             heading9={'Action'}
             dataPointsAvailable={true}
+            handleRefresh={handleRefreshfun}
           />
         </div>
         <footer>

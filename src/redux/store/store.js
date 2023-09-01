@@ -3,6 +3,7 @@ import authSlice from "../slices/createUserSlice";
 import createDataPointsSlice from "../slices/createDataPointsSlice";
 import createDataCollectionsSlice from "../slices/DataCollections/createDataCollectionsSlice";
 import userGroups from "../slices/UserGroups/UserGroups";
+import roleManagement from "../slices/RolesManagement/roleManagement";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     createDataPoints: createDataPointsSlice,
     createDataCollections: createDataCollectionsSlice,
     userGroups: userGroups,
+    roleManagement: roleManagement,
   },
 });
 

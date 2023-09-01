@@ -7,7 +7,7 @@ import context from '../../../Context/DashboardContext'
 import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-const DataPoint = ({ data, index, arr }) => {
+const DataPoint = ({ data, index, arr, selected }) => {
   const url = useNavigate()
   // const {
   //   dataPointName,
@@ -37,16 +37,19 @@ const DataPoint = ({ data, index, arr }) => {
   // for changing datapoint color on selecttion
   const first = useRef()
   const onclick = function (e, arg) {
-    //data point color changing
-    // selectedDataPoints.push(arg)
-    setSelectedDataPoints([...selectedDataPoints, arg])
-    setdefaultclass(true)
-    setclassselect(!classselect)
-    // let check = ([name.selected] = true)
-    // setting(index)
+    setclassselect(!classselect);
+    // Check the value of classselect
+    if (!classselect) {
+      setSelectedDataPoints([...selectedDataPoints, arg]);
+    } else {
+      setSelectedDataPoints(selectedDataPoints.filter(item => item !== arg));
+    }
 
-    //pasing index to parent
-  }
+  
+    // Toggle the value of classselect
+    setdefaultclass(true);
+  };
+  
   useEffect(() => {
     // selectedDataPoints.push([data._id])
   }, [selectedDataPoints])
@@ -56,15 +59,9 @@ const DataPoint = ({ data, index, arr }) => {
       <div
         key={index}
         className={`data__point-container d-flex justify-content-center align-items-center mb-2 mx-1 cursor ${
-          name.selected && 'data__point-select'
-        }`}
-        
-      >
+          classselect && 'data__point-select'}`}>
         <p
-          // onClick={(e) => {
-          //   onclick(e, name._id)
-          // }}
-          onClick={(e) => url(`/admin/update-datapoint/${name._id}`)}
+          onClick={selected ? (e) => { onclick(e, name._id)} : (e) => url(`/admin/update-datapoint/${name._id}`)}
           className={`fs-6 select-point data-point-template text-white px-4 rounded-start d-flex align-items-center justify-content-center align-self-stretch`}
         >
           {name.dataPointName}

@@ -81,6 +81,10 @@
         "path": "/admin/create-user-group"
       },
       {
+        "title": "Users Groups",
+        "path": "/admin/all-user-groups"
+      },
+      {
         "title": "Manage User",
         "path": "/admin/users/profile"
       },
@@ -117,10 +121,6 @@
       {
         "title": "All Users",
         "path": "/admin/all-users"
-      },
-      {
-        "title": "Users Groups",
-        "path": "/admin/all-user-groups"
       }
     ]
   },

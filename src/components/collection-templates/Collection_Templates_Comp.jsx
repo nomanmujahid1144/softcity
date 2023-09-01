@@ -68,9 +68,11 @@ const Collection_Templates_Comp = () => {
       </div>
 
       <div style={{ marginTop: '30px' }}>
-        {collectionTemplates?.length > 0 ?
-          <Table_Grid data={collectionTemplates} dataCollectionTemplate={true} handleRefresh={handleRefreshfun} />
-        :null}
+        <Table_Grid
+            data={collectionTemplates?.length > 0 ? collectionTemplates : []}
+            dataCollectionTemplate={true}
+            handleRefresh={handleRefreshfun}
+          />
       </div>
 
       <div className="py-2 d-flex justify-content-end table-pagination">

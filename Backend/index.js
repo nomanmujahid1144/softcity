@@ -16,7 +16,8 @@ app.use('/api', require('./routes/admin'))
 app.use('/api/v1/auth', require('./routes/auth'))
 app.use('/api/v1/admin/datapoints', require('./routes/admin/datapoints'))
 app.use('/api/v1/admin/datatemplate', require('./routes/admin/datatemplate'))
-app.use('/api/v1/admin/usergroups', require('./routes/admin/usergroups'))
+app.use('/api/v1/admin/usergroups', require('./routes/admin/usergroups'));
+app.use('/api/v1/admin/roles', require('./routes/admin/adminRoles'));
 
 
 app.listen(PORT, () => {

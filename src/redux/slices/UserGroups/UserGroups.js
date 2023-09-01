@@ -65,7 +65,7 @@ export const deleteUserGroup = createAsyncThunk(
 
     try {
       const response = await axios.delete(
-        `${BASE_URL}/api/v1/admin/usergroups/deletedatatemplates`,
+        `${BASE_URL}/api/v1/admin/usergroups/deleteusergroups`,
         {
           headers: {
             "Content-Type": "application/json",

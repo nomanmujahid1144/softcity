@@ -14,7 +14,7 @@ import {
   getDataPoints,
 } from '../../redux/slices/createDataPointsSlice'
 
-const Form = () => {
+const Form = ({submitted}) => {
   const submit = useContext(DashboardContext)
   const { fetch_data, mode, dataForm, createDataArr, setCreateDataArr } = submit
   const methods = useForm()
@@ -162,6 +162,7 @@ const Form = () => {
     dispatch(getDataPoints())
     setCreateDataArr(true)
     formreset();
+    submitted();
   }
 
   return (
@@ -274,28 +275,30 @@ const Form = () => {
                     </option>
                     <option
                       className="options"
-                      value="Single Selection Dropdown"
+                      value="Single Selection Text Dropdown"
                       name="Email Field"
                     >
                       Single selection Dropdown text field
                     </option>
                     <option
                       className="options"
-                      value="Multi Selection Dropdown"
+                      value="Multi Selection Text Dropdown"
                       name="Email Field"
                     >
                       Multi Selection Dropdown text field
                     </option>
                     <option
                       className="options"
-                      value="Mdrop-NumberField"
+                      // value="Mdrop-NumberField"
+                      value="Single Selection Number Dropdown"
                       name="Email Field"
                     >
                       Single selection Dropdown number field
                     </option>
                     <option
                       className="options"
-                      value="Mdrop-NumberField"
+                      // value="Mdrop-NumberField"
+                      value="Multi Selection Number Dropdown"
                       name="Email Field"
                     >
                       Multi Selection Dropdown number field

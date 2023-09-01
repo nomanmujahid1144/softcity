@@ -3,19 +3,21 @@ import DataPoint from './data-point/DataPoint'
 import context from '../../Context/DashboardContext'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDataPoints } from '../../redux/slices/createDataPointsSlice'
+import Spinner from '../spinner/Spinner'
 
 const CreateUserGroup = () => {  
   const finalData = useContext(context)
   const { dataForm, createDataArr, setCreateDataArr } = finalData
   const id = useId(null)
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
+  const { dataPoints, loading } = useSelector((state) => state.createDataPoints)
 
   useEffect(() => {
     dispatch(getDataPoints())
   }, [createDataArr])
   // const allData = useSelector((state) => state.createDataPoints)
-  const { user, loading } = useSelector((state) => state.createDataPoints)
 
   return (
     <>
@@ -24,8 +26,8 @@ const CreateUserGroup = () => {
           <div className="overflow">
             <div className="d-flex flex-wrap gap-2 gap-xl-3 gap-lg-3 align-items-center ">
               {/* mapping over all the form data */}
-              {user &&
-                user?.map((res, ind) => {
+              {dataPoints &&
+                dataPoints?.map((res, ind) => {
                   return (
                     <>
                       <DataPoint
@@ -34,7 +36,7 @@ const CreateUserGroup = () => {
                         name={res}
                         data={res}
                         index={ind}
-                        // arr={arr}
+                        selected={true}
                       />
                     </>
                   )

@@ -3,7 +3,8 @@ import { BASE_URL } from "./../constants/reduxContants";
 
 const initialState = {
   msg: "",
-  user: "",
+  user: {},
+  users: [],
   token: "",
   loading: false,
   error: "",
@@ -21,26 +22,52 @@ export const createUser = createAsyncThunk("createuser", async (data) => {
   console.log("res", res.json());
   return await res.json();
 });
+export const getAllUsers = createAsyncThunk("getAllUsers", async (data) => {
+  console.log("entered in create user action", data);
+  const res = await fetch(`${BASE_URL}/api/auth/getallusers`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  return await res.json();
+});
 
 const createUserSlice = createSlice({
   name: "user",
   initialState,
   reducers: {},
-  extraReducers: {
-    [createUser.pending]: (state, action) => {
+  extraReducers: (builder) => {
+    builder
+    .addCase(createUser.pending, (state) => {
       state.loading = true;
-    },
-    [createUser.fulfilled]: (state, { payload: { error, msg } }) => {
+    })
+    .addCase(createUser.rejected, (state, action) => {
       state.loading = false;
-      if (error) {
-        state.error = error;
-      } else {
-        state.msg = msg;
-      }
-    },
-    [createUser.rejected]: (state, action) => {
+      state.user = [];
+      state.error = action.payload;
+    })
+    .addCase(createUser.fulfilled, (state, action) => {
+      state.loading = false;
+      state.user = action.payload;
+      state.error = "";
+    })
+    
+    .addCase(getAllUsers.pending, (state) => {
       state.loading = true;
-    },
+    })
+    .addCase(getAllUsers.rejected, (state, action) => {
+      state.loading = false;
+      state.users = [];
+      state.error = action.payload;
+    })
+    .addCase(getAllUsers.fulfilled, (state, action) => {
+      state.loading = false;
+      state.users = action.payload;
+      state.error = "";
+    })
+    
   },
 });
 

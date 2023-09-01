@@ -4,9 +4,12 @@ import "./containerheading.css";
 import { CiSearch } from "react-icons/ci";
 import Form from "react-bootstrap/Form";
 import { BsArrowRight } from "react-icons/bs";
-const ContainerHeading = ({ title, UserGroup }) => {
+const ContainerHeading = ({ title, UserGroup, totalLength }) => {
   const finalData = useContext(Context);
   const { dataForm, mode } = finalData;
+  
+
+
   return (
     <>
       <div className="Availabledata py-3">
@@ -17,7 +20,7 @@ const ContainerHeading = ({ title, UserGroup }) => {
         >
           <div className="d-flex align-items-center gap-3">
             <h5 className="header-beforeAdmin fs-5 mb-0">{title}</h5>
-            <p className="fs-7 total text-muted">Total: {dataForm.length}</p>
+            <p className="fs-7 total text-muted">Total: {totalLength}</p>
           </div>
           {UserGroup && (
             <div class="dropdown">
