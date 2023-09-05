@@ -6,7 +6,7 @@ import { getDataPoints } from '../../redux/slices/createDataPointsSlice'
 import Spinner from '../spinner/Spinner'
 import qIcon from '../../assets/images/question-icon.png'
 
-const CreateUserGroup = () => {  
+const CreateUserGroup = ({user}) => {  
   const finalData = useContext(context)
   const { dataForm, createDataArr, setCreateDataArr } = finalData
   const id = useId(null)
