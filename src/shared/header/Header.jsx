@@ -200,7 +200,7 @@ function Header() {
               onChange={onSearchChange}
               defaultValue={search.get("query") ?? ""}
             />
-            <Button variant="link" className="position-absolute start-0 top-0">
+            <Button variant="link" className="position-absolute start-0 top-0 top-search-bar">
               <Search />
             </Button>
           </Form>

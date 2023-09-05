@@ -54,7 +54,7 @@
 
 .dark-mode .sidebar-hover:hover {
   transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-  background-color: rgba(255, 255, 255, 0.788);
+  background-color: rgba(255, 255, 255, 0.3);
   color: #444 !important;
   border-radius: 5px;
 }
@@ -80,7 +80,7 @@
 }
 
 .sidebar-title .menu-title {
-  color: inherit;
+  color: #fff;
   display: inline-block;
   font-size: 0.9rem;
   line-height: 1.5;

@@ -31,7 +31,7 @@ input::-webkit-input-placeholder {
 .table th {
   font-size: 1rem !important;
   font-weight: 400;
-  color: whitesmoke;
+  color: #000 !important;
 }
 .table.admin-table {
   border-spacing: 0 5px;

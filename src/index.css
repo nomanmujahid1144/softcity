@@ -31,6 +31,10 @@
   gap: 0.5rem;
 }
 
+.header-beforeAdmin.text-white{
+  color: #272B30 !important;
+}
+
 .header-beforeAdmin::before {
   content: "";
   width: 13px;
@@ -144,8 +148,8 @@ button.btn-darkblue:hover {
 .dark-mode
   .table-pagination
   .css-r93niq-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
-  background-color: #135096 !important;
-  border-color: #135096;
+  background-color: #14365D !important;
+  border-color: #14365D;
 }
 .css-g2z002-MuiSvgIcon-root-MuiPaginationItem-icon {
   width: 2.4em !important;
@@ -158,10 +162,90 @@ button.btn-darkblue:hover {
   height: 36px !important;
 }
 .css-r93niq-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
-  background-color: #135096 !important;
+  background-color: #14365D !important;
   color: white !important;
 }
 
 .cursor-pointer {
   cursor: pointer;
 }
+.data-point-table-btn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  padding: 0;
+}
+.data-point-table-btn .table-btn-txt{
+  border-radius: 5px 0 0 5px;
+  background: #14365d;
+  font-family: "Inter";
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  font-style: normal;
+  text-align: left;
+  color: #fcfcfc;
+  border: 1px dashed #000;
+  padding: 6px 10px;
+}
+.question-icon{
+  background: #fcc92c;
+  border-radius: 0 5px 5px 0;
+  padding: 7px 10px;
+}
+.question-icon img{
+  width: 10px;
+  height: 16px;
+}
+
+.form-check-input.chart-form-check-input{
+  border: 1px solid #c0c0c0;
+  background-color: #fff;
+  width: 20px;
+  height: 20px;
+}
+
+
+.form-check-input.chart-form-check-input:checked[type=radio]{
+  background-image: url('../src/assets/images/radio-circle.png') !important;
+  border: 1px solid #c0c0c0;
+  background-color: #fff;
+  width: 20px;
+  height: 20px;
+  background-size: 10px;
+}
+
+.top-search-bar svg{
+  fill: #6F767E;
+}
+
+.input-group:not(.has-validation)>:not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating){
+  min-width: 116px;
+  border-radius: 5px !important;
+  background-color: #f6f6f6 !important;
+  text-align: left;
+}
+
+.main-container-div .btn-group-vertical>.btn-group:not(:first-child),.main-container-div .btn-group-vertical>.btn:not(:first-child){
+  margin-top: -2px;
+}
+
+@media (min-width: 992px){
+  .w-49{
+    width: calc(50% - 8px) !important;
+  }
+}
+
+@media (max-width: 991px){
+  .w-49{
+    width: calc(50% - 8px) !important;
+  }
+}
+
+
+
+
+
+
+

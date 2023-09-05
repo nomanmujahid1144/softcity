@@ -4,6 +4,7 @@ import context from '../../Context/DashboardContext'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDataPoints } from '../../redux/slices/createDataPointsSlice'
 import Spinner from '../spinner/Spinner'
+import qIcon from '../../assets/images/question-icon.png'
 
 const CreateUserGroup = () => {  
   const finalData = useContext(context)
@@ -24,10 +25,24 @@ const CreateUserGroup = () => {
       <main className="d-flex flex-column bg-white rounded-top py-3 px-2 shadow-sm">
         <div className="d-flex flex-column gap-4">
           <div className="overflow">
-            <div className="d-flex flex-wrap gap-2 gap-xl-3 gap-lg-3 align-items-center ">
+            <div className="d-flex flex-wrap gap-2 gap-xl-3 gap-lg-3 align-items-center datatables">
               {/* mapping over all the form data */}
-              {dataPoints &&
-                dataPoints?.map((res, ind) => {
+
+              <button className='data-point-table-btn'>
+                <span className='table-btn-txt'>Data point name goes here</span>
+                <span className='question-icon'>
+                  <img src={qIcon} className="img-fluid" alt="Qfuestion icon" />
+                </span>
+              </button>
+              <button className='data-point-table-btn'>
+                <span className='table-btn-txt'>Data point name goes here</span>
+                <span className='question-icon'>
+                  <img src={qIcon} className="img-fluid" alt="Qfuestion icon" />
+                </span>
+              </button>
+             
+              {user &&
+                user?.map((res, ind) => {
                   return (
                     <>
                       <DataPoint

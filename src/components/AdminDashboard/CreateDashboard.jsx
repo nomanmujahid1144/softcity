@@ -30,7 +30,7 @@ const CreateDashboard = () => {
           />
           <div className="d-flex flex-column border rounded-3 py-4 px-3 mt-4 gap-4 bg-white shadow-sm">
             <div className="row gap-3">
-              <div className="col-5">
+              <div className="col-5 col-md-5 col-md-5 col-lg-5 col-xl-5 col-xxl-5 w-49">
                 <label
                   className="form-label fw-semibold fs-7-5"
                   htmlFor="templatename"
@@ -45,7 +45,7 @@ const CreateDashboard = () => {
                   aria-label="default input example"
                 />
               </div>
-              <div className="col-5">
+              <div className="col-5 col-md-5 col-md-5 col-lg-5 col-xl-5 col-xxl-5 w-49">
                 <label
                   className="form-label fw-semibold fs-7-5"
                   htmlFor="description"
