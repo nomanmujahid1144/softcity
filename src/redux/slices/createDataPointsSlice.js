@@ -114,81 +114,81 @@ const createDataPointsSlice = createSlice({
   name: "DataPoints",
   initialState,
   reducers: {},
-  // extraReducers: (builder) => {
-  //   builder
-  //   .addCase(createDataPoints.pending, (state) => {
-  //     state.loading = true;
-  //   })
-  //   .addCase(createDataPoints.rejected, (state, action) => {
-  //     state.loading = false;
-  //     state.dataPoints = [];
-  //     state.error = action.payload;
-  //   })
-  //   .addCase(createDataPoints.fulfilled, (state, action) => {
-  //     state.loading = false;
-  //     state.dataPoints = action.payload;
-  //     state.error = "";
-  //   })
+  extraReducers: (builder) => {
+    builder
+    .addCase(createDataPoints.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(createDataPoints.rejected, (state, action) => {
+      state.loading = false;
+      state.dataPoints = [];
+      state.error = action.payload;
+    })
+    .addCase(createDataPoints.fulfilled, (state, action) => {
+      state.loading = false;
+      state.dataPoints = action.payload;
+      state.error = "";
+    })
       
-  //   .addCase(updateDataPoint.pending, (state) => {
-  //     state.loading = true;
-  //   })
-  //   .addCase(updateDataPoint.rejected, (state, action) => {
-  //     state.loading = false;
-  //     state.dataPoints = [];
-  //     state.error = action.payload;
-  //   })
-  //   .addCase(updateDataPoint.fulfilled, (state, action) => {
-  //     state.loading = false;
-  //     state.dataPoints = action.payload;
-  //     state.error = "";
-  //   })
+    .addCase(updateDataPoint.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(updateDataPoint.rejected, (state, action) => {
+      state.loading = false;
+      state.dataPoints = [];
+      state.error = action.payload;
+    })
+    .addCase(updateDataPoint.fulfilled, (state, action) => {
+      state.loading = false;
+      state.dataPoints = action.payload;
+      state.error = "";
+    })
       
-  //   .addCase(getDataPoints.pending, (state) => {
-  //     state.loading = true;
-  //   })
-  //   .addCase(getDataPoints.rejected, (state, action) => {
-  //     state.loading = false;
-  //     state.dataPoints = [];
-  //     state.error = action.payload;
-  //   })
-  //   .addCase(getDataPoints.fulfilled, (state, action) => {
-  //     state.loading = false;
-  //     state.dataPoints = action.payload
-  //     state.error = "";
-  //   })
-      
-      
-  //   .addCase(getDataPoint.pending, (state) => {
-  //     state.loading = true;
-  //   })
-  //   .addCase(getDataPoint.rejected, (state, action) => {
-  //     state.loading = false;
-  //     state.datapoint = {};
-  //     state.error = action.payload;
-  //   })
-  //   .addCase(getDataPoint.fulfilled, (state, action) => {
-  //     state.loading = false;
-  //     state.datapoint = action.payload;
-  //     state.error = "";
-  //   })
+    .addCase(getDataPoints.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(getDataPoints.rejected, (state, action) => {
+      state.loading = false;
+      state.dataPoints = [];
+      state.error = action.payload;
+    })
+    .addCase(getDataPoints.fulfilled, (state, action) => {
+      state.loading = false;
+      state.dataPoints = action.payload;
+      state.error = "";
+    })
       
       
-  //   .addCase(deleteDataPoint.pending, (state) => {
-  //     state.loading = true;
-  //   })
-  //   .addCase(deleteDataPoint.rejected, (state, action) => {
-  //     state.loading = false;
-  //     state.dataPoints = [];
-  //     state.error = action.payload;
-  //   })
-  //   .addCase(deleteDataPoint.fulfilled, (state, action) => {
-  //     state.loading = false;
-  //     state.dataPoints = action.payload;
-  //     state.error = "";
-  //   });
+    .addCase(getDataPoint.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(getDataPoint.rejected, (state, action) => {
+      state.loading = false;
+      state.datapoint = {};
+      state.error = action.payload;
+    })
+    .addCase(getDataPoint.fulfilled, (state, action) => {
+      state.loading = false;
+      state.datapoint = action.payload;
+      state.error = "";
+    })
+      
+      
+    .addCase(deleteDataPoint.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(deleteDataPoint.rejected, (state, action) => {
+      state.loading = false;
+      state.dataPoints = [];
+      state.error = action.payload;
+    })
+    .addCase(deleteDataPoint.fulfilled, (state, action) => {
+      state.loading = false;
+      state.dataPoints = action.payload;
+      state.error = "";
+    });
     
-  // },
+  },
 });
 
 export default createDataPointsSlice.reducer;
