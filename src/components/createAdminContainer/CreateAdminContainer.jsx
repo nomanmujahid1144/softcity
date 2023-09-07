@@ -20,6 +20,7 @@ export default function CreateAdminContainer() {
   const { userGroups } = useSelector(
     (state) => state.userGroups
   );
+
   const { roles } = useSelector(
     (state) => state.roleManagement
   );
@@ -52,7 +53,17 @@ export default function CreateAdminContainer() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(createUser(user));
-    setUser({});
+    setUser({
+      firstName: "",
+      lastName: "",
+      email: "",
+      phoneNumber: "",
+      country: "",
+      company: "",
+      role: "",
+      userGroup: [],
+      profilePhoto: ""
+    });
   };
   const onChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -126,9 +137,9 @@ export default function CreateAdminContainer() {
             <InputField
               label="Phone"
               required={true}
-              id="phone"
+              id="phoneNumber"
               type="tel"
-              value={user.phone}
+              value={user.phoneNumber}
               onChange={onChange}
             />
           </div>
