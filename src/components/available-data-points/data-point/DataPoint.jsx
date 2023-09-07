@@ -13,7 +13,7 @@ import {
   getDataPoints
 } from '../../../redux/slices/createDataPointsSlice'
 
-const DataPoint = ({ data, index, arr, selected }) => {
+const DataPoint = ({ data, index, arr, selected, alreadySelected }) => {
   const url = useNavigate()
   const dispatch = useDispatch();
   const name = data
@@ -34,15 +34,33 @@ const DataPoint = ({ data, index, arr, selected }) => {
   const [tooltip, settooltip] = useState()
   // for changing datapoint color on selecttion
   const first = useRef()
+  
   const onclick = function (e, arg) {
     setclassselect(!classselect);
     // Check the value of classselect
     if (!classselect) {
-      setSelectedDataPoints([...selectedDataPoints, arg]);
+      setSelectedDataPoints([...selectedDataPoints, arg._id]);
+      arg.selected = true;
     } else {
-      setSelectedDataPoints(selectedDataPoints.filter(item => item !== arg));
+      setSelectedDataPoints(selectedDataPoints.filter(item => item !== arg._id));
+      arg.selected = false;
     }
 
+  
+    // Toggle the value of classselect
+    setdefaultclass(true);
+  };
+
+  const handleOnClick = function (e, arg) {
+    setclassselect(!classselect);
+    // Check the value of classselect
+    if (!classselect && !arg.selected) {
+      setSelectedDataPoints([...selectedDataPoints, arg._id]);
+    } else {
+      setSelectedDataPoints(selectedDataPoints.filter(item => item !== arg._id));
+    }
+
+    arg.selected = !arg.selected;
   
     // Toggle the value of classselect
     setdefaultclass(true);
@@ -50,7 +68,17 @@ const DataPoint = ({ data, index, arr, selected }) => {
   
   useEffect(() => {
     // selectedDataPoints.push([data._id])
-  }, [selectedDataPoints])
+    if (alreadySelected?.length > 0) {
+      setSelectedDataPoints((prevSelectedDataPoints) => {
+        // Check if data.selected is true, and add data._id if it is
+        if (data.selected === true) {
+          return [...prevSelectedDataPoints, data._id];
+        }
+        // If data.selected is false or undefined, return the existing array
+        return prevSelectedDataPoints;
+      });
+    }
+  }, [alreadySelected?.length > 0])
 
   // deleteDataPointHandler(res._id)
   const getDeleteId = (id) => {
@@ -67,12 +95,11 @@ const DataPoint = ({ data, index, arr, selected }) => {
         id={deleteId}
         getDeleteId={getDeleteId}
       />
-      <div
-        key={index}
+      <div key={index}
         className={`data__point-container d-flex justify-content-center align-items-center mb-2 mx-1 cursor ${
-          classselect && 'data__point-select'}`}>
+          name.selected ? 'data__point-select' : classselect ? 'data__point-select' : ''}`}>
         <p
-          onClick={selected ? (e) => { onclick(e, name._id)} : (e) => url(`/admin/update-datapoint/${name._id}`)}
+          onClick={selected ? alreadySelected?.length > 0 ? (e) => {handleOnClick(e, name)}  : (e) => { onclick(e, name)} : (e) => url(`/admin/update-datapoint/${name._id}`)}
           className={`fs-6 select-point data-point-template text-white px-4 rounded-start d-flex align-items-center justify-content-center align-self-stretch`}
         >
           {name.dataPointName}

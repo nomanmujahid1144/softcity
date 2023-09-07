@@ -29,6 +29,7 @@ exports.getDataTemplates = async (req, res, next) => {
     try {
         const dataTemplates = await CreateDataTemplate.find({})
         
+        console.log(dataTemplates, 'dataTemplates')
 
         if (dataTemplates) {
             return res.status(200).json({
@@ -41,6 +42,38 @@ exports.getDataTemplates = async (req, res, next) => {
         return res.status(200).json({
             success: false,
             message: 'No Data Templates Found',
+            data: []
+        });
+
+
+    }
+    catch (err) {
+        return res.status(200).json({
+            success: false,
+            message: err.message,
+            data: []
+        });
+    }
+}
+exports.getDataTemplate = async (req, res, next) => {
+
+    try {
+        const datatemplate = await CreateDataTemplate.findById(req.params.id).populate({
+            path: 'selectedDataPoints', // Specify the field to populate
+            model: 'DataPoints', // The model to use for populating
+        });
+        
+        if (datatemplate) {
+            return res.status(200).json({
+                success: true,
+                message: 'Got Data Collection Successfully',
+                data: datatemplate
+            });
+
+        }
+        return res.status(200).json({
+            success: false,
+            message: 'No Data Collection Found',
             data: []
         });
 

@@ -4,6 +4,7 @@ const router = express.Router();
 const {
     createDataTemplate,
     getDataTemplates,
+    getDataTemplate,
     deleteDataTemplate
 } = require("../../controllers/dataTemplate.controllers");
 
@@ -13,6 +14,7 @@ router.post("/createdatatemplate" ,[
 ], createDataTemplate);
 
 router.get("/getalldatatemplates", getDataTemplates);
+router.get("/getdatatemplate/:id", getDataTemplate);
 router.delete("/deletedatatemplates", deleteDataTemplate);
 
 module.exports = router;

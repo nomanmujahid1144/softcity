@@ -124,7 +124,6 @@ const Form = ({submitted}) => {
   const createColumns = function (e) {
     //a little animation
 
-    console.log(e.target.value);
     setValue("NoOfColumns", e.target.value);
     let array = new Array(+e.target.value).fill({ label: "", column: "" });
     setcolumns(array);
@@ -145,17 +144,13 @@ const Form = ({submitted}) => {
 
   const [labelColArr, setLabelColArr] = useState([]);
   const labelColumnhandler = (e, ind) => {
-    console.log(e.target.value, ind);
     labelColArr[ind] = e.target.value;
     setValue("LabelColumns", labelColArr);
-    console.log("log", labelColArr);
   };
   const [dataColArr, setDataColArr] = useState([]);
   const dataColumnhandler = (e, ind) => {
-    console.log(e.target.value, ind);
     dataColArr[ind] = e.target.value;
     setValue("LabelColumns", dataColArr);
-    console.log("log", dataColArr);
   };
 
   const onSubmit = (data) => {

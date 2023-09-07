@@ -8,10 +8,33 @@ import CreateUserGroup from "../../components/available-data-points/CreateUserGr
 import PaginationRounded from "../../components/pagination/PaginationMui";
 import DataPoint from "../../components/available-data-points/data-point/DataPoint";
 
-function AvailableDatapoints({ title, UserGroup, totalLength, data, selected }) {
+function AvailableDatapoints({ title, UserGroup, totalLength, data, selected, UpdateSelectedDataPoints }) {
   const finalData = useContext(Context);
   const { mode } = finalData;
+
+  let alreadySelectedList = [];
+
+  if (UpdateSelectedDataPoints?.length > 0) {
+    const updatedDataList = data.map((data) => {
+      const newData = { ...data, selected: false };
   
+      const matchingDataPoint = UpdateSelectedDataPoints.find(
+          (updateData) => updateData.dataPointName === data.dataPointName
+      );
+  
+      if (matchingDataPoint) {
+        newData.selected = true;
+        alreadySelectedList.push(matchingDataPoint._id);
+      }
+  
+      return newData;
+    });
+  
+    data = updatedDataList;
+  }
+
+
+
   return (
     <>
       <div className="Availabledata py-3">
@@ -105,6 +128,7 @@ function AvailableDatapoints({ title, UserGroup, totalLength, data, selected }) 
                               data={res}
                               index={ind}
                               selected={selected}
+                              alreadySelected={alreadySelectedList}
                             />
                           </>
                         )
