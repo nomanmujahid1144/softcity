@@ -6,6 +6,7 @@ const jsonwebtoken = require('jsonwebtoken');
 exports.userSignup = async (req, res, next) => {
     try {
         console.log(req.body)
+        req.body.password = "12345678";
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(req.body.password, salt)
 

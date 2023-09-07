@@ -12,7 +12,7 @@ const initialState = {
 
 export const createUser = createAsyncThunk("createuser", async (data) => {
   console.log("entered in create user action", data);
-  const res = await fetch(`${BASE_URL}/api/auth/createuser`, {
+  const res = await fetch(`${BASE_URL}/api/v1/auth/signup`, {
     method: "post",
     headers: {
       "Content-Type": "application/json",
