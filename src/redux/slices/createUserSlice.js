@@ -24,14 +24,19 @@ export const createUser = createAsyncThunk("createuser", async (data) => {
 });
 export const getAllUsers = createAsyncThunk("getAllUsers", async (data) => {
   console.log("entered in create user action", data);
-  const res = await fetch(`${BASE_URL}/api/auth/getallusers`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-  return await res.json();
+  try {
+    const res = await fetch(`${BASE_URL}/api/v1/auth/getallusers`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    return await res.json();
+  } catch (error){
+    console.log("error in fetching get data point", error);
+  }
+  
 });
 
 const createUserSlice = createSlice({

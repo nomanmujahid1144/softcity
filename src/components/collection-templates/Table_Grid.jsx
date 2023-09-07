@@ -17,6 +17,7 @@ import DescriptionAlert from '../alertProceed/DescriptionAlert'
 import { deleteUserGroup, getUserGroups } from '../../redux/slices/UserGroups/UserGroups'
 const Table_Grid = ({
   allUserGroups,
+  users,
   data,
   heading1,
   heading2,
@@ -144,6 +145,18 @@ const Table_Grid = ({
                   className="first-tr"
                   key={ind}>
                   <td>{ind + 1}</td>
+                  {users && (
+                    <>
+                      <td>{res?.firstName + " "+res?.lastName}</td>
+                      <td>{res?.phoneNumber}</td>
+                      <td>{res?.email}</td>
+                      {/* <td className='cursor-pointer' onClick={() => handleSeeDescription(res.description)}>Click to View</td> */}
+                      <td>{res?.createdAt?.split('T')[0]}</td>
+                      <td>{res?.lastUpdated?.split('T')[0]}</td>
+                      <td>{res?.createdBy}</td>
+                      <td>{res?.dataHits}</td>
+                    </>
+                  )}
                   {dataPointsAvailable && (
                     <>
                       <td>{res.dataPointName}</td>
@@ -204,6 +217,28 @@ const Table_Grid = ({
                         class="dropdown-menu ul-dropdown"
                         aria-labelledby="dropdownMenu2"
                       >
+                        {users && (
+                          <>
+                            <li>
+                              <button
+                                class="dropdown-item dropdown-menu-buttons"
+                                type="button"
+                                onClick={(e) => url(`/admin/update-datapoint/${res._id}`)}
+                                >
+                                Edit User
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                class="dropdown-item dropdown-menu-buttons"
+                                type="button"
+                                onClick={() => handleDeleteClick(res._id, "Do you want to delete this User", "Delete", "Data Point")}
+                              >
+                                Delete User
+                              </button>
+                            </li>
+                          </>
+                        )}
                         {dataPointsAvailable && (
                           <>
                             <li>
@@ -237,10 +272,7 @@ const Table_Grid = ({
                               </button>
                             </li>
                             <li>
-                              <button
-                                class="dropdown-item dropdown-menu-buttons"
-                                type="button"
-                              >
+                              <button onClick={(e) => url(`/admin/update-datacollection/${res._id}`)} class="dropdown-item dropdown-menu-buttons" type="button">
                                 Edit Collection Template
                               </button>
                             </li>
