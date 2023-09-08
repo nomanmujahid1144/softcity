@@ -38,6 +38,34 @@ export const createDataCollections = createAsyncThunk(
   }
 );
 
+export const updateDataCollections = createAsyncThunk(
+  "updateDataCollections",
+  async ({data, updateId}) => {
+    console.log("entered in create data collections action", data);
+
+    // const { selectedDataPoints, TemplateName, TemplateDescription } = data;
+
+    try {
+      const res = await fetch(
+        `${BASE_URL}/api/v1/admin/datatemplate/updatedatatemplate/${updateId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": `${AUTH_TOKEN}`,
+          },
+          body: JSON.stringify(data),
+          // body:
+        }
+      );
+
+      return await res.json();
+    } catch (error) {
+      console.log("error in createData collection");
+    }
+  }
+);
+
 export const getDataCollections = createAsyncThunk(
   "getDataCollections",
   async () => {
@@ -123,6 +151,20 @@ const createDataCollectionsSlice = createSlice({
       state.error = action.payload;
     })
     .addCase(createDataCollections.fulfilled, (state, action) => {
+      state.loading = false;
+      state.collectionTemplates = action.payload;
+      state.error = "";
+    })
+      
+    .addCase(updateDataCollections.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(updateDataCollections.rejected, (state, action) => {
+      state.loading = false;
+      state.collectionTemplates = [];
+      state.error = action.payload;
+    })
+    .addCase(updateDataCollections.fulfilled, (state, action) => {
       state.loading = false;
       state.collectionTemplates = action.payload;
       state.error = "";

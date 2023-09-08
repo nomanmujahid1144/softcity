@@ -7,9 +7,10 @@ import Context from '../../Context/DashboardContext'
 import { useForm } from 'react-hook-form'
 import $ from 'jquery'
 import { useDispatch, useSelector } from 'react-redux'
-import { createDataCollections, getDataCollection } from '../../redux/slices/DataCollections/createDataCollectionsSlice'
+import { createDataCollections, getDataCollection, updateDataCollections } from '../../redux/slices/DataCollections/createDataCollectionsSlice'
 import { getDataPoints } from '../../redux/slices/createDataPointsSlice'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import InputField from '../fields/InputField'
 
 const UpdateTemplateMain = () => {
   const {
@@ -26,28 +27,38 @@ const UpdateTemplateMain = () => {
     TemplateDescription: '',
     selectedDataPoints: []
 
-  })
+  });
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const params = useParams();
 
   const collectionId = params.id;
 
-  const { register, handleSubmit, reset } = useForm()
-  const onSubmit = (data) => {
+  const onSubmit = (e) => {
 
-    assignCollectionTemplate(data)
+    e.preventDefault();
 
-    if (data) {
-      // selectedDataPoints
-      // dataForm.map((res) => (res.selected = false))
-      dataForm.map((res) => ({ ...res, [res.selected]: false }))
-      reset()
+    const data = {
+      collectionTemplateName: collectionTemplateInputField.TemplateName,
+      description: collectionTemplateInputField.TemplateDescription,
+      selectedDataPoints: selectedDataPoints,
     }
 
-    setTimeout(() => {
-      setSelectedDataPoints([])
-    }, 2000)
+    dispatch(updateDataCollections({data : data, updateId: collectionId}))
+    // navigate('/admin/collection-templates');
+    // assignCollectionTemplate(data)
+
+    // if (data) {
+    //   // selectedDataPoints
+    //   // dataForm.map((res) => (res.selected = false))
+    //   dataForm.map((res) => ({ ...res, [res.selected]: false }))
+    //   reset()
+    // }
+
+    // setTimeout(() => {
+    //   setSelectedDataPoints([])
+    // }, 2000)
   }
   useEffect(() => {
     console.log(createcollectiontemplate, 'dataTemplateName')
@@ -66,46 +77,75 @@ const UpdateTemplateMain = () => {
   
   useEffect(() => {
     if (collectionTemplate) {
+      const idArray = collectionTemplate?.selectedDataPoints?.map(dataPoint => dataPoint._id);
+      setSelectedDataPoints(idArray);
       setCollectionTemplate({
         TemplateName: collectionTemplate.collectionTemplateName,
         TemplateDescription: collectionTemplate.description,
         selectedDataPoints: collectionTemplate.selectedDataPoints,
       })
     }
-  }, [collectionTemplate])
+  }, [collectionTemplate]);
+  
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setCollectionTemplate((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={onSubmit}>
         <CreateCollectionTemplate
-          title={'Create Data Collection Template'}
-          assign={false}
-          create={true}
+          title={'Update Data Collection Template'}
+          viewallTemplates={true}
+          create={false}
+          update={true}
         />
         <div className="bg-white my-4 rounded-3 p-4 pb-5 shadow-sm ">
           <div className="row gap-3">
             <div className="col-5">
-              <label
+              {/* <label
                 className="form-label fw-semibold fs-7-5"
                 htmlFor="templatename"
               >
                 Collection Template Name
-              </label>
-              <input
-                {...register('TemplateName')}
+              </label> */}
+              <InputField
+                label="Collection Template Name"
+                placeholder="Template Name"
                 required={true}
-                autoFocus={true}
+                id="TemplateName"
+                type="text"
+                value={collectionTemplateInputField.TemplateName}
+                onChange={handleInputChange}
+              />
+              {/* <input
+                {...register('TemplateName')}
                 class="form-control form-input-height "
                 type="text"
                 id="templatename"
                 name="TemplateName"
-                defaultValue={collectionTemplateInputField.TemplateName}
+                value={collectionTemplateInputField.TemplateName}
                 placeholder="Template Name"
+                onChange={handleInputChange}
                 aria-label="default input example"
-              />
+              /> */}
             </div>
             <div className="col-5">
-              <label
+              <InputField
+                label="Collection Template Name"
+                placeholder="Template Description"
+                required={true}
+                id="TemplateDescription"
+                type="text"
+                value={collectionTemplateInputField.TemplateDescription}
+                onChange={handleInputChange}
+              />
+              {/* <label
                 className="form-label fw-semibold fs-7-5"
                 htmlFor="description"
               >
@@ -115,12 +155,13 @@ const UpdateTemplateMain = () => {
                 {...register('TemplateDescription')}
                 class="form-control form-input-height"
                 type="text"
-                defaultValue={collectionTemplateInputField.TemplateDescription}
+                value={collectionTemplateInputField.TemplateDescription}
                 id="description"
                 name="TemplateDescription"
+                onChange={handleInputChange}
                 placeholder="Template Description"
                 aria-label="default input example"
-              />
+              /> */}
             </div>
           </div>
         </div>

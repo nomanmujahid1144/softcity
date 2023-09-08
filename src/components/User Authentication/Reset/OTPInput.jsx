@@ -1,5 +1,6 @@
 import React from 'react'
 import '../userauthentication.css'
+import LoginImg from '../../../assets/images/login_image1.png';
 
 const OTPinput = () => {
   const inputsOTP = new Array(4).fill({})
@@ -15,40 +16,42 @@ const OTPinput = () => {
   }
   return (
     <>
-      <section className="container-fluid bg-dark">
+      <section className="container-fluid bg-dark login-section">
         <div className="row align-items-center">
-          <div className="col-lg-3 ">
-            <div className="d-flex flex-column px-5 py-5 bg-white rounded-5 border translate-form  align-items-center gap-4 ">
-              <h6 className="mt-5 py-4 fs-2 signin-header">CONFIRM OTP</h6>
-              <div className="otp-box d-flex flex-row justify-content-evenly align-self-stretch">
-                {inputsOTP.map((res, ind) => {
-                  return (
-                    <input
-                      key={ind}
-                      type="text"
-                      className="form-control border border-secondary bg-white text-secondary otp-input"
-                      maxLength={1}
-                      datatype={ind}
-                      onKeyDown={(e) => handleOTP(e, ind)}
-                      onChange={(e) => handleOTP(e, ind)}
-                      aria-label="Example text with button addon"
-                      aria-describedby="button-addon1"
-                    />
-                  )
-                })}
+          <div className="col-lg-3 login-col">
+            <div className="login-left">
+              <div className="d-flex flex-column px-5 py-5 bg-white rounded-5 border translate-form login-left-inner align-items-center gap-4 ">
+                <h6 className="mt-5 py-4 fs-2 signin-header">CONFIRM OTP</h6>
+                <div className="otp-box d-flex flex-row justify-content-evenly align-self-stretch">
+                  {inputsOTP.map((res, ind) => {
+                    return (
+                      <input
+                        key={ind}
+                        type="text"
+                        className="form-control border border-secondary bg-white text-secondary otp-input"
+                        maxLength={1}
+                        datatype={ind}
+                        onKeyDown={(e) => handleOTP(e, ind)}
+                        onChange={(e) => handleOTP(e, ind)}
+                        aria-label="Example text with button addon"
+                        aria-describedby="button-addon1"
+                      />
+                    )
+                  })}
+                </div>
+                <button
+                  type="submit"
+                  className="btn btn-primary align-self-stretch confirm-btn rounded-3 mb-5 mt-3"
+                >
+                  Confirm
+                </button>
               </div>
-              <button
-                type="submit"
-                className="btn btn-primary align-self-stretch rounded-3 mb-5 mt-3"
-              >
-                Confirm
-              </button>
             </div>
           </div>
-          <div className="col img-col">
+          <div className="col img-col p-0">
             <img
-              src="https://images.unsplash.com/photo-1565728744382-61accd4aa148?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1473&q=80"
-              className="img-fluid"
+             src={LoginImg}
+             className="img-fluid"
               alt=""
               style={{ width: '100vw', height: '100vh' }}
             />

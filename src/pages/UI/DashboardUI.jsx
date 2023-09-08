@@ -7,6 +7,7 @@ import Header from "../../shared/header/Header";
 import AdminSidebar from "../../shared/sidebar/AdminSidebar";
 import Footer from "../../shared/Footer";
 import AppRoutes from "../../AppRoutes";
+import Login from "../login/LOGIN";
 
 const DashboardUI = () => {
   const menuMode = useContext(Context);
@@ -14,16 +15,21 @@ const DashboardUI = () => {
   return (
     <>
       <div className="App">
-        <Header />
-        <div className={`app-main ${mode || "light-mode"}`}>
-          {admin ? <AdminSidebar /> : <Sidebar />}
-          <div className="app-main__outer ">
-            <div className="app-main__inner">
-              <AppRoutes />
+        {false ? (
+          <Login />
+        ) : (
+            <>
+              <Header />
+              <div className={`app-main ${mode || "light-mode"}`}>
+            {admin ? <AdminSidebar /> : <Sidebar />}
+            <div className="app-main__outer ">
+              <div className="app-main__inner">
+                <AppRoutes />
+              </div>
+              <Footer />
             </div>
-            <Footer />
-          </div>
-        </div>
+              </div>
+          </>)}
       </div>
     </>
   );

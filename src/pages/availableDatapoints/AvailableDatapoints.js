@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import AvailableDataPoints from "../../components/available-data-points/AvailableData";
 import Context from "../../Context/DashboardContext";
@@ -10,30 +10,65 @@ import DataPoint from "../../components/available-data-points/data-point/DataPoi
 
 function AvailableDatapoints({ title, UserGroup, totalLength, data, selected, UpdateSelectedDataPoints }) {
   const finalData = useContext(Context);
-  const { mode } = finalData;
-
-  let alreadySelectedList = [];
-
-  if (UpdateSelectedDataPoints?.length > 0) {
-    const updatedDataList = data.map((data) => {
-      const newData = { ...data, selected: false };
+  const { mode, selectedDataPoints, setSelectedDataPoints} = finalData;
   
-      const matchingDataPoint = UpdateSelectedDataPoints.find(
+  const [items , setItems] = useState([])
+  const [alreadySelectedList, setAlreadySelectedList] = useState([]);
+
+  useEffect(() => {
+    setItems(data);
+    setSelectedDataPoints([]);
+  }, [])
+
+  useEffect(() => {
+    if (UpdateSelectedDataPoints?.length > 0) {
+      const updatedDataList = data.map((data) => {
+        const newData = { ...data, selected: false };
+
+        const matchingDataPoint = UpdateSelectedDataPoints.find(
           (updateData) => updateData.dataPointName === data.dataPointName
-      );
-  
-      if (matchingDataPoint) {
-        newData.selected = true;
-        alreadySelectedList.push(matchingDataPoint._id);
+        );
+
+        if (matchingDataPoint) {
+          newData.selected = true;
+          setAlreadySelectedList((prevList) => [...prevList, matchingDataPoint._id]);
+        }
+
+        return newData;
+      });
+
+      data = updatedDataList;
+      setItems(data);
+    }
+  }, [UpdateSelectedDataPoints]);
+
+
+  const handleClickTabs = async (e, arg) => {
+    // Create a new array with updated 'selected' values
+    const updatedData = items.map((item) => {
+      if (item._id === arg._id) {
+       // Toggle the 'selected' property
+        const updatedItem = { ...item, selected: !item.selected };
+
+        if (!updatedItem.selected) {
+          // Remove the ID if 'selected' is true
+          setSelectedDataPoints((prevDataPoints) =>
+            prevDataPoints.filter((id) => id !== arg._id)
+          );
+        } else {
+          // Add the ID if 'selected' is false
+          setSelectedDataPoints((prevDataPoints) => [...prevDataPoints, arg._id]);
+        }
+
+        return updatedItem;
       }
-  
-      return newData;
+      return item;
     });
-  
-    data = updatedDataList;
+
+    // Update the 'data' variable with the new array
+    data = updatedData;
+    setItems(data)
   }
-
-
 
   return (
     <>
@@ -117,8 +152,8 @@ function AvailableDatapoints({ title, UserGroup, totalLength, data, selected, Up
                 <div className="overflow">
                   <div className="d-flex flex-wrap gap-2 gap-xl-3 gap-lg-3 align-items-center ">
                     {/* mapping over all the form data */}
-                    {data &&
-                      data?.map((res, ind) => {
+                    {items &&
+                      items?.map((res, ind) => {
                         return (
                           <>
                             <DataPoint
@@ -129,6 +164,7 @@ function AvailableDatapoints({ title, UserGroup, totalLength, data, selected, Up
                               index={ind}
                               selected={selected}
                               alreadySelected={alreadySelectedList}
+                              handleClicksTab={handleClickTabs}
                             />
                           </>
                         )

@@ -7,8 +7,8 @@ const ejs = require("ejs");
 
 function randomPassword() {
   return (
-    Math.random().toString(36).slice(2) +
-    Math.random().toString(36).toUpperCase().slice(2)
+    Math.random().toString(10).slice(2) +
+    Math.random().toString(10).toUpperCase().slice(2)
   );
 }
 
