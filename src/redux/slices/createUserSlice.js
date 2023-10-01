@@ -23,6 +23,19 @@ export const createUser = createAsyncThunk("createuser", async (data) => {
   return await res.json();
 });
 
+export const loginUser = createAsyncThunk("loginUser", async (data) => {
+  console.log("entered in create user action", data);
+  const res = await fetch(`${BASE_URL}/api/v1/auth/login`, {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  console.log("res", res.json());
+  return await res.json();
+});
+
 export const getAllUsers = createAsyncThunk("getAllUsers", async (data) => {
   console.log("entered in create user action", data);
   try {
@@ -57,6 +70,21 @@ const createUserSlice = createSlice({
     .addCase(createUser.fulfilled, (state, action) => {
       state.loading = false;
       state.user = action.payload;
+      state.error = "";
+    })
+
+    .addCase(loginUser.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(loginUser.rejected, (state, action) => {
+      state.loading = false;
+      state.user = [];
+      state.error = action.payload;
+    })
+    .addCase(loginUser.fulfilled, (state, action) => {
+      state.loading = false;
+      state.user = action.payload.user;
+      state.token = action.payload.token;
       state.error = "";
     })
     

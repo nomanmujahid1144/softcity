@@ -6,17 +6,22 @@ const nodemailer = require("nodemailer");
 const ejs = require("ejs");
 
 function randomPassword() {
-  return (
-    Math.random().toString(10).slice(2) +
-    Math.random().toString(10).toUpperCase().slice(2)
-  );
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const passwordLength = Math.floor(Math.random() * 3) + 6; // Generates a length between 6 and 8
+
+  let password = '';
+  for (let i = 0; i < passwordLength; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    password += characters.charAt(randomIndex);
+  }
+
+  return password;
 }
 
 exports.userSignup = async (req, res, next) => {
   try {
     console.log(req.body);
     req.body.password = randomPassword();
-    console.log(req.body.password);
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(req.body.password, salt);
 
@@ -39,7 +44,7 @@ exports.userSignup = async (req, res, next) => {
       __dirname + "/../views/email.ejs",
       {
         user: result,
-        password: req.body.body,
+        password: req.body.password,
         message: "User has been created successfully",
         link: "www.google.com"
       },
@@ -103,10 +108,12 @@ exports.userLogin = async (req, res, next) => {
           "" + process.env.JWT_SECRET
         );
         console.log(token);
+        result.password = undefined;
         return res.status(200).json({
           success: true,
           message: "Successfully Logged in",
           token: token,
+          user: result
         });
       } else {
         return next(new ErrorResponse("Incorrect password", 200));

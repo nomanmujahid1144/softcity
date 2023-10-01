@@ -6,6 +6,7 @@ import { TiSocialGooglePlus } from "react-icons/ti";
 import LoginImg from '../../../assets/images/login_image1.png';
 const SignIn = () => {
   const url = useNavigate();
+  
   return (
     <>
       <section className="container-fluid bg-dark login-section">
@@ -38,11 +39,11 @@ const SignIn = () => {
                 <Link to="/accounts/reset-password" className=" signin-links">
                   Forget Password?
                 </Link>
-                <Link to="/accounts/create" className=" signin-links">
+                {/* <Link to="/accounts/create" className=" signin-links">
                   Create Account
-                </Link>
+                </Link> */}
               </div>
-              <div className="mt-2 mb-5 pb-5 d-flex flex-row align-self-stretch justify-content-between ">
+              {/* <div className="mt-2 mb-5 pb-5 d-flex flex-row align-self-stretch justify-content-between ">
                 <Link className="btn btn-sm btn-primary signin_facebook fb-btn">
                   <ImFacebook className="fs-6" />
                   <span className="fs-9 ms-2">Login with Facebook</span>
@@ -51,7 +52,7 @@ const SignIn = () => {
                   <TiSocialGooglePlus className="fs-5" />
                   <span className="fs-9 ms-2">Login with Google+</span>
                 </Link>
-              </div>
+              </div> */}
             </div>
           </div>
           </div>
