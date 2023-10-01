@@ -7,10 +7,11 @@ import { BsArrowRight } from "react-icons/bs";
 import CreateUserGroup from "../../components/available-data-points/CreateUserGroup";
 import PaginationRounded from "../../components/pagination/PaginationMui";
 import DataPoint from "../../components/available-data-points/data-point/DataPoint";
+import UserPoint from "../../components/available-data-points/data-point/UserPoint";
 
-function AvailableDatapoints({ title, UserGroup, totalLength, data, selected, UpdateSelectedDataPoints }) {
+function AvailableDatapoints({ title, isUserGroup, isDataPoint, totalLength, data, selected, UpdateSelectedDataPoints }) {
   const finalData = useContext(Context);
-  const { mode, selectedDataPoints, setSelectedDataPoints} = finalData;
+  const { mode, selectedDataPoints, setSelectedDataPoints, setSelectedUsers} = finalData;
   
   const [items , setItems] = useState([])
   const [alreadySelectedList, setAlreadySelectedList] = useState([]);
@@ -18,6 +19,7 @@ function AvailableDatapoints({ title, UserGroup, totalLength, data, selected, Up
   useEffect(() => {
     setItems(data);
     setSelectedDataPoints([]);
+    setSelectedUsers([]);
   }, [])
 
   useEffect(() => {
@@ -70,6 +72,33 @@ function AvailableDatapoints({ title, UserGroup, totalLength, data, selected, Up
     setItems(data)
   }
 
+  const handleClickUsersTabs = async (e, arg) => {
+    // Create a new array with updated 'selected' values
+    const updatedData = items.map((item) => {
+      if (item._id === arg._id) {
+       // Toggle the 'selected' property
+        const updatedItem = { ...item, selected: !item.selected };
+
+        if (!updatedItem.selected) {
+          // Remove the ID if 'selected' is true
+          setSelectedUsers((prevDataPoints) =>
+            prevDataPoints.filter((id) => id !== arg._id)
+          );
+        } else {
+          // Add the ID if 'selected' is false
+          setSelectedUsers((prevDataPoints) => [...prevDataPoints, arg._id]);
+        }
+
+        return updatedItem;
+      }
+      return item;
+    });
+
+    // Update the 'data' variable with the new array
+    data = updatedData;
+    setItems(data)
+  }
+
   return (
     <>
       <div className="Availabledata py-3">
@@ -82,7 +111,8 @@ function AvailableDatapoints({ title, UserGroup, totalLength, data, selected, Up
             <h5 className="header-beforeAdmin fs-5 mb-0">{title}</h5>
             <p className="fs-7 total text-muted">Total: {totalLength}</p>
           </div>
-          {UserGroup && (
+          {console.log(items, 'items')}
+          {isUserGroup && (
             <div class="dropdown">
               <button
                 className={`btn  dropdown-toggle d-flex align-items-center ${
@@ -126,7 +156,7 @@ function AvailableDatapoints({ title, UserGroup, totalLength, data, selected, Up
             </div>
           )}
           <div className="d-flex  align-items-center justify-content-end flex-column flex-xl-row flex-lg-row flex-md-row margin-left gap-4 w-50">
-            {UserGroup && (
+            {isUserGroup && (
               <button className="m-0 py-2 px-3 btn-darkblue text-white border-0 rounded-2 text-white fw-lighter fs-7">
                 Add all Users <BsArrowRight />
               </button>
@@ -152,23 +182,48 @@ function AvailableDatapoints({ title, UserGroup, totalLength, data, selected, Up
                 <div className="overflow">
                   <div className="d-flex flex-wrap gap-2 gap-xl-3 gap-lg-3 align-items-center ">
                     {/* mapping over all the form data */}
-                    {items &&
-                      items?.map((res, ind) => {
-                        return (
-                          <>
-                            <DataPoint
-                              key={ind}
-                              id={ind}
-                              name={res}
-                              data={res}
-                              index={ind}
-                              selected={selected}
-                              alreadySelected={alreadySelectedList}
-                              handleClicksTab={handleClickTabs}
-                            />
-                          </>
-                        )
-                      })}
+                    {isUserGroup && (
+                      <>
+                        {items &&
+                          items?.map((res, ind) => {
+                            return (
+                              <>
+                                <UserPoint
+                                  key={ind}
+                                  id={ind}
+                                  name={res}
+                                  data={res}
+                                  index={ind}
+                                  selected={selected}
+                                  alreadySelected={alreadySelectedList}
+                                  handleClicksTab={handleClickUsersTabs}
+                                />
+                              </>
+                            )
+                          })}
+                      </>
+                      )}
+                    {isDataPoint && (
+                      <>
+                        {items &&
+                            items?.map((res, ind) => {
+                              return (
+                                <>
+                                  <DataPoint
+                                    key={ind}
+                                    id={ind}
+                                    name={res}
+                                    data={res}
+                                    index={ind}
+                                    selected={selected}
+                                    alreadySelected={alreadySelectedList}
+                                    handleClicksTab={handleClickTabs}
+                                  />
+                                </>
+                              )
+                          })}
+                      </>
+                    )}
                   </div>
                 </div>
               </div>

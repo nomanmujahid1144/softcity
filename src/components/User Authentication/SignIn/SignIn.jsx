@@ -1,48 +1,89 @@
-import React from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import "../userauthentication.css";
 import { ImFacebook } from "react-icons/im";
 import { TiSocialGooglePlus } from "react-icons/ti";
-import LoginImg from '../../../assets/images/login_image1.png';
+import { AuthBackground } from "../AuthBackgruond/AuthBackground";
+import { AuthCard } from "../AuthCard/AuthCard";
+import InputField from "../../fields/InputField";
+import { AuthBannerImage } from "../AuthBannerImage/AuthBannerImage";
+import { userLogin } from "../../../redux/slices/createUserSlice";
+import { useDispatch } from "react-redux";
+import { useAlert } from "react-alert";
+import { useContext } from "react";
+import Context from "../../../Context/DashboardContext";
 const SignIn = () => {
-  const url = useNavigate();
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const alert = useAlert();
+
+
+  const [credentials, setcredentials] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [isAdmin, setISAdmin] = useState(false);
+
+  useEffect(() => {
+    if (location.pathname === '/admin') {
+      setISAdmin(true);
+    }
+  }, [])
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    dispatch(userLogin({data : credentials, navigate, alert}));
+  };
+
+  const onChange = (e) => {
+      setcredentials({ ...credentials, [e.target.name]: e.target.value });
+  };
+  
   return (
     <>
-      <section className="container-fluid bg-dark login-section">
+      <AuthBackground>
         <div className="row align-items-center">
           <div className="col-lg-3 login-col">
-          <div className="login-left">
-            <div className="d-flex flex-column px-5 py-3 bg-white rounded-5 border translate-form login-left-inner align-items-center gap-4 ">
-              <h6 className="mt-5 py-3 fs-2 signin-header">LOGIN</h6>
-              <input
-                type="email"
-                class="form-control border border-secondary bg-white text-secondary"
-                placeholder="Email"
-                aria-label="Example text with button addon"
-                aria-describedby="button-addon1"
-              />
-              <input
-                type="password"
-                class="form-control border border-secondary bg-white text-secondary"
-                placeholder="Password"
-                aria-label="Example text with button addon"
-                aria-describedby="button-addon1"
-              />
-              <button
-                onClick={() => url("/accounts/login/profile")}
-                className="btn btn-primary align-self-stretch rounded-3"
-              >
-                Login
-              </button>
-              <div className="d-flex flex-row align-self-stretch justify-content-between">
-                <Link to="/accounts/reset-password" className=" signin-links">
-                  Forget Password?
-                </Link>
-                <Link to="/accounts/create" className=" signin-links">
-                  Create Account
-                </Link>
-              </div>
-              <div className="mt-2 mb-5 pb-5 d-flex flex-row align-self-stretch justify-content-between ">
+            <div className="login-left">
+              <form onSubmit={handleSubmit}>
+                <AuthCard>
+                  <h6 className="mt-5 py-3 fs-2 signin-header">{isAdmin ? 'Admin Login' : "User Login" }</h6>
+                  <InputField
+                    extra="w-100"
+                    extraClasses="form-control border border-secondary bg-white text-secondary"
+                    required={true}
+                    placeholder="Email"
+                    id="email"
+                    type="email"
+                    value={credentials.email}
+                    onChange={onChange}
+                  />
+                  <InputField
+                    extra="w-100"
+                    extraClasses="form-control border border-secondary bg-white text-secondary"
+                    required={true}
+                    placeholder="Password"
+                    id="password"
+                    type="password"
+                    value={credentials.password}
+                    onChange={onChange}
+                  />
+                  <div className="d-flex flex-row align-self-stretch justify-content-between">
+                    <Link to="/accounts/reset-password" className=" signin-links">
+                      Forget Password?
+                    </Link>
+                    {/* <Link to="/accounts/create" className=" signin-links">
+                      Create Account
+                    </Link> */}
+                  </div>
+                  <button type="submit" className="btn mb-5 btn-primary align-self-stretch rounded-3 create-btn" >
+                    Login
+                  </button>
+              {/* <div className="mt-2 mb-5 pb-5 d-flex flex-row align-self-stretch justify-content-between ">
                 <Link className="btn btn-sm btn-primary signin_facebook fb-btn">
                   <ImFacebook className="fs-6" />
                   <span className="fs-9 ms-2">Login with Facebook</span>
@@ -51,20 +92,14 @@ const SignIn = () => {
                   <TiSocialGooglePlus className="fs-5" />
                   <span className="fs-9 ms-2">Login with Google+</span>
                 </Link>
-              </div>
-            </div>
+              </div> */}
+              </AuthCard>
+            </form>
           </div>
           </div>
-          <div className="col p-0">
-            <img
-              src={LoginImg}
-              class="img-fluid"
-              alt=""
-              style={{ width: "100vw", height: "100vh" }}
-            />
+          <AuthBannerImage />
           </div>
-        </div>
-      </section>
+        </AuthBackground>
       <Outlet />
     </>
   );

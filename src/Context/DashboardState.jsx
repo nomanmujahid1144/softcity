@@ -33,7 +33,8 @@ const DashboardState = (props) => {
     [],
   )
   const [createDataArr, setCreateDataArr] = useState(false)
-  const [selectedDataPoints, setSelectedDataPoints] = useState([])
+  const [selectedDataPoints, setSelectedDataPoints] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
   const [assignedto, setassignedto] = useState([
     'Customer Service team',
     'Business Development',
@@ -93,7 +94,8 @@ const DashboardState = (props) => {
       description: data.TemplateDescription,
       selectedDataPoints: selectedDataPoints,
     }
-    dispatch(createDataCollections(formData))
+    dispatch(createDataCollections(formData));
+    
     // setpoint([])
   }
   const assign = function () {
@@ -192,6 +194,8 @@ const DashboardState = (props) => {
           setCreateDataArr,
           selectedDataPoints,
           setSelectedDataPoints,
+          selectedUsers,
+          setSelectedUsers,
         }}
       >
         {props.children}

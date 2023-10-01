@@ -28,6 +28,10 @@ const CreateUserGroupSchema = new Schema({
             default: false,
         }
     },
+    users :[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
     createdAt: {
         type: Date,
         default: new Date()
