@@ -1,8 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/dashboard/Dashboard";
-import AdminRole from "./components/tables/admins/AdminRole";
-import AvailableDatapoints from "./pages/availableDatapoints/AvailableDatapoints";
 import Collections from "./pages/collections/Collections";
 import UserAssigned from "./components/tables/users/UserAssigned";
 import UserGroup from "./components/tables/users/UserGroup";
@@ -48,10 +46,8 @@ function AppRoutes() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Dashboard />} />
-
-        <Route path="downloads" element={<AlertEditDataPoint />} />
         <Route path="admin" element={<Welcome />} />
+
 
         {/* Data Points Routes */}
         <Route path="admin/create-datapoint" element={<Create_Data_Points />} />
@@ -65,6 +61,7 @@ function AppRoutes() {
         
         {/* CREATE ADMIN USER ROUTES */}
         <Route path="admin/createUser" element={<CreateAdmin />} />
+        <Route path="admin/updateUser/:id" element={<CreateAdmin />} />
         <Route path="admin/check-Users" element={<AdminRoleManagementContainer />} />
         <Route path="admin/all-users" element={<AllUsers />} />
 
@@ -79,7 +76,7 @@ function AppRoutes() {
         {/* Collection Template Routes */}
         <Route path="admin/create-datacollection" element={<CreateTemplateMain />} />
         <Route path="admin/update-datacollection/:id" element={<UpdateTemplateMain />} />
-        <Route path="admin/reorder-collection-elements" element={<Reorder_Collection_Elements />} />
+        <Route path="admin/reorder-collection-elements/:id" element={<Reorder_Collection_Elements />} />
         <Route path="admin/collection-templates" element={<Collection_Templates_Comp />} />
 
         {/* USER-GROUPS ROUTES */}
@@ -95,11 +92,9 @@ function AppRoutes() {
         <Route path="admin/company/createCompany" element={<CreateCompany />} />
         <Route path="admin/company/manage" element={<ManageCompanyProfile />} />
         <Route path="admin/company/Company-Users" element={<AllAdminTable />} />
-        <Route
-          path="admin/company/all-companies"
-          element={<AllCompaniesTable />}
-        />
+        <Route path="admin/company/all-companies" element={<AllCompaniesTable />} />
         <Route path="admin/notifications" element={<Notifications />} />
+
         <Route path="/accounts/create" element={<CreateUser />} />
         <Route path="/accounts/reset-password" element={<ResetPassword />} />
         <Route path="/accounts/OTP" element={<OTPinput />} />

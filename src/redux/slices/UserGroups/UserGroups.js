@@ -11,9 +11,10 @@ const initialState = {
 
 export const createUserGroup = createAsyncThunk(
   "createUserGroup",
-  async (data) => {
-    console.log("entered in create User Group action", data);
-
+  async ({userGroup, selectedUsers}) => {
+    console.log("entered in create User Group action", userGroup);
+    console.log("users", selectedUsers);
+    userGroup.users = selectedUsers;
     // const { selectedDataPoints, TemplateName, TemplateDescription } = data;
     try {
       const res = await fetch(
@@ -24,7 +25,7 @@ export const createUserGroup = createAsyncThunk(
             "Content-Type": "application/json",
             "auth-token": `${AUTH_TOKEN}`,
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify(userGroup),
           // body:
         }
       );

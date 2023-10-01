@@ -5,11 +5,11 @@ exports.createUserGroup = async (req, res, next) => {
     try {
         console.log(req.body)
         // const { dataTemplateName, description, dataPoints } = req.body;
-        const { GroupName, ApprovingOfficer, subGroup, roles } = req.body;
+        const { GroupName, ApprovingOfficer, subGroup, roles, users } = req.body;
 
         // if there are no errors, create a new CreateDataPoint and save it
         const createUserGroup = new UserGroups({
-            GroupName, ApprovingOfficer, subGroup, roles
+            GroupName, ApprovingOfficer, subGroup, roles, users
         });
 
         const savedUserGroup = await createUserGroup.save();

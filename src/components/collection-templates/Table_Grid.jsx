@@ -15,6 +15,7 @@ import {
 } from '../../redux/slices/createDataPointsSlice'
 import DescriptionAlert from '../alertProceed/DescriptionAlert'
 import { deleteUserGroup, getUserGroups } from '../../redux/slices/UserGroups/UserGroups'
+import { deleteUser } from '../../redux/slices/createUserSlice'
 const Table_Grid = ({
   allUserGroups,
   users,
@@ -28,6 +29,7 @@ const Table_Grid = ({
   heading7,
   heading8,
   heading9,
+  heading10,
   dataPointsAvailable,
   dataCollectionTemplate,
   handleRefresh
@@ -100,6 +102,16 @@ const Table_Grid = ({
     setShow(false);
   }
 
+  // deleteUserGroupHandler
+  const deleteUsers = (id) => {
+    let ids = [];
+    ids.push(id);
+    dispatch(deleteUser(ids));
+    handleRefresh();
+    setShow(false);
+    url(`/admin/all-users`)
+  }
+
   const handleSeeDescription = (description) => {
     setDescriptionShow(true);
     setDescription(description);
@@ -112,7 +124,7 @@ const Table_Grid = ({
         heading={headingMessage}
         deleteButton={buttonLabel}
         id={deleteId}
-        getDeleteId={triggerFunction === "Data Point" ? deleteDataPointHandler : triggerFunction === "User Group" ? deleteUserGroupHandler : deleteCollectionTemplateId}
+        getDeleteId={triggerFunction === "Data Point" ? deleteDataPointHandler : triggerFunction === "User Group" ? deleteUserGroupHandler : triggerFunction === "User" ?  deleteUsers  : deleteCollectionTemplateId}
       />
       <DescriptionAlert
         showDescription={showDescription} setDescriptionShow={setDescriptionShow}
@@ -131,6 +143,7 @@ const Table_Grid = ({
             <th>{heading3 ?? 'Total Data Points'}</th>
             <th>{heading4 ?? 'Description'}</th>
             <th>{heading5 ?? 'Create Timestamp'}</th>
+            <th>{heading10 ?? ''}</th>
             <th>{heading6 ?? 'Last Updated'}</th>
             <th>{heading7 ?? 'Created By'}</th>
             <th>{heading8 ?? 'Data Submissions'}</th>
@@ -150,11 +163,12 @@ const Table_Grid = ({
                       <td>{res?.firstName + " "+res?.lastName}</td>
                       <td>{res?.phoneNumber}</td>
                       <td>{res?.email}</td>
+                      <td>{res?.country}</td>
+                      <td>{res?.company}</td>
                       {/* <td className='cursor-pointer' onClick={() => handleSeeDescription(res.description)}>Click to View</td> */}
                       <td>{res?.createdAt?.split('T')[0]}</td>
                       <td>{res?.lastUpdated?.split('T')[0]}</td>
-                      <td>{res?.createdBy}</td>
-                      <td>{res?.dataHits}</td>
+                      <td>{res?.role}</td>
                     </>
                   )}
                   {dataPointsAvailable && (
@@ -223,7 +237,7 @@ const Table_Grid = ({
                               <button
                                 class="dropdown-item dropdown-menu-buttons"
                                 type="button"
-                                onClick={(e) => url(`/admin/update-datapoint/${res._id}`)}
+                                onClick={(e) => url(`/admin/updateUser/${res._id}`)}
                                 >
                                 Edit User
                               </button>
@@ -232,7 +246,7 @@ const Table_Grid = ({
                               <button
                                 class="dropdown-item dropdown-menu-buttons"
                                 type="button"
-                                onClick={() => handleDeleteClick(res._id, "Do you want to delete this User", "Delete", "Data Point")}
+                                onClick={() => handleDeleteClick(res._id, "Do you want to delete this User", "Delete", "User")}
                               >
                                 Delete User
                               </button>

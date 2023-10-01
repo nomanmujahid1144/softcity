@@ -9,6 +9,7 @@ import $ from 'jquery'
 import { useDispatch, useSelector } from 'react-redux'
 import { createDataCollections } from './../../redux/slices/DataCollections/createDataCollectionsSlice'
 import { getDataPoints } from '../../redux/slices/createDataPointsSlice'
+import { useNavigate } from 'react-router-dom'
 
 const CreateTemplateMain = () => {
   const {
@@ -20,11 +21,17 @@ const CreateTemplateMain = () => {
     setSelectedDataPoints,
   } = useContext(Context)
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { collectionTemplate } = useSelector(
+    (state) => state.createDataCollections
+  );
 
   const { register, handleSubmit, reset } = useForm()
   const onSubmit = (data) => {
-    assignCollectionTemplate(data)
+    assignCollectionTemplate(data);
+    // navigate(`/admin/reorder-collection-elements/${}`)
 
     if (data) {
       // selectedDataPoints
@@ -36,9 +43,10 @@ const CreateTemplateMain = () => {
     setTimeout(() => {
       setSelectedDataPoints([])
     }, 2000)
+    
   }
   useEffect(() => {
-    console.log(createcollectiontemplate, 'dataTemplateName')
+    console.log(collectionTemplate, 'collectionTemplate')
   }, [onSubmit])
 
 
@@ -98,12 +106,16 @@ const CreateTemplateMain = () => {
         </div>
       </form>
       <div className="available-datapoints">
-        <AvailableDatapoints
-          title={'Available Data Point'}
-          totalLength={dataPoints.length > 0 ? dataPoints.length : 0}
-          data={dataPoints.length > 0 ? dataPoints : []}
-          selected={true}
-        />
+        {dataPoints?.length > 0 ? 
+          <AvailableDatapoints
+            isDataPoint={true}
+            isUserGroup={false}
+            title={'Available Data Point'}
+            totalLength={dataPoints.length > 0 ? dataPoints.length : 0}
+            data={dataPoints.length > 0 ? dataPoints : []}
+            selected={true}
+          />
+        : null}
       </div>
     </>
   )
