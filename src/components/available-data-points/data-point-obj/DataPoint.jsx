@@ -20,13 +20,11 @@ const DataPoint = ({ data, index, arr, selected, alreadySelected }) => {
 
   const indexData = useContext(context)
   const {
-    setting,
-    point,
-    defaultclass,
     setdefaultclass,
-    setpoint,
-    selectedDataPoints,
-    setSelectedDataPoints,
+    selectedDataPointsObj,
+    setSelectedDataPointsObj,
+    selectLabelData,
+    setselectLabelData
   } = indexData
   const [show, setShow] = useState(false)
   const [deleteId, setDeleteId] = useState(name._id)
@@ -39,10 +37,12 @@ const DataPoint = ({ data, index, arr, selected, alreadySelected }) => {
     setclassselect(!classselect);
     // Check the value of classselect
     if (!classselect) {
-      setSelectedDataPoints([...selectedDataPoints, arg._id]);
+      setSelectedDataPointsObj([...selectedDataPointsObj, arg]);
+      setselectLabelData([...selectLabelData, {labels: arg.labelColumns, columns: arg.dataColumns}]);
       e.selected = true;
     } else {
-      setSelectedDataPoints(selectedDataPoints.filter(item => item !== arg._id));
+      setSelectedDataPointsObj(selectedDataPointsObj.filter(item => item !== arg));
+      setselectLabelData(selectLabelData.filter(item => item !== {labels: arg.labelColumns, columns: arg.dataColumns}));
       e.selected = false;
     }
 
@@ -55,9 +55,9 @@ const DataPoint = ({ data, index, arr, selected, alreadySelected }) => {
     setclassselect(!classselect);
     // Check the value of classselect
     if (!classselect && !arg.selected) {
-      setSelectedDataPoints([...selectedDataPoints, arg._id]);
+      setSelectedDataPointsObj([...selectedDataPointsObj, arg._id]);
     } else {
-      setSelectedDataPoints(selectedDataPoints.filter(item => item !== arg._id));
+      setSelectedDataPointsObj(selectedDataPointsObj.filter(item => item !== arg._id));
     }
 
     e.selected = !e.selected;
@@ -67,15 +67,15 @@ const DataPoint = ({ data, index, arr, selected, alreadySelected }) => {
   };
   
   useEffect(() => {
-    // selectedDataPoints.push([data._id])
+    // selectedDataPointsObj.push([data._id])
     if (alreadySelected?.length > 0) {
-      setSelectedDataPoints((prevSelectedDataPoints) => {
+      setSelectedDataPointsObj((prevselectedDataPointsObj) => {
         // Check if data.selected is true, and add data._id if it is
         if (data.selected === true) {
-          return [...prevSelectedDataPoints, data._id];
+          return [...prevselectedDataPointsObj, data._id];
         }
         // If data.selected is false or undefined, return the existing array
-        return prevSelectedDataPoints;
+        return prevselectedDataPointsObj;
       });
     }
   }, [alreadySelected?.length > 0])

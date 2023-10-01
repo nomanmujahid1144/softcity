@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react'
+import Context from "../../../../../Context/DashboardContext";
 import AdminLineChart from '../../../../admin-site-charts/AdminChart/AdminLineChart'
 import AdminDoughnutChart from '../../../../admin-site-charts/AdminChart/AdminDougnutChart'
 import AdminTableChart from '../../../../admin-site-charts/AdminChart/AdminTableChart'
@@ -10,10 +11,23 @@ import AdminStackedLineChart from '../../../../admin-site-charts/AdminChart/Admi
 import AdminRoundedBarChart from '../../../../admin-site-charts/AdminChart/AdminRoundedBarChart'
 
 const Preview_available_charts = () => {
+  const {
+    mode,
+    StepperStep,
+    setStepperStep,
+    addfield,
+    selectLabelData,
+    setselectLabelData,
+    Labels,
+    setLabels,
+    Data,
+    setData
+  } = useContext(Context);
+
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap' }}>
       <div style={{ marginRight: '10px', marginBottom: '10px' }}>
-        <AdminLineChart />
+        <AdminLineChart Labels={Labels} Data={Data} />
       </div>
       <div style={{ marginRight: '10px', marginBottom: '10px' }}>
         <AdminDoughnutChart />

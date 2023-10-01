@@ -38,7 +38,7 @@ function AdminStackedLineChart({
   chartdark,
   chartId = 8,
 }) {
-  const { filter, startDate, endDate, mode } = useContext(Context)
+  const { filter, startDate, endDate, mode, Labels, Data } = useContext(Context)
   const [checkChart, setCheckChart] = useState(false)
 
   //**for going forward in time in graph */
@@ -80,29 +80,15 @@ function AdminStackedLineChart({
     faker.datatype.number({ min: -50, max: 50 }),
   ).slice(length.start, length.end)
   const data = {
-    labels: labels,
+    labels: Labels.length > 0 ? Labels :chartdata.Labels,
     datasets: [
       {
-        label: 'First',
-        data: dataArray,
+        label: "Dataset 1",
+        data: Data.length ? Data: chartdata.Data,
         borderColor: 'rgb(200,120,10,0.4)',
         backgroundColor: 'rgb(200,100,10,0.4)',
         fill: true,
-      },
-      {
-        label: 'Second ',
-        data: dataArray2,
-        borderColor: 'rgb(10,120,200,0.4)',
-        backgroundColor: 'rgb(10,100,200,0.4)',
-        fill: true,
-      },
-      {
-        label: 'Third',
-        data: dataArray3,
-        borderColor: 'rgb(10,20,100,0.4)',
-        backgroundColor: 'rgb(10,20,100,0.4)',
-        fill: true,
-      },
+      }
     ],
   }
 

@@ -22,6 +22,7 @@ export const createUser = createAsyncThunk("createuser", async (data) => {
   console.log("res", res.json());
   return await res.json();
 });
+
 export const getAllUsers = createAsyncThunk("getAllUsers", async (data) => {
   console.log("entered in create user action", data);
   try {

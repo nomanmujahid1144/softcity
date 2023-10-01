@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './create-data-charts.css'
 import { BsArrowRight, BsArrowLeft } from 'react-icons/bs'
 import Create_data_chart_one from './create_data_chart_one'
@@ -12,6 +12,19 @@ import Create_data_chart_five from './create-data-chart-five/index'
 const CreateDataCharts = () => {
   const [deployButton, setDeployButton] = useState(true)
   const { StepperStep, setStepperStep } = useContext(Context)
+  const indexData = useContext(Context)
+  const {
+    selectedDataPointsObj, 
+  } = indexData
+
+  const handleDeploy = (data) => {
+    console.log(selectedDataPointsObj)
+  }
+
+  useEffect(() => {
+    handleDeploy()
+  }, [selectedDataPointsObj])
+
   return (
     <>
       <div
@@ -49,6 +62,7 @@ const CreateDataCharts = () => {
                   <button
                     className="btn btn-primary btn-danger "
                     style={{ width: '100px', fontSize: '15px' }}
+                    onClick={(e) => handleDeploy()}
                   >
                     Deploy <BsArrowRight />
                   </button>

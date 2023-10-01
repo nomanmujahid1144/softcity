@@ -37,7 +37,7 @@ function AdminSimpleBarChart({
   fullHeight,
   chartdark,
 }) {
-  const { filter, startDate, endDate, mode } = useContext(Context);
+  const { filter, startDate, endDate, mode, Labels, Data } = useContext(Context);
   const [checkChart, setCheckChart] = useState(false);
 
   //**for going forward in time in graph */
@@ -57,11 +57,11 @@ function AdminSimpleBarChart({
   //
 
   const data = {
-    labels: chartdata.Labels,
+   labels: Labels.length > 0 ? Labels :chartdata.Labels,
     datasets: [
       {
-        label: "My First DataSet",
-        data: chartdata.Data,
+        label: "Dataset 1",
+        data: Data.length ? Data: chartdata.Data,
         borderColor: [
           "rgb(255, 99, 132)",
           "rgb(255, 159, 64)",

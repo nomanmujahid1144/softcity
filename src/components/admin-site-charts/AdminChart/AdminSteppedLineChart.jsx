@@ -38,7 +38,7 @@ function AdminSteppedLineChart({
   chartdark,
   chartId = 8,
 }) {
-  const { filter, startDate, endDate, mode } = useContext(Context);
+  const { filter, startDate, endDate, mode, Labels, Data } = useContext(Context);
   const [checkChart, setCheckChart] = useState(false);
 
   //**for going forward in time in graph */
@@ -105,11 +105,11 @@ function AdminSteppedLineChart({
   };
 
   const data = {
-    labels: chartdata.Labels,
+    labels: Labels.length > 0 ? Labels :chartdata.Labels,
     datasets: [
       {
         label: "Dataset 1",
-        data: chartdata.Data,
+        data: Data.length ? Data: chartdata.Data,
         borderColor: "rgb(75, 150, 110)",
         backgroundColor: "rgba(201, 203, 207, 0.4)",
         order: 1,
