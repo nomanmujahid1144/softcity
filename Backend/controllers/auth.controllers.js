@@ -16,7 +16,7 @@ function randomPassword() {
     const randomIndex = Math.floor(Math.random() * characters.length);
     password += characters.charAt(randomIndex);
   }
-
+ 
   return password;
 }
 
