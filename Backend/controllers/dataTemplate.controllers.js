@@ -24,6 +24,26 @@ exports.createDataTemplate = async (req, res, next) => {
     }
 }
 
+exports.updateDataTemplate = async (req, res, next) => {
+    try {
+        
+        const { collectionTemplateName, description, selectedDataPoints } = req.body;
+
+        console.log(req.params.id)
+
+        const savedDataTemplate = await CreateDataTemplate.findByIdAndUpdate(req.params.id, {
+            collectionTemplateName,
+            description,
+            selectedDataPoints
+        })
+
+        // return the saved data point
+        return res.status(200).json(savedDataTemplate);
+    } catch (error) {
+        return res.status(500).json({ errors: [{ msg: "Server error" }] });
+    }
+}
+
 exports.getDataTemplates = async (req, res, next) => {
 
     try {

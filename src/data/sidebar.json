@@ -27,10 +27,5 @@
     "title": "Downloads",
     "icon": "bi-download",
     "path": "/downloads"
-  },
-  {
-    "title": "Admin",
-    "icon": "bi-person-check",
-    "path": "/admin"
   }
 ]

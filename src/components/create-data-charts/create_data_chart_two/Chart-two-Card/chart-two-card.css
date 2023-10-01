@@ -76,6 +76,8 @@
   width: 100%;
   background-color: transparent;
   border: none;
+  text-align: center;
+  outline: none;
 }
 #custom-input::placeholder {
   color: #000000;

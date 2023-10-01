@@ -3,7 +3,8 @@
   width: 1.2rem !important;
 }
 .tHead > tr th {
-  background-color: #16355a;
+  /* background-color: #16355a; */
+  background-color: rgba(0,98,212,0.25);
   padding: 0.5rem !important;
 }
 tbody,
@@ -139,5 +140,5 @@ tbody tr:nth-child(even) {
 }
 .table > :not(caption) > * > * {
   border-bottom-width: 0rem !important ;
-  padding: 0.3rem 0.5rem !important;
+  padding: 0.56rem 0.5rem !important;
 }

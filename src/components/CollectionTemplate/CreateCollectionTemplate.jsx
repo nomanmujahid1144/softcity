@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import Context from "../../Context/DashboardContext";
 import { BsArrowRight } from "react-icons/bs";
 import "./collectiontemplate.css";
+import { useNavigate } from "react-router-dom";
 const CreateCollectionTemplate = ({
   title,
   assign,
@@ -10,8 +11,11 @@ const CreateCollectionTemplate = ({
   form,
   functions,
   viewallusers,
+  viewallTemplates,
 }) => {
   const { mode } = useContext(Context);
+
+  const navigate = useNavigate();
   return (
     <>
       <section>
@@ -36,15 +40,22 @@ const CreateCollectionTemplate = ({
               )}
               {update && (
                 <div>
-                  <form>
                     <button
                       type="submit"
                       className="btn btn-primary btn-darkblue me-3"
                     >
                       Update <BsArrowRight />
                     </button>
-                  </form>
-                  <button className="btn btn-dark">Reset</button>
+                </div>
+              )}
+              {viewallTemplates && (
+                <div>
+                    <button
+                      onClick={(e) => navigate('/admin/collection-templates')}
+                      className="btn btn-primary btn-darkblue me-3"
+                    >
+                      View All Templates <BsArrowRight />
+                    </button>
                 </div>
               )}
               {!update && !viewallusers && (

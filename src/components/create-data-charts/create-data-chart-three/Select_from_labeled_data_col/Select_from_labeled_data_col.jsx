@@ -57,7 +57,7 @@ const Select_from_labeled_data_col = () => {
                   {StepperStep == 4 && (
                     <div className="form-inp">
                       <input
-                        class="form-check-input"
+                        class="form-check-input chart-form-check-input"
                         type="radio"
                         name="flexRadioDefault"
                         id="flexRadioDefault2"
