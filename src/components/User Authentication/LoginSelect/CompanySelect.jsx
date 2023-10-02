@@ -5,16 +5,18 @@ import '../userauthentication.css'
 import { IoLogoPinterest } from 'react-icons/io'
 import { SiUbisoft } from 'react-icons/si'
 import { SiBmcsoftware } from 'react-icons/si'
+import LoginImg from '../../../assets/images/login_image1.png';
 const CompanySelect = () => {
   return (
     <>
-      <section className="container-fluid bg-dark">
+      <section className="container-fluid bg-dark login-section">
         <div className="row align-items-center">
-          <div className="col-lg-3 ">
-            <div className="d-flex flex-column px-5 py-3 bg-white rounded-5 border translate-form gap-4 ">
+          <div className="col-lg-3 login-col">
+          <div className="login-left">
+            <div className="d-flex flex-column px-5 py-3 bg-white rounded-5 border login-left-inner translate-form gap-4 ">
               <div className="mt-4 py-3 ">
-                <h6 className="fs-3 ">LOGIN SUCCESSFUL</h6>
-                <h6 className="signin-header">Choose tenant</h6>
+                <h6 className="fs-3 login-success-txt">LOGIN SUCCESSFUL</h6>
+                <h6 className="signin-header login-subheading">Choose tenant</h6>
               </div>
               <label
                 htmlFor="flexRadioDisabled"
@@ -22,8 +24,8 @@ const CompanySelect = () => {
               >
                 <div class="form-check d-flex align-items-center">
                   <input
-                    class="form-check-input select-radio "
-                    type="radio"
+                    class="form-check-input select-radio select-checkbox"
+                    type="checkbox"
                     name="flexRadioDisabled"
                     id="flexRadioDisabled"
                   />
@@ -39,8 +41,8 @@ const CompanySelect = () => {
               >
                 <div class="form-check d-flex align-items-center">
                   <input
-                    class="form-check-input select-radio "
-                    type="radio"
+                    class="form-check-input select-radio select-checkbox"
+                    type="checkbox"
                     name="flexRadioDisabled"
                     id="flexRadio"
                   />
@@ -56,8 +58,8 @@ const CompanySelect = () => {
               >
                 <div class="form-check d-flex align-items-center">
                   <input
-                    class="form-check-input select-radio "
-                    type="radio"
+                    class="form-check-input select-radio select-checkbox"
+                    type="checkbox"
                     name="flexRadioDisabled"
                     id="RadioDisabled"
                   />
@@ -68,14 +70,15 @@ const CompanySelect = () => {
                 </div>
               </label>
 
-              <button className="btn btn-primary align-self-start btn-padding rounded-3">
+              <button className="btn btn-primary align-self-start btn-padding rounded-3 continue-btn">
                 Continue
               </button>
             </div>
           </div>
-          <div className="col img-col">
+          </div>
+          <div className="col img-col p-0">
             <img
-              src="https://images.unsplash.com/photo-1565728744382-61accd4aa148?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1473&q=80"
+              src={LoginImg}
               class="img-fluid"
               alt=""
               style={{ width: '100vw', height: '100vh' }}

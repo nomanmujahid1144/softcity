@@ -42,6 +42,7 @@ import ResetPassword from "./components/User Authentication/Reset/ResetPassword"
 import OTPinput from "./components/User Authentication/Reset/OTPInput";
 import CompanySelect from "./components/User Authentication/LoginSelect/CompanySelect";
 import Notifications from "./pages/Notifications";
+import UpdateTemplateMain from "./components/CollectionTemplate/UpdateTemplateMain";
 
 function AppRoutes() {
   return (
@@ -65,6 +66,7 @@ function AppRoutes() {
         {/* CREATE ADMIN USER ROUTES */}
         <Route path="admin/createUser" element={<CreateAdmin />} />
         <Route path="admin/check-Users" element={<AdminRoleManagementContainer />} />
+        <Route path="admin/all-users" element={<AllUsers />} />
 
         
         <Route path="admin/dashboard" element={<Dashboard />} />
@@ -75,7 +77,8 @@ function AppRoutes() {
         <Route path="admin/accounts" element={<AdminsTable />} />
 
         {/* Collection Template Routes */}
-        <Route path="admin/create" element={<CreateTemplateMain />} />
+        <Route path="admin/create-datacollection" element={<CreateTemplateMain />} />
+        <Route path="admin/update-datacollection/:id" element={<UpdateTemplateMain />} />
         <Route path="admin/reorder-collection-elements" element={<Reorder_Collection_Elements />} />
         <Route path="admin/collection-templates" element={<Collection_Templates_Comp />} />
 
@@ -85,7 +88,6 @@ function AppRoutes() {
 
         <Route path="admin/AssignTemplate" element={<AssignDataCollTemplate />}/>
         <Route path="admin/Scollections" element={<SingleColDataCollection />} />
-        <Route path="admin/all-users" element={<AllUsers />} />
         <Route path="admin/create-data-charts" element={<CreateDataCharts />} />
         <Route path="admin/all-available-elements" element={<All_Available_Elements />} />
         <Route path="admin/all-dashboards" element={<All_Dashboard />} />

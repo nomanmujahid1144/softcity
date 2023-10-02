@@ -67,7 +67,6 @@ export const updateRole = createAsyncThunk(
 export const getAllRoles = createAsyncThunk(
   "getAllRoles",
   async () => {
-    console.log("entered in get data collections action");
 
     try {
       const response = await axios.get(

@@ -14,22 +14,21 @@ const DashboardUI = () => {
   return (
     <>
       <div className="App">
-{true ? (
-         <Login /> 
-):(
-<>
-<Header />
-        <div className={`app-main ${mode || "light-mode"}`}>
-          {admin ? <AdminSidebar /> : <Sidebar />}
-          <div className="app-main__outer ">
-            <div className="app-main__inner">
-              <AppRoutes />
+        {false ? (
+          <Login />
+        ) : (
+            <>
+              <Header />
+              <div className={`app-main ${mode || "light-mode"}`}>
+            {admin ? <AdminSidebar /> : <Sidebar />}
+            <div className="app-main__outer ">
+              <div className="app-main__inner">
+                <AppRoutes />
+              </div>
+              <Footer />
             </div>
-            <Footer />
-          </div>
-        </div></>
-)        
-       }
+              </div>
+          </>)}
       </div>
     </>
   );

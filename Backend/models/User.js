@@ -33,14 +33,14 @@ const userSchema = new mongoose.Schema({
         default: ''
     },
     role: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'AdminRoles',
         default: ''
     },
     userGroup: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'UserGroup'
-    },
-    ],
+    }],
     password: {
         type: String,
         required: [true, "Please provide password"]

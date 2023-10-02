@@ -1,35 +1,80 @@
-import React, { useContext, useState } from 'react'
-import './createAdminContainer.css'
-import { BsArrowRight } from 'react-icons/bs'
-import Context from '../../Context/DashboardContext'
-import { useDispatch } from 'react-redux'
-import { createUser } from './../../redux/slices/createUserSlice'
-import InputField from '../fields/InputField'
-import SelectionField from '../fields/SelectField'
+import React, { useContext, useState, useEffect } from "react";
+import "./createAdminContainer.css";
+import { BsArrowRight } from "react-icons/bs";
+import Context from "../../Context/DashboardContext";
+import { useDispatch, useSelector } from "react-redux";
+import { createUser } from "./../../redux/slices/createUserSlice";
+import InputField from "../fields/InputField";
+import SelectionField from "../fields/SelectField";
+import { getUserGroups } from "../../redux/slices/UserGroups/UserGroups";
+import { getAllRoles } from "../../redux/slices/RolesManagement/roleManagement";
 
 export default function CreateAdminContainer() {
-  // const [name, setName] = useState('')
-  // const [email, setEmail] = useState('')
-  // const [password, setPassword] = useState('')
-  const dispatch = useDispatch()
-  const [handle, setHandle] = useState({})
 
-  const handleChange = (event) => {
-    const { name, value } = event.target
-    setHandle({ ...handle, [name]: value })
-    // dispatchEvent(signUpUser({ name, email, password }))
-  }
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    console.log('handle', handle)
-    dispatch(createUser(handle))
-  }
+  const dispatch = useDispatch();
 
-  const { mode } = useContext(Context)
+  const [user, setUser] = useState({});
+  const [groups, setGroups] = useState({});
+  const [userRoles, setUserRoles] = useState([]);
+
+  const { userGroups } = useSelector(
+    (state) => state.userGroups
+  );
+
+  const { roles } = useSelector(
+    (state) => state.roleManagement
+  );
+
+  useEffect(() => {
+    dispatch(getAllRoles());
+    dispatch(getUserGroups());
+  }, [])
+
+  useEffect(() => {
+    if (userGroups.length > 0) {
+      const subGroupOptions = userGroups.map((userGroup) => ({
+        label: userGroup.GroupName,
+        value: userGroup._id,
+      }));
+      setGroups(subGroupOptions);
+    }
+  },[userGroups])
+
+  useEffect(() => {
+    if (roles.length > 0) {
+      const rolesOptions = roles.map((role) => ({
+        label: role.roleName,
+        value: role._id
+      }));
+      setUserRoles(rolesOptions);
+    }
+  },[roles])
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    dispatch(createUser(user));
+    setUser({
+      firstName: "",
+      lastName: "",
+      email: "",
+      phoneNumber: "",
+      country: "",
+      company: "",
+      role: "",
+      userGroup: [],
+      profilePhoto: ""
+    });
+  };
+  const onChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setUser({ ...user, [name]: value });
+  };
+
+  const { mode } = useContext(Context);
   return (
     <div
       className={`row text-white rounded-3 d-flex justify-content-center ${
-        mode === 'dark-mode' ? 'text-white' : 'text-secondary'
+        mode === "dark-mode" ? "text-white" : "text-secondary"
       }`}
     >
       <div className="row mb-5 p-0 d-flex align-items-center style">
@@ -73,8 +118,8 @@ export default function CreateAdminContainer() {
               required={true}
               id="firstName"
               type="text"
-              // value={userGroup.GroupName}
-              // onChange={onChange}
+              value={user.firstName}
+              onChange={onChange}
             />
           </div>
           <div className="col-6 my-3 mx-0 d-flex flex-column">
@@ -83,8 +128,8 @@ export default function CreateAdminContainer() {
               required={true}
               id="lastName"
               type="text"
-              // value={userGroup.GroupName}
-              // onChange={onChange}
+              value={user.lastName}
+              onChange={onChange}
             />
           </div>
           {/* //// */}
@@ -92,70 +137,68 @@ export default function CreateAdminContainer() {
             <InputField
               label="Phone"
               required={true}
-              id="phone"
+              id="phoneNumber"
               type="tel"
-              // value={userGroup.GroupName}
-              // onChange={onChange}
+              value={user.phoneNumber}
+              onChange={onChange}
             />
           </div>
           <div className="col-6 my-3 mx-0 d-flex flex-column">
-           <InputField
+            <InputField
               label="Email"
               required={true}
               id="email"
               type="email"
-              // value={userGroup.GroupName}
-              // onChange={onChange}
+              value={user.email}
+              onChange={onChange}
             />
           </div>
           {/* // */}
           <div className="col-6 my-3 mx-0 d-flex flex-column">
-           <InputField
+            <InputField
               label="Country"
               required={true}
               id="country"
               type="text"
-              // value={userGroup.GroupName}
-              // onChange={onChange}
+              value={user.country}
+              onChange={onChange}
             />
           </div>
           <div className="col-6 my-3 mx-0 d-flex flex-column">
-           <InputField
+            <InputField
               label="Company"
               required={true}
               id="company"
               type="text"
-              // value={userGroup.GroupName}
-              // onChange={onChange}
+              value={user.company}
+              onChange={onChange}
             />
           </div>
           {/* ///// */}
           <div className="col-6 my-3 mx-0 d-flex flex-column">
             <SelectionField
               label="Assign User Role"
-              htmlFor="userRole"
+              htmlFor="role"
               placeholder="Select a role"
-              required={true}
-              id="userRole"
+              id="role"
               type="text"
-              options={[]}
-              // value={userGroup.subGroup}
-              // onChange={onChange}
+              options={userRoles}
+              value={user.role}
+              onChange={onChange}
             />
           </div>
           <div className="col-6 my-3 mx-0 d-flex flex-column">
-           <InputField
+            <InputField
               label="Assign to User Group(s)"
-              required={true}
               placeholder=" Select one or More User Groups "
               id="userGroups"
               type="text"
-              // value={userGroup.GroupName}
-              // onChange={onChange}
+              value={user.userGroups}
+              onChange={onChange}
             />
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

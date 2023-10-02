@@ -19,6 +19,8 @@ const Collection_Templates_Comp = () => {
 
   const dispatch = useDispatch()
   const [handleRefresh, setHandleRefresh] = useState(false);
+
+  
   const { collectionTemplates, loading } = useSelector((state) => state.createDataCollections);
   
   useEffect(() => {
@@ -28,7 +30,11 @@ const Collection_Templates_Comp = () => {
 
   const handleRefreshfun = () => {
     setHandleRefresh(!handleRefresh)
-  }
+  };
+
+  useEffect(() => {
+    dispatch(getDataCollections());
+  }, [])
 
   return (
     <>
@@ -46,23 +52,12 @@ const Collection_Templates_Comp = () => {
             <div className="total-head mt-2">Total: {collectionTemplates?.length}</div>
           </div>
         </div>
-
         <div className="d-flex align-items-center justify-content-end flex-wrap">
           <div className="primary-inputs-search d-flex align-items-center rounded search-bar border-0 bg-white">
             <span className=" px-2">
               <CiSearch className="search-icon" />
             </span>
             <Form.Control placeholder="Search" className="input bg-white" />
-          </div>
-
-          <div className="btns-main">
-            <button className="btn btn-primary btn-darkblue me-2">
-              Create <BsArrowRight />
-            </button>
-
-            <button className="btn btn-primary btn-darkblue">
-              Assign <BsArrowRight />
-            </button>
           </div>
         </div>
       </div>
@@ -73,9 +68,13 @@ const Collection_Templates_Comp = () => {
            
           </div>
         </div>
-        {collectionTemplates?.length > 0 ?
-          <Table_Grid data={collectionTemplates} dataCollectionTemplate={true} handleRefresh={handleRefreshfun} />
-        :null}
+        {collectionTemplates?.length > 0 ? 
+          <Table_Grid
+            data={collectionTemplates?.length > 0 ? collectionTemplates : []}
+            dataCollectionTemplate={true}
+            handleRefresh={handleRefreshfun}
+          />
+        : null}
       </div>
 
       <div className="py-2 d-flex justify-content-end table-pagination">

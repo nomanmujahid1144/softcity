@@ -3,8 +3,8 @@ import DataPoint from './data-point/DataPoint'
 import context from '../../Context/DashboardContext'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDataPoints } from '../../redux/slices/createDataPointsSlice'
-import Spinner from '../spinner/Spinner'
-import qIcon from '../../assets/images/question-icon.png'
+import Spinner from '../spinner/Spinner';
+import qIcon from '../../assets/images/question-icon.png';
 
 const CreateUserGroup = ({user}) => {  
   const finalData = useContext(context)
@@ -40,9 +40,9 @@ const CreateUserGroup = ({user}) => {
                   <img src={qIcon} className="img-fluid" alt="Qfuestion icon" />
                 </span>
               </button>
-             
-              {user &&
-                user?.map((res, ind) => {
+
+              {dataPoints &&
+                dataPoints?.map((res, ind) => {
                   return (
                     <>
                       <DataPoint

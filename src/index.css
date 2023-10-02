@@ -143,7 +143,8 @@ button.btn-darkblue:hover {
   .table-pagination
   .css-r93niq-MuiButtonBase-root-MuiPaginationItem-root {
   color: white !important;
-  border-color: rgba(255, 255, 255, 0.623);
+  border-color: #14365D;
+  background-color: #14365D !important;
 }
 .dark-mode
   .table-pagination
@@ -242,10 +243,3 @@ button.btn-darkblue:hover {
     width: calc(50% - 8px) !important;
   }
 }
-
-
-
-
-
-
-
