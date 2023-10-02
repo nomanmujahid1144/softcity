@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link, Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import "../userauthentication.css";
-import { ImFacebook } from "react-icons/im";
-import { TiSocialGooglePlus } from "react-icons/ti";
 import { AuthBackground } from "../AuthBackgruond/AuthBackground";
 import { AuthCard } from "../AuthCard/AuthCard";
 import InputField from "../../fields/InputField";
@@ -10,15 +8,13 @@ import { AuthBannerImage } from "../AuthBannerImage/AuthBannerImage";
 import { userLogin } from "../../../redux/slices/createUserSlice";
 import { useDispatch } from "react-redux";
 import { useAlert } from "react-alert";
-import { useContext } from "react";
-import Context from "../../../Context/DashboardContext";
+
 const SignIn = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
   const alert = useAlert();
-
 
   const [credentials, setcredentials] = useState({
     email: "",
@@ -35,12 +31,12 @@ const SignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    dispatch(userLogin({data : credentials, navigate, alert}));
+    console.log(location.pathname)
+    dispatch(userLogin({data : credentials, navigate, alert, location: location.pathname}));
   };
 
   const onChange = (e) => {
-      setcredentials({ ...credentials, [e.target.name]: e.target.value });
+    setcredentials({ ...credentials, [e.target.name]: e.target.value });
   };
   
   return (

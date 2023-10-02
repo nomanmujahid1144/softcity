@@ -29,7 +29,8 @@ export const createUser = createAsyncThunk("createuser", async ({data, alert}) =
   })
 });
 
-export const userLogin = ({ data, navigate, alert}) => {
+export const userLogin = ({ data, navigate, alert, location}) => {
+
   return async (dispatch) => {
     console.log("entered in create user action", { data });
     try {
@@ -40,18 +41,20 @@ export const userLogin = ({ data, navigate, alert}) => {
         const newToken = res.data?.token;
         console.log(res.data?.data, 'RESULT')
 
-        if (role === 'companyUser' || role === 'both') {
+        if (role === 'companyUser') {
           // Update the AUTH_TOKEN in localStorage
           localStorage.setItem("AUTH_TOKEN", newToken);
+          localStorage.setItem("role", role);
 
           // Dispatch the token to Redux if needed
-          dispatch(setUserAuth({ authToken: newToken, userRole: 'user' }));
+          dispatch(setUserAuth({ authToken: newToken, userRole: 'companyUser' }));
 
           alert.show("Logged In Successfully");
           navigate("/");
-        } else if (role === 'admin' || role === 'both') {
+        } else if (role === 'admin') {
           // Update the AUTH_TOKEN in localStorage
           localStorage.setItem("AUTH_TOKEN", newToken);
+          localStorage.setItem("role", role);
   
           // Dispatch the token to Redux if needed
           dispatch(setUserAuth({ authToken: newToken, userRole: 'admin' }));
@@ -59,7 +62,15 @@ export const userLogin = ({ data, navigate, alert}) => {
           alert.show("Logged In Successfully");
           navigate("/admin");
         } else {
-          alert.show("You are not allowed to use this platform");
+          // Update the AUTH_TOKEN in localStorage
+          localStorage.setItem("AUTH_TOKEN", newToken);
+          localStorage.setItem("role", role);
+
+          // Dispatch the token to Redux if needed
+          dispatch(setUserAuth({ authToken: newToken, userRole: 'both' }));
+
+          alert.show("Logged In Successfully");
+          navigate(`${location}`);
         }
 
       } else {

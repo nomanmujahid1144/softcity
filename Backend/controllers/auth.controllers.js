@@ -22,7 +22,6 @@ function randomPassword() {
 
 exports.userSignup = async (req, res, next) => {
   try {
-    console.log(req.body);
     req.body.password = randomPassword();
     console.log(req.body.password);
     const pass = req.body.password;
