@@ -17,17 +17,13 @@ const Preview_available_charts = () => {
     setStepperStep,
     addfield,
     selectLabelData,
-    setselectLabelData,
-    Labels,
-    setLabels,
-    Data,
-    setData
+    setselectLabelData
   } = useContext(Context);
 
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap' }}>
       <div style={{ marginRight: '10px', marginBottom: '10px' }}>
-        <AdminLineChart Labels={Labels} Data={Data} />
+        <AdminLineChart />
       </div>
       <div style={{ marginRight: '10px', marginBottom: '10px' }}>
         <AdminDoughnutChart />

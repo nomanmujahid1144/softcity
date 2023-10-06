@@ -42,7 +42,7 @@ const DataPoint = ({ data, index, arr, selected, alreadySelected }) => {
       e.selected = true;
     } else {
       setSelectedDataPointsObj(selectedDataPointsObj.filter(item => item !== arg));
-      setselectLabelData(selectLabelData.filter(item => item !== {labels: arg.labelColumns, columns: arg.dataColumns}));
+      setselectLabelData(selectLabelData.filter(item => item.labels !== arg.labelColumns));
       e.selected = false;
     }
 
