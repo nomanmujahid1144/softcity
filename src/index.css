@@ -243,3 +243,40 @@ button.btn-darkblue:hover {
     width: calc(50% - 8px) !important;
   }
 }
+
+
+.css-13cymwt-control{
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+.css-t3ipsp-control:hover{
+  border-color: transparent !important;
+}
+
+.css-1p3m7a8-multiValue{
+  background-color: #547aa7 !important;
+  color: white !important;
+  border-radius: 1rem !important;
+  padding-right: 0.5rem!important;
+  padding-left: 0.5rem!important;
+}
+.css-wsp0cs-MultiValueGeneric{
+  color: white !important;
+}
+.css-12a83d4-MultiValueRemove:hover{
+  background-color: transparent !important;
+  color: white !important;
+}
+
+.cursor-disabled {
+  cursor: not-allowed;
+  pointer-events: all !important;
+}
+.form-control:disabled{
+  background-color: #e9ecef !important;
+}
+
+.w-24rem{
+  width: 24rem;
+}

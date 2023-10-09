@@ -38,7 +38,7 @@ function AdminRoundedBarChart({
   chartdark,
   chartId = 8,
 }) {
-  const { filter, startDate, endDate, mode } = useContext(Context)
+  const { filter, startDate, endDate, mode, Labels, Data } = useContext(Context)
   const [checkChart, setCheckChart] = useState(false)
 
   //**for going forward in time in graph */
@@ -80,26 +80,17 @@ function AdminRoundedBarChart({
     faker.datatype.number({ min: -50, max: 50 }),
   ).slice(length.start, length.end)
   const data = {
-    labels: labels,
+    labels: Labels.length > 0 ? Labels :chartdata.Labels,
     datasets: [
       {
-        label: 'Fully Rounded',
-        data: dataArray,
+        label: "Dataset 1",
+        data: Data.length ? Data: chartdata.Data,
         borderColor: 'rgb(200,10,10,0.6)',
         backgroundColor: 'rgb(255,10,10,0.4)',
         borderWidth: 2,
         borderRadius: 20,
         borderSkipped: false,
-      },
-      {
-        label: 'Small Radius',
-        data: dataArray2,
-        borderColor: 'rgb(10,125,20,0.6)',
-        backgroundColor: 'rgb(10,125,20,0.4)',
-        borderWidth: 2,
-        borderRadius: 5,
-        borderSkipped: false,
-      },
+      }
     ],
   }
 

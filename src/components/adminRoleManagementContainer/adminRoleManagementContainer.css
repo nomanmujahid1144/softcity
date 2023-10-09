@@ -30,8 +30,8 @@ input::-webkit-input-placeholder {
 /* yable css */
 .table th {
   font-size: 1rem !important;
-  font-weight: 400;
-  color: #000 !important;
+  font-weight: 600;
+  color: black;
 }
 .table.admin-table {
   border-spacing: 0 5px;

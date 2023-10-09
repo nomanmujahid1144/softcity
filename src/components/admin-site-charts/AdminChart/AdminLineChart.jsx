@@ -33,9 +33,9 @@ function AdminLineChart({
   fullwidth,
   fullHeight,
   create,
-  chartId = 8,
+  chartId = 8
 }) {
-  const { mode } = useContext(Context);
+  const { mode, Labels, Data } = useContext(Context);
   const [checkChart, setCheckChart] = useState(false);
 
   //**for going forward in time in graph */
@@ -67,15 +67,15 @@ function AdminLineChart({
   //
   let labels = chartdata.Labels.slice(length.start, length.end);
 
-  const dataArray = chartdata.Labels.map(() =>
+  const dataArray = chartdata.Data.map(() =>
     faker.datatype.number({ min: -50, max: 50 })
   ).slice(length.start, length.end);
   const data = {
-    labels: labels,
+    labels: Labels?.length > 0 ? Labels: labels,
     datasets: [
       {
         label: "my First DataSet",
-        data: dataArray,
+        data:  Data?.length > 0 ? Data: dataArray,
         backgroundColor: "#47b3a6",
         borderColor: "#24c8bf",
         pointBorderColor: "#47b3a6",

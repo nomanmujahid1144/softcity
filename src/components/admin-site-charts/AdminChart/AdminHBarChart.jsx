@@ -38,7 +38,7 @@ function AdminHBarChart({
   chartdark,
   chartId = 8,
 }) {
-  const { mode } = useContext(Context);
+  const { mode, Labels, Data } = useContext(Context);
   const [checkChart, setCheckChart] = useState(false);
 
   //**for going forward in time in graph */
@@ -106,11 +106,11 @@ function AdminHBarChart({
   };
 
   const data = {
-    labels: chartdata.Labels,
+    labels: Labels.length > 0 ? Labels :chartdata.Labels,
     datasets: [
       {
-        label: "Sales",
-        data: chartdata.Data,
+        label: "Dataset 1",
+        data: Data.length ? Data: chartdata.Data,
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
           "rgba(255, 159, 64, 0.2)",

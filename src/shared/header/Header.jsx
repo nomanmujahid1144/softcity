@@ -17,7 +17,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import userImage from "../../assets/images/User.png";
 import logoImage from "../../assets/images/logosft.png";
 import DashDropdown from "../../components/headerDropdowns/dashDropdown/DashDropdown";
@@ -30,6 +30,9 @@ import "./header.css";
 import $ from "jquery";
 import { useRef } from "react";
 import { useLocation } from "react-router-dom";
+import { setUserAuth, updateAuthToken } from "../../redux/slices/authSlice";
+import { useDispatch } from "react-redux";
+import { useAlert } from "react-alert";
 
 function Header() {
   const ref = useRef();
@@ -56,6 +59,11 @@ function Header() {
   const [focused, setFocused] = useState(false);
   const [search, setSearch] = useSearchParams();
   const [hide, sethide] = useState({ success: false });
+
+  
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const alert = useAlert();
 
   useEffect(() => {
     let clean = function (e) {
@@ -106,6 +114,14 @@ function Header() {
       console.log("its true");
       setFavMenuBtn((curr) => !curr);
     }
+  };
+
+  const handleLogOut = (e) => {
+    e.preventDefault();
+    localStorage.removeItem("AUTH_TOKEN");
+    dispatch(setUserAuth({ authToken: null, userRole: null }));
+    alert.show("Logout Successfully");
+    navigate("/");
   };
 
   return (
@@ -392,7 +408,7 @@ function Header() {
                   <hr className="dropdown-divider" />
                 </li>
                 <li>
-                  <Link className="dropdown-item" to="/">
+                  <Link onClick={handleLogOut} className="dropdown-item" to="/">
                     <Power className="text-danger me-2" /> Logout
                   </Link>
                 </li>

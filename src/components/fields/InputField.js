@@ -6,6 +6,7 @@ function InputField(props) {
     label,
     id,
     extra,
+    extraClasses,
     style,
     type,
     placeholder,
@@ -16,6 +17,7 @@ function InputField(props) {
     required,
     value,
     onChange,
+    onInput,
     onKeyDown,
   } = props;
 
@@ -38,8 +40,9 @@ function InputField(props) {
         onChange={onChange}
         defaultValue={defaultValue}
         onKeyDown={onKeyDown}
+        onInput={onInput}
         style={style}
-        className={`form-control form-input-height ${
+        className={`form-control form-input-height ${extraClasses} ${ 
           disabled === true
             ? "!border-none !bg-gray-100 dark:!bg-white/5 dark:placeholder:!text-[rgba(255,255,255,0.15)]"
             : state === "error"

@@ -40,10 +40,10 @@ const DataPoint = ({ data, index, arr, selected, handleClicksTab, alreadySelecte
     // Check the value of classselect
     if (!classselect) {
       setSelectedDataPoints([...selectedDataPoints, arg._id]);
-      arg.selected = true;
+      e.selected = true;
     } else {
       setSelectedDataPoints(selectedDataPoints.filter(item => item !== arg._id));
-      arg.selected = false;
+      e.selected = false;
     }
 
   
@@ -56,21 +56,10 @@ const DataPoint = ({ data, index, arr, selected, handleClicksTab, alreadySelecte
     // setclassselect(!classselect);
     // // Check the value of classselect
 
-    // if (!classselect && !arg.selected) {
-    //   setSelectedDataPoints([...selectedDataPoints, arg._id]);
-    // } else if (classselect && arg.selected) {
-    //   setSelectedDataPoints([...selectedDataPoints, arg._id]);
-    // } else {
-    //   setSelectedDataPoints(selectedDataPoints.filter(item => item !== arg._id));
-    // }
-
-    // console.log(arg.selected)
-    // arg.selected = !arg.selected;
-    // console.log(arg.selected)
-    // setName(arg);
-
-    // // Toggle the value of classselect
-    // setdefaultclass(true);
+    e.selected = !e.selected;
+  
+    // Toggle the value of classselect
+    setdefaultclass(true);
   };
 
   useEffect(() => {

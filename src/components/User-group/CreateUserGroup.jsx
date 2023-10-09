@@ -12,7 +12,7 @@ import { createUserGroup, getUserGroups } from "../../redux/slices/UserGroups/Us
 import AvailableDatapoints from "../../pages/availableDatapoints/AvailableDatapoints";
 import { getAllUsers } from "../../redux/slices/createUserSlice";
 const CreateUserGroup = () => {
-  const { mode } = useContext(Context);
+  const { mode, selectedUsers } = useContext(Context);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ const CreateUserGroup = () => {
   useEffect(() => {
     dispatch(getAllUsers());
     dispatch(getUserGroups());
-  }, [])
+  }, []) 
   
   useEffect(() => {
     if (userGroups.length > 0) {
@@ -53,7 +53,7 @@ const CreateUserGroup = () => {
 
 const handleSubmit = async (e) => {
   e.preventDefault();
-  dispatch(createUserGroup(userGroup));
+  dispatch(createUserGroup({userGroup, selectedUsers}));
   setUserGroup({
     GroupName: "",
     ApprovingOfficer: "",
@@ -169,12 +169,16 @@ const onChange = (e) => {
             </div>
           </main>
           <main>
-            <AvailableDatapoints
-              title={"Add Users"}
-              UserGroup={true}
-              data={users.length > 0 ? users : []}
-              totalLength={users.length > 0 ? users.length : 0}
-            />
+            {users.length > 0 ? 
+              <AvailableDatapoints
+                title={"Add Users"}
+                totalLength={users.length > 0 ? users.length : 0}
+                data={users.length > 0 ? users : []}
+                isUserGroup={true}
+                isDataPoint={false}
+                selected={true}
+              />
+            : null}
           </main>
         </form>
       </section>

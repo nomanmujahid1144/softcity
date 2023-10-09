@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "./select-from-labled-data-col.css";
 import Context from "../../../../Context/DashboardContext";
 import { useState } from "react";
@@ -11,7 +11,23 @@ const Select_from_labeled_data_col = () => {
     addfield,
     selectLabelData,
     setselectLabelData,
+    Labels,
+    setLabels,
+    Data,
+    setData
   } = useContext(Context);
+
+  const handleLabels = function (e) {
+    if (!Labels.includes(e.target.value)){
+      setLabels([ ...Labels, e.target.value]);
+    }
+  };
+
+  const handleColumns = function (e) {
+    if (!Data.includes(e.target.value)){
+      setData([ ...Data, e.target.value]);
+    }
+  };
 
   return (
     <div>
@@ -39,7 +55,7 @@ const Select_from_labeled_data_col = () => {
                   {StepperStep == 4 && (
                     <div className="form-inp">
                       <input
-                        class="form-check-input chart-form-check-input"
+                        class="form-check-input"
                         type="radio"
                         name="flexRadioDefault"
                         id="flexRadioDefault2"
@@ -47,31 +63,44 @@ const Select_from_labeled_data_col = () => {
                       />
                     </div>
                   )}
-
-                  <div style={{ marginBottom: "10px" }}>
-                    <select
-                      for="flexRadioDefault2"
-                      class="form-select select-label"
-                      aria-label="Default select example"
-                    >
-                      <option selected>{item.title}</option>
-                    </select>
-                  </div>
-                  <div>
-                    <select
-                      for="flexRadioDefault2"
-                      class="form-select select-label"
-                      aria-label="Default select example"
-                    >
-                      <option selected>{item.title2}</option>
-                    </select>
-                  </div>
+                  {item.labels && item.labels.length > 0 && (
+                    <div style={{ marginBottom: "10px" }}>
+                      <select
+                        onChange={handleLabels}
+                        for="flexRadioDefault2"
+                        class="form-select select-label"
+                        aria-label="Default select example"
+                      >
+                        <option selected disabled>Select a Label</option>
+                        {item.labels?.map((elem, ind) => (
+                          <option>{elem}</option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+                  {item.columns && item.columns.length > 0 && (
+                    <div style={{ marginBottom: "10px" }}>
+                      <select
+                        onChange={handleColumns}
+                        for="flexRadioDefault2"
+                        class="form-select select-label"
+                        aria-label="Default select example"
+                      >
+                        <option selected disabled>Select a Column</option>
+                        {item.columns?.map((elem, ind) => (
+                          <option>{elem}</option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
                 </div>
               </div>
 
-              <div style={{ marginBottom: "10px" }}>
-                <hr class="select-hr" />
-              </div>
+              {item.labels && item.labels.length > 0 && (
+                <div style={{ marginBottom: "10px" }}>
+                  <hr class="select-hr" />
+                </div>
+              )}
             </>
           );
         })}

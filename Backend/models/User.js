@@ -32,12 +32,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
-    role: {
+    administrativeRole: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'AdminRoles',
-        default: ''
+        ref: 'AdminRoles'
     },
-    userGroup: [{
+    userGroups: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'UserGroup'
     }],
@@ -45,9 +44,21 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please provide password"]
     },
+    role: {
+        type: String,
+        default:''
+    },
     profilePhoto:{
         type:String,
         default:''
+    },
+    createdAt: {
+        type: Date,
+        default: new Date()
+    },
+    lastUpdated: {
+        type: Date,
+        default: new Date()
     }
 })
 

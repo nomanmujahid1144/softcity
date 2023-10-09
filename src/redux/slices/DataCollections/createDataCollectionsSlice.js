@@ -147,12 +147,12 @@ const createDataCollectionsSlice = createSlice({
     })
     .addCase(createDataCollections.rejected, (state, action) => {
       state.loading = false;
-      state.collectionTemplates = [];
+      state.collectionTemplate = {};
       state.error = action.payload;
     })
     .addCase(createDataCollections.fulfilled, (state, action) => {
       state.loading = false;
-      state.collectionTemplates = action.payload;
+      state.collectionTemplate = action.payload;
       state.error = "";
     })
       

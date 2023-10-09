@@ -11,11 +11,12 @@ const LOGIN = () => {
     <>
       <Routes>
         <Route exact path="/" element={<SignIn />} />
+        <Route path="/admin" element={<SignIn />} />
         <Route path="/">
-          <Route path="/accounts/create" element={<CreateUser />} />
+          {/* <Route path="/accounts/create" element={<CreateUser />} /> */}
           <Route path="/accounts/reset-password" element={<ResetPassword />} />
-          <Route path="/accounts/OTP" element={<OTPinput />} />
-          <Route path="/accounts/login/profile" element={<CompanySelect />} />
+          {/* <Route path="/accounts/OTP" element={<OTPinput />} />
+          <Route path="/accounts/login/profile" element={<CompanySelect />} /> */}
         </Route>
       </Routes>
     </>

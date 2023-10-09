@@ -37,7 +37,7 @@ function AdminDoughnutChart({
   create,
   chartId = 7,
 }) {
-  const { showThreeColumn, showFourColumn, mode } = useContext(Context);
+  const { showThreeColumn, showFourColumn, mode, Labels, Data } = useContext(Context);
   const [checkChart, setCheckChart] = useState(false);
 
   //**for going forward in time in graph */
@@ -53,11 +53,11 @@ function AdminDoughnutChart({
   //** necesasry for add button */
   //
   const data = {
-    labels: chartdata.Labels,
+    labels: Labels.length > 0 ? Labels :chartdata.Labels,
     datasets: [
       {
         label: "Dataset 1",
-        data: chartdata.Data,
+        data: Data.length ? Data: chartdata.Data,
         backgroundColor: [
           "rgba(255, 99, 132, 0.6)",
           "rgba(255, 159,100, 0.6)",
