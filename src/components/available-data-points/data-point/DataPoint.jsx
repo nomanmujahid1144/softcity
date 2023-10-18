@@ -34,22 +34,6 @@ const DataPoint = ({ data, index, arr, selected, handleClicksTab, alreadySelecte
   const [tooltip, settooltip] = useState()
   // for changing datapoint color on selecttion
   const first = useRef()
-  
-  const onclick = function (e, arg) {
-    setclassselect(!classselect);
-    // Check the value of classselect
-    if (!classselect) {
-      setSelectedDataPoints([...selectedDataPoints, arg._id]);
-      e.selected = true;
-    } else {
-      setSelectedDataPoints(selectedDataPoints.filter(item => item !== arg._id));
-      e.selected = false;
-    }
-
-  
-    // Toggle the value of classselect
-    setdefaultclass(true);
-  };
 
   const handleOnClick = function (e, arg) {
     handleClicksTab(e, arg)

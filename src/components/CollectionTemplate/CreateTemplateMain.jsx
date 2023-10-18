@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { createDataCollections } from './../../redux/slices/DataCollections/createDataCollectionsSlice'
 import { getDataPoints } from '../../redux/slices/createDataPointsSlice'
 import { useNavigate } from 'react-router-dom'
+import { useAlert } from 'react-alert'
 
 const CreateTemplateMain = () => {
   const {
@@ -23,6 +24,7 @@ const CreateTemplateMain = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const alert = useAlert();
 
   const { collectionTemplate } = useSelector(
     (state) => state.createDataCollections
@@ -30,8 +32,15 @@ const CreateTemplateMain = () => {
 
   const { register, handleSubmit, reset } = useForm()
   const onSubmit = (data) => {
-    assignCollectionTemplate(data);
-    // navigate(`/admin/reorder-collection-elements/${}`)
+    try {
+      assignCollectionTemplate(data);
+      alert.success('The data Collection created successfully');
+      navigate('/admin/collection-templates')
+      // setTimeout(() => {
+      // }, 2000)
+    } catch {
+      alert.error('Error');
+    }
 
     if (data) {
       // selectedDataPoints
@@ -40,15 +49,12 @@ const CreateTemplateMain = () => {
       reset()
     }
 
-    setTimeout(() => {
-      setSelectedDataPoints([])
-    }, 2000)
+
     
   }
   useEffect(() => {
     console.log(collectionTemplate, 'collectionTemplate')
   }, [onSubmit])
-
 
   const { dataPoints, loading } = useSelector((state) => state.createDataPoints)
 

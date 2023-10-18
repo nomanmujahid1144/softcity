@@ -92,7 +92,10 @@ function AppRoutes() {
         <Route path="admin/all-available-elements" element={<All_Available_Elements />} />
         <Route path="admin/all-dashboards" element={<All_Dashboard />} />
         <Route path="admin/createdashboard" element={<CreateDashboard />} />
+
+        {/* COMPANY DETAILS */}
         <Route path="admin/company/createCompany" element={<CreateCompany />} />
+        <Route path="admin/updateCompany/:id" element={<CreateCompany />} />
         <Route path="admin/company/manage" element={<ManageCompanyProfile />} />
         <Route path="admin/company/Company-Users" element={<AllAdminTable />} />
         <Route path="admin/company/all-companies" element={<AllCompaniesTable />} />

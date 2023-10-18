@@ -1,53 +1,49 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { AUTH_TOKEN, BASE_URL } from "../../constants/reduxContants";
 import axios from "axios";
+import { axiosInstance } from "../../../constants/axiosInstance";
 const initialState = {
   msg: "",
-  collectionTemplates: [],
-  collectionTemplate: {},
+  companies: [],
+  company: {},
   token: "",
   loading: false,
   error: "",
 };
 
-export const createDataCollections = createAsyncThunk(
-  "createDataCollections",
-  async (data) => {
+export const createCompany = createAsyncThunk("createCompany", async ({data, formData}) => {
     console.log("entered in create data collections action", data);
-
     // const { selectedDataPoints, TemplateName, TemplateDescription } = data;
+  
+  try {
+    console.log(formData, 'formData')
 
-    try {
-      const res = await fetch(
-        `${BASE_URL}/api/v1/admin/datatemplate/createdatatemplate`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "auth-token": `${AUTH_TOKEN}`,
-          },
-          body: JSON.stringify(data)
-          // body:
-        }
-      );
+    const dataQueryString = new URLSearchParams(data).toString();
+    
+    const res = await fetch(`${BASE_URL}/api/v1/company/createcompany?${dataQueryString}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "auth-token": AUTH_TOKEN
+      },
+      body: formData  // Include the formData as the request body
+    });
+    
+    return await res.json();
 
-      return await res.json();
     } catch (error) {
       console.log("error in createData collection");
     }
   }
 );
 
-export const updateDataCollections = createAsyncThunk(
-  "updateDataCollections",
-  async ({data, updateId}) => {
+export const updateCompany = createAsyncThunk( "updateCompany", async ({data, updateId}) => {
     console.log("entered in create data collections action", data);
-
     // const { selectedDataPoints, TemplateName, TemplateDescription } = data;
 
     try {
       const res = await fetch(
-        `${BASE_URL}/api/v1/admin/datatemplate/updatedatatemplate/${updateId}`,
+        `${BASE_URL}/api/v1/company/updatecompany/${updateId}`,
         {
           method: "PATCH",
           headers: {
@@ -66,14 +62,14 @@ export const updateDataCollections = createAsyncThunk(
   }
 );
 
-export const getDataCollections = createAsyncThunk(
-  "getDataCollections",
+export const getCompanies = createAsyncThunk(
+  "getCompanies",
   async () => {
     console.log("entered in get data collections action");
 
     try {
       const response = await axios.get(
-        `${BASE_URL}/api/v1/admin/datatemplate/getalldatatemplates`,
+        `${BASE_URL}/api/v1/company/getallcompanies`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -88,14 +84,14 @@ export const getDataCollections = createAsyncThunk(
     }
   }
 );
-export const getDataCollection = createAsyncThunk(
-  "getDataCollection",
+export const getCompany = createAsyncThunk(
+  "getCompany",
   async ({id}) => {
     console.log("entered in get data collections action");
 
     try {
       const response = await axios.get(
-        `${BASE_URL}/api/v1/admin/datatemplate/getdatatemplate/${id}`,
+        `${BASE_URL}/api/v1/company/getcompany/${id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -111,12 +107,12 @@ export const getDataCollection = createAsyncThunk(
   }
 );
 
-export const deleteDataCollection = createAsyncThunk( "deleteDataCollection", async (ids) => {
+export const deleteCompanies = createAsyncThunk( "deleteCompanies", async (ids) => {
     console.log("entered in Delete data collections action");
 
     try {
       const response = await axios.delete(
-        `${BASE_URL}/api/v1/admin/datatemplate/deletedatatemplates`,
+        `${BASE_URL}/api/v1/company/deletecompanies`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -135,86 +131,86 @@ export const deleteDataCollection = createAsyncThunk( "deleteDataCollection", as
   }
 );
 
-const createDataCollectionsSlice = createSlice({
-  name: "DataCollections",
+const createCompanySlice = createSlice({
+  name: "Company",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
 
     builder
-    .addCase(createDataCollections.pending, (state) => {
-      state.loading = true;
-    })
-    .addCase(createDataCollections.rejected, (state, action) => {
+    // .addCase(createCompany.pending, (state) => {
+    //   state.loading = true;
+    // })
+    // .addCase(createCompany.rejected, (state, action) => {
+    //   state.loading = false;
+    //   state.company = {};
+    //   state.error = action.payload;
+    // })
+    .addCase(createCompany.fulfilled, (state, action) => {
       state.loading = false;
-      state.collectionTemplate = {};
-      state.error = action.payload;
-    })
-    .addCase(createDataCollections.fulfilled, (state, action) => {
-      state.loading = false;
-      state.collectionTemplate = action.payload;
+      state.company = action.payload;
       state.error = "";
     })
       
-    .addCase(updateDataCollections.pending, (state) => {
+    .addCase(updateCompany.pending, (state) => {
       state.loading = true;
     })
-    .addCase(updateDataCollections.rejected, (state, action) => {
+    .addCase(updateCompany.rejected, (state, action) => {
       state.loading = false;
-      state.collectionTemplates = [];
+      state.companies = [];
       state.error = action.payload;
     })
-    .addCase(updateDataCollections.fulfilled, (state, action) => {
+    .addCase(updateCompany.fulfilled, (state, action) => {
       state.loading = false;
-      state.collectionTemplates = action.payload;
+      state.companies = action.payload;
       state.error = "";
     })
       
-    .addCase(getDataCollections.pending, (state) => {
+    .addCase(getCompanies.pending, (state) => {
       state.loading = true;
     })
-    .addCase(getDataCollections.rejected, (state, action) => {
+    .addCase(getCompanies.rejected, (state, action) => {
       state.loading = false;
-      state.collectionTemplates = [];
+      state.companies = [];
       state.error = action.payload;
     })
-    .addCase(getDataCollections.fulfilled, (state, action) => {
+    .addCase(getCompanies.fulfilled, (state, action) => {
       state.loading = false;
-      state.collectionTemplates = action.payload;
-      state.error = "";
-    })
-      
-      
-    .addCase(getDataCollection.pending, (state) => {
-      state.loading = true;
-    })
-    .addCase(getDataCollection.rejected, (state, action) => {
-      state.loading = false;
-      state.collectionTemplate = {};
-      state.error = action.payload;
-    })
-    .addCase(getDataCollection.fulfilled, (state, action) => {
-      state.loading = false;
-      state.collectionTemplate = action.payload;
+      state.companies = action.payload;
       state.error = "";
     })
       
       
-    .addCase(deleteDataCollection.pending, (state) => {
+    .addCase(getCompany.pending, (state) => {
       state.loading = true;
     })
-    .addCase(deleteDataCollection.rejected, (state, action) => {
+    .addCase(getCompany.rejected, (state, action) => {
       state.loading = false;
-      state.collectionTemplates = [];
+      state.company = {};
       state.error = action.payload;
     })
-    .addCase(deleteDataCollection.fulfilled, (state, action) => {
+    .addCase(getCompany.fulfilled, (state, action) => {
       state.loading = false;
-      state.collectionTemplates = action.payload;
+      state.company = action.payload;
+      state.error = "";
+    })
+      
+      
+    .addCase(deleteCompanies.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(deleteCompanies.rejected, (state, action) => {
+      state.loading = false;
+      state.companies = [];
+      state.error = action.payload;
+    })
+    .addCase(deleteCompanies.fulfilled, (state, action) => {
+      state.loading = false;
+      state.companies = action.payload;
       state.error = "";
     });
     
   },
 });
 
-export default createDataCollectionsSlice.reducer;
+export default createCompanySlice.reducer;

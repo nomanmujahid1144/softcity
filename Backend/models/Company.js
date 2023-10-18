@@ -1,0 +1,70 @@
+const mongoose = require('mongoose');
+const { Schema } = mongoose
+
+const companySchema = new Schema({
+    companyName: {
+        type: String,
+        default: ''       
+    },
+    companyLogo: {
+        type: String,
+        default: ''       
+    },
+    companyLocation: {
+        type: String,
+        default: ''       
+    },
+    companyPhoneNumber: {
+        type: String,
+        default: ''       
+    },
+    companyEmail: {
+        type: String,
+        required: [true, 'Please add email'],
+        match: [
+            /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
+            'Please add a valid email'
+        ],
+        unique: [true, "This email already exists"],
+        lowercase: true,
+        trim: true     
+    },
+    companyAbout: {
+        type: String,
+        default: ''       
+    },
+    companySize: {
+        type: String,
+        default: ''       
+    },
+    companyEstimatedRevenue: {
+        type: String,
+        default: ''       
+    },
+
+
+    companyContactPerson:  {
+        type: String,
+        default: ''       
+    },
+    companyContactPersonEmail:  {
+        type: String,
+        default: ''       
+    },
+    companyContactPersonPhoneNumber: {
+        type: String,
+        default: ''       
+    },
+
+
+    createdAt: {
+        type: Date,
+        default: new Date()
+    },
+    lastUpdated: {
+        type: Date,
+        default: new Date()
+    }
+});
+
+module.exports = mongoose.model('Company', companySchema)

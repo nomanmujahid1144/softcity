@@ -25,6 +25,7 @@ const DashboardState = (props) => {
   const [StepperStep, setStepperStep] = useState(1);
   const [defaultclass, setdefaultclass] = useState("data__point-select");
   const [createcollectiontemplate, setcreatecollectiontemplate] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
   // favovrite
   const [favArray, setFavArray] = useState([]);
   const [favMenuBtn, setFavMenuBtn] = useState(false);
@@ -95,6 +96,7 @@ const DashboardState = (props) => {
       selectedDataPoints: selectedDataPoints,
     };
     dispatch(createDataCollections(formData));
+    setSelectedDataPoints([])
     // setpoint([])
   };
   const assign = function () {
@@ -177,6 +179,8 @@ const DashboardState = (props) => {
           setSelectedDataPoints,
           selectedDataPointsObj,
           setSelectedDataPointsObj,
+          setSelectedUsers,
+          selectedUsers,
           Labels,
           setLabels,
           Data,

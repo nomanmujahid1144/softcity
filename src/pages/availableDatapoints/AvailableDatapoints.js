@@ -22,6 +22,7 @@ function AvailableDatapoints({ title, isUserGroup, isDataPoint, totalLength, dat
     setSelectedUsers([]);
   }, [])
 
+
   useEffect(() => {
     if (UpdateSelectedDataPoints?.length > 0) {
       const updatedDataList = data.map((data) => {

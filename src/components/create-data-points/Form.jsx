@@ -29,8 +29,6 @@ const Form = ({submitted}) => {
   const [inputFields, setInputFields] = useState([
     { dataPointName: "", description: "", checkbox: "" },
   ]);
-  const [descheck, setdescheck] = useState(false);
-  const [refs, setrefs] = useState("hidden");
   const [show, setShow] = useState(false);
   const [showCols, setShowCols] = useState(false);
   const [ischecked, setischecked] = useState(false);
