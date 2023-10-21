@@ -7,6 +7,10 @@ import Stepper from "../../All-user-groups/Stepper";
 import Context from "../../../Context/DashboardContext";
 import PaginationRounded from "../../pagination/PaginationMui";
 import TitleHeader from "../../collection-templates/TitleHeader";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteCompanies, getCompanies } from "../../../redux/slices/Company/createCompanySlice";
+import { useNavigate } from "react-router-dom";
+import DeleteAlert from "../../alertProceed/DeleteAlert";
 const AllCompaniesTable = () => {
   const { createcollectiontemplate } = useContext(Context);
 
@@ -71,11 +75,52 @@ const AllCompaniesTable = () => {
   //   settabledata(createcollectiontemplate);
   // }, []);
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  
+  const [show, setShow] = useState(false);
+  const [headingMessage, setHeadingMessage] = useState('');
+  const [buttonLabel, setButtonLabel] = useState('');
+  const [triggerFunction, setTriggerFunction] = useState('');
+  const [deleteId, setDeleteId] = useState(null);
+  
+  const { companies, loading } = useSelector((state) => state.company);
+
+  useEffect(() => {
+    dispatch(getCompanies());
+  }, []);
+
+
+  const handleDeleteClick = (id, Message, label, functionTrigger) => {
+    setDeleteId(id);
+    setHeadingMessage(Message);
+    setButtonLabel(label);
+    setTriggerFunction(functionTrigger);
+    setShow(true);
+  }
+
+  const deleteCompany = (id) => {
+    let ids = [];
+    ids.push(id);
+    dispatch(deleteCompanies(ids));
+    alert.success('Successfully Delete Company');
+    navigate(`/admin/company/all-companies`);
+    // dispatch(getDataCollections());
+    setShow(false);
+  }
+
   return (
     <>
+      <DeleteAlert
+        show={show} setShow={setShow}
+        heading={headingMessage}
+        deleteButton={buttonLabel}
+        id={deleteId}
+        getDeleteId={deleteCompany}
+      />
       <div className="div">
         <div>
-          <TitleHeader title={"All Comapny"} subTitle={390} assignBtn={true} />
+          <TitleHeader title={"All Comapny"} subTitle={companies?.length > 0 ? companies?.length : 0 } assignBtn={true} />
         </div>
       </div>
       <div className="my-3">
@@ -99,66 +144,72 @@ const AllCompaniesTable = () => {
             </tr>
           </thead>
           <tbody className="tbody">
-            {tabledata?.map((res, ind) => {
-              return (
-                <>
-                  <tr className="first-tr" key={ind}>
-                    <td>{ind + 1}</td>
-                    <td>{res.companyName}</td>
-                    <td>{res.contactPerson}</td>
-                    <td>{res.phone}</td>
-                    <td>{res.email}</td>
-                    <td>{res.totalUsers}</td>
-                    <td>{res.CreateTimestamp}</td>
-                    <td>{res.LastUpdated}</td>
-                    <td>{res.CreatedBy}</td>
-                    <td>
-                      <div class="dropdown dropdown-ul">
-                        <button
-                          class="btn btn-icon"
-                          type="button"
-                          id="dropdownMenu2"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          <BsThreeDots color="#8C8C8C" size={22} />
-                        </button>
-                        <ul
-                          style={{ width: "13rem" }}
-                          class="dropdown-menu ul-dropdown"
-                          aria-labelledby="dropdownMenu2"
-                        >
-                          <li>
+            {companies?.length > 0 ? 
+              <>
+                {companies?.map((res, ind) => {
+                  return (
+                    <>
+                      <tr className="first-tr" key={ind}>
+                        <td>{ind + 1}</td>
+                        <td>{res.companyName}</td>
+                        <td>{res.companyContactPerson}</td>
+                        <td>{res.companyContactPersonPhoneNumber}</td>
+                        <td>{res.companyContactPersonEmail}</td>
+                        <td>{res.totalUsers}</td>
+                        <td>{res.createdAt?.split('T')[0]}</td>
+                        <td>{res.lastUpdated?.split('T')[0]}</td>
+                        <td>Admin</td>
+                        <td>
+                          <div class="dropdown dropdown-ul">
                             <button
-                              class="dropdown-item dropdown-menu-buttons py-2"
+                              class="btn btn-icon"
                               type="button"
+                              id="dropdownMenu2"
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false"
                             >
-                              Launch Company Tenant
+                              <BsThreeDots color="#8C8C8C" size={22} />
                             </button>
-                          </li>
-                          <li>
-                            <button
-                              class="dropdown-item dropdown-menu-buttons py-2"
-                              type="button"
+                            <ul
+                              style={{ width: "13rem" }}
+                              class="dropdown-menu ul-dropdown"
+                              aria-labelledby="dropdownMenu2"
                             >
-                              Manage Company Profile
-                            </button>
-                          </li>
-                          <li>
-                            <button
-                              class="dropdown-item dropdown-menu-buttons py-2"
-                              type="button"
-                            >
-                              Suspend Company
-                            </button>
-                          </li>
-                        </ul>
-                      </div>
-                    </td>
-                  </tr>
-                </>
-              );
-            })}
+                              <li>
+                                <button
+                                  class="dropdown-item dropdown-menu-buttons py-2"
+                                  type="button"
+                                >
+                                  Launch Company Tenant
+                                </button>
+                              </li>
+                              <li>
+                                <button
+                                  class="dropdown-item dropdown-menu-buttons py-2"
+                                  type="button"
+                                  onClick={(e) => navigate(`/admin/updateCompany/${res._id}`)}
+                                >
+                                  Manage Company Profile
+                                </button>
+                              </li>
+                              <li>
+                                <button
+                                  class="dropdown-item dropdown-menu-buttons py-2"
+                                  type="button"
+                                  onClick={() => handleDeleteClick(res._id, "Do you want to Suspend this Company", "Delete", "User")}
+                                >
+                                  Suspend Company
+                                </button>
+                              </li>
+                            </ul>
+                          </div>
+                        </td>
+                      </tr>
+                    </>
+                  );
+                })}
+              </>
+            :null}
           </tbody>
         </Table>
       </div>

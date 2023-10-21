@@ -11,6 +11,7 @@ import { createDataCollections, getDataCollection, updateDataCollections } from 
 import { getDataPoints } from '../../redux/slices/createDataPointsSlice'
 import { useNavigate, useParams } from 'react-router-dom'
 import InputField from '../fields/InputField'
+import { useAlert } from 'react-alert'
 
 const UpdateTemplateMain = () => {
   const {
@@ -31,6 +32,7 @@ const UpdateTemplateMain = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const alert = useAlert();
   const params = useParams();
 
   const collectionId = params.id;
@@ -44,9 +46,9 @@ const UpdateTemplateMain = () => {
       description: collectionTemplateInputField.TemplateDescription,
       selectedDataPoints: selectedDataPoints,
     }
-
-    dispatch(updateDataCollections({data : data, updateId: collectionId}))
-    // navigate('/admin/collection-templates');
+    dispatch(updateDataCollections({ data: data, updateId: collectionId }));
+    alert.success('Successfully Update Data Collection Template')
+    navigate('/admin/collection-templates');
     // assignCollectionTemplate(data)
 
     // if (data) {
@@ -168,6 +170,8 @@ const UpdateTemplateMain = () => {
       </form>
       <div className="available-datapoints">
         <AvailableDatapoints
+          isDataPoint={true}
+          isUserGroup={false}
           title={'Available Data Point'}
           totalLength={dataPoints.length > 0 ? dataPoints.length : 0}
           data={dataPoints.length > 0 ? dataPoints : []}

@@ -5,6 +5,7 @@ import createDataCollectionsSlice from "../slices/DataCollections/createDataColl
 import userGroups from "../slices/UserGroups/UserGroups";
 import roleManagement from "../slices/RolesManagement/roleManagement";
 import auth from "../slices/authSlice";
+import createCompanySlice from "../slices/Company/createCompanySlice";
 
 const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
     createDataCollections: createDataCollectionsSlice,
     userGroups: userGroups,
     roleManagement: roleManagement,
+    company: createCompanySlice
   },
 });
 

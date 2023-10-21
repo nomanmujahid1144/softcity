@@ -15,7 +15,8 @@ import {
 } from '../../redux/slices/createDataPointsSlice'
 import DescriptionAlert from '../alertProceed/DescriptionAlert'
 import { deleteUserGroup, getUserGroups } from '../../redux/slices/UserGroups/UserGroups'
-import { deleteUser } from '../../redux/slices/createUserSlice'
+import { deleteUser } from '../../redux/slices/createUserSlice';
+import { useAlert } from 'react-alert'
 const Table_Grid = ({
   allUserGroups,
   users,
@@ -38,13 +39,14 @@ const Table_Grid = ({
   const [stepper, setStepper] = useState();
   const [show, setShow] = useState(false);
   const [showDescription, setDescriptionShow] = useState(false);
-  const [deleteId, setDeleteId] = useState(null)
-  const [headingMessage, setHeadingMessage] = useState('')
-  const [buttonLabel, setButtonLabel] = useState('')
-  const [description, setDescription] = useState('')
-  const [triggerFunction, setTriggerFunction] = useState('')
+  const [deleteId, setDeleteId] = useState(null);
+  const [headingMessage, setHeadingMessage] = useState('');
+  const [buttonLabel, setButtonLabel] = useState('');
+  const [description, setDescription] = useState('');
+  const [triggerFunction, setTriggerFunction] = useState('');
 
   const dispatch = useDispatch();
+  const alert = useAlert();
   const handleClick = (id) => {
     setStepper(id)
     console.log('key', id)
@@ -86,7 +88,8 @@ const Table_Grid = ({
     ids.push(id);
     dispatch(deleteDataCollection(ids));
     handleRefresh();
-    url(`/admin/collection-templates`)
+    alert.success('Successfully Delete data collection');
+    url(`/admin/collection-templates`);
     // dispatch(getDataCollections());
     setShow(false);
   }
@@ -97,6 +100,7 @@ const Table_Grid = ({
     ids.push(id);
     dispatch(deleteUserGroup(ids));
     handleRefresh();
+    alert.success('Successfully Delete user group');
     url(`/admin/all-user-groups`)
     // dispatch(getDataCollections());
     setShow(false);
@@ -109,6 +113,7 @@ const Table_Grid = ({
     dispatch(deleteUser(ids));
     handleRefresh();
     setShow(false);
+    alert.success('Successfully Delete user');
     url(`/admin/all-users`)
   }
 
@@ -143,7 +148,9 @@ const Table_Grid = ({
             <th>{heading3 ?? 'Total Data Points'}</th>
             <th>{heading4 ?? 'Description'}</th>
             <th>{heading5 ?? 'Create Timestamp'}</th>
+            {!dataCollectionTemplate ? 
             <th>{heading10 ?? ''}</th>
+            :null}
             <th>{heading6 ?? 'Last Updated'}</th>
             <th>{heading7 ?? 'Created By'}</th>
             <th>{heading8 ?? 'Data Submissions'}</th>
@@ -187,14 +194,8 @@ const Table_Grid = ({
                       <td>{res?.collectionTemplateName}</td>
                       <td>{res?.selectedDataPoints?.length }</td>
                       <td className='cursor-pointer' onClick={() => handleSeeDescription(res.description)}>Click to View</td>
-                      {/* <td>{res.createdAt.split('T')[0]}</td>
+                      <td>{res.createdAt.split('T')[0]}</td>
                       <td>{res.lastUpdated.split('T')[0]}</td>
-                      <td>{res.createdBy}</td>
-                      <td>{res.dataHits}</td> */}
-
-                      {/* hard coded waiting for API correction*/}
-                      <td>{new Date().toLocaleDateString('en-GB')}</td>
-                      <td>15/03/2023</td>
                       <td>Admin</td>
                       <td>340</td>
                     </>

@@ -12,6 +12,8 @@ const CreateCollectionTemplate = ({
   functions,
   viewallusers,
   viewallTemplates,
+  createNewCompany,
+  viewAllCompanies,
 }) => {
   const { mode } = useContext(Context);
 
@@ -58,7 +60,7 @@ const CreateCollectionTemplate = ({
                     </button>
                 </div>
               )}
-              {!update && !viewallusers && (
+              {!update && !viewallusers && !createNewCompany && (
                 <button className="btn btn-dark">
                   View All <BsArrowRight />
                 </button>
@@ -66,6 +68,16 @@ const CreateCollectionTemplate = ({
               {viewallusers && (
                 <button className="btn bg-blue text-white">
                   View all Users <BsArrowRight />
+                </button>
+              )}
+              {createNewCompany && (
+                <button type="submit" className="btn btn-primary btn-darkblue">
+                  Create <BsArrowRight />
+                </button>
+              )}
+              {viewAllCompanies && (
+                <button className="btn btn-primary btn-darkblue">
+                  View All Companies <BsArrowRight />
                 </button>
               )}
             </div>
