@@ -37,12 +37,12 @@ const Table_Grid = ({
 }) => {
   const url = useNavigate()
   const [stepper, setStepper] = useState();
-  const [show, setShow] = useState(false);
   const [showDescription, setDescriptionShow] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
+  const [description, setDescription] = useState('');
+  const [show, setShow] = useState(false);
   const [headingMessage, setHeadingMessage] = useState('');
   const [buttonLabel, setButtonLabel] = useState('');
-  const [description, setDescription] = useState('');
   const [triggerFunction, setTriggerFunction] = useState('');
 
   const dispatch = useDispatch();
