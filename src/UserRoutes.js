@@ -9,7 +9,7 @@ function UserRoutes() {
     <>
       <Routes>
         {/* USER ROUTES */}
-        <Route path="*" element={<Navigate to="/error/admin" replace />} />
+        <Route path="*" element={<Navigate to="/error/user" replace />} />
         <Route path="/error/:name" element={<Error />} />
         <Route path="/" element={<Dashboard />} />
         <Route path="downloads" element={<AlertEditDataPoint />} />

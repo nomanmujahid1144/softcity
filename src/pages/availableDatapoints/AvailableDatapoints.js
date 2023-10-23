@@ -11,7 +11,7 @@ import UserPoint from "../../components/available-data-points/data-point/UserPoi
 
 function AvailableDatapoints({ title, isUserGroup, isDataPoint, totalLength, data, selected, UpdateSelectedDataPoints }) {
   const finalData = useContext(Context);
-  const { mode, selectedDataPoints, setSelectedDataPoints, setSelectedUsers} = finalData;
+  const { mode, selectedDataPoints, setSelectedDataPoints} = finalData;
   
   const [items , setItems] = useState([])
   const [alreadySelectedList, setAlreadySelectedList] = useState([]);
@@ -19,7 +19,6 @@ function AvailableDatapoints({ title, isUserGroup, isDataPoint, totalLength, dat
   useEffect(() => {
     setItems(data);
     setSelectedDataPoints([]);
-    setSelectedUsers([]);
   }, [])
 
 
@@ -82,12 +81,12 @@ function AvailableDatapoints({ title, isUserGroup, isDataPoint, totalLength, dat
 
         if (!updatedItem.selected) {
           // Remove the ID if 'selected' is true
-          setSelectedUsers((prevDataPoints) =>
+          setSelectedDataPoints((prevDataPoints) =>
             prevDataPoints.filter((id) => id !== arg._id)
           );
         } else {
           // Add the ID if 'selected' is false
-          setSelectedUsers((prevDataPoints) => [...prevDataPoints, arg._id]);
+          setSelectedDataPoints((prevDataPoints) => [...prevDataPoints, arg._id]);
         }
 
         return updatedItem;

@@ -7,10 +7,20 @@ const Error = () => {
   const alert = useAlert();
   const params = useParams();
 
-  useEffect(() => {
+  const redirect = () => {
     alert.show(`You don't have access this Panel`);
-    navigate(-1);
-  }, []);
+    if (params.name === "admin") {
+      navigate("/admin");
+    } else {
+      navigate("/");
+    }
+  };
+
+  useEffect(() => {
+    redirect();
+  }, [params.name]);
+
+  return null; // Return null or any other component JSX here
 };
 
 export default Error;

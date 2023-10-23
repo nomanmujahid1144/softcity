@@ -47,7 +47,7 @@ function AppRoutes() {
   return (
     <>
       <Routes>
-        <Route path={"*"} element={<Navigate to="/error/user" replace />} />
+        <Route path={"*"} element={<Navigate to="/error/admin" replace />} />
         <Route path="/error/:name" element={<Error />} />
         <Route path="admin" element={<Welcome />} />
 
