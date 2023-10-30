@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 
 exports.createNewCompany = async (req, res, next) => {
     try {
-        console.log(req.body, 'req.body')
         console.log(req.query, 'req.query')
         console.log(req.files, 'req.files');
         const {
@@ -19,27 +18,45 @@ exports.createNewCompany = async (req, res, next) => {
             companyContactPersonEmail,
             companyContactPersonPhoneNumber
 
-        } = req.query;
+        } = req.query.values;
 
-        // if there are no errors, create a new CreateDataPoint and save it
-        const createCompany = new CreateCompany({
-            companyName,
-            companyLocation,
-            companyPhoneNumber,
-            companyEmail,
-            companyAbout,
-            companySize,
-            companyEstimatedRevenue,
-            
-            companyContactPerson,
-            companyContactPersonEmail,
-            companyContactPersonPhoneNumber
-        });
+        let companyInfo = await CreateCompany.findOne({ companyEmail : companyEmail });
+        console.log(companyInfo, 'companyInfo')
 
-        const savedDataPoint = await createCompany.save();
+        if (companyInfo) {
+            return res.status(409).json({
+                success: false,
+                message: "Account with this email already exixts",
+                data: null
+            })
+        } else {
 
-        // return the saved data point
-        return res.status(200).json(savedDataPoint);
+            // if there are no errors, create a new CreateDataPoint and save it
+            const createCompany = new CreateCompany({
+                companyName,
+                companyLocation,
+                companyPhoneNumber,
+                companyEmail,
+                companyAbout,
+                companySize,
+                companyEstimatedRevenue,
+                
+                companyContactPerson,
+                companyContactPersonEmail,
+                companyContactPersonPhoneNumber
+            });
+    
+            const savedDataPoint = await createCompany.save();
+    
+            // return the saved data point
+            // return res.status(200).json(savedDataPoint);
+            return res.status(200).json({
+                success: true,
+                message: "Company Created Succesfully",
+                data: savedDataPoint
+            })
+        }
+
     } catch (error) {
         console.error(error);
         return res.status(500).json({ errors: [{ msg: "Server error" }] });
@@ -49,6 +66,7 @@ exports.createNewCompany = async (req, res, next) => {
 exports.updateCompany = async (req, res, next) => {
     try {
         console.log(req.body)
+        console.log(req.params.id)
         const {
             companyName,
             companyLocation,
@@ -78,7 +96,12 @@ exports.updateCompany = async (req, res, next) => {
         })
 
         // return the saved data point
-        return res.status(200).json(savedDataPoint);
+        // return res.status(200).json(savedDataPoint);
+        return res.status(200).json({
+            success: true,
+            message: "Company Updated Succesfully",
+            data: savedDataPoint
+        })
     } catch (error) {
         console.error(error);
         return res.status(500).json({ errors: [{ msg: "Server error" }] });

@@ -22,6 +22,7 @@ const SignIn = () => {
   });
 
   const [isAdmin, setISAdmin] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // New state
 
   useEffect(() => {
     if (location.pathname === '/admin') {
@@ -31,14 +32,22 @@ const SignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(location.pathname)
-    dispatch(userLogin({data : credentials, navigate, alert, location: location.pathname}));
+    if (isAdmin) {
+      dispatch(userLogin({data : credentials, navigate, alert, location: location.pathname}));
+    } else {
+      dispatch(userLogin({data : credentials, navigate, alert, location: location.pathname}));
+    }
   };
 
   const onChange = (e) => {
     setcredentials({ ...credentials, [e.target.name]: e.target.value });
   };
   
+    // Function to toggle password visibility
+    const handlePasswordVisible = () => {
+      setShowPassword((prevShowPassword) => !prevShowPassword);
+    };
+
   return (
     <>
       <AuthBackground>
@@ -59,12 +68,14 @@ const SignIn = () => {
                     onChange={onChange}
                   />
                   <InputField
-                    extra="w-100"
-                    extraClasses="form-control border border-secondary bg-white text-secondary"
+                    extra="w-100 position-relative"
+                    extraClasses="form-control  border border-secondary bg-white text-secondary"
                     required={true}
                     placeholder="Password"
                     id="password"
-                    type="password"
+                    isVisible={true}
+                    type={showPassword ? "text" : "password"}
+                    isPasswordVisible={handlePasswordVisible}
                     value={credentials.password}
                     onChange={onChange}
                   />

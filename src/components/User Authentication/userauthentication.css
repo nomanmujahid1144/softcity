@@ -112,6 +112,9 @@
 } */
 
 
+.form__comapny-description {
+  height: 8rem;
+}
 input.form__comapny-description {
   height: 8rem;
 }

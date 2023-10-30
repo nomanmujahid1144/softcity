@@ -6,7 +6,7 @@ import { BsArrowRight } from "react-icons/bs";
 import { useContext } from "react";
 import Context from "../../Context/DashboardContext";
 
-const TitleHeader = ({ title, subTitle, assignBtn }) => {
+const TitleHeader = ({ title, subTitle, assignBtn, createBtn }) => {
   const { mode } = useContext(Context);
   return (
     <div>
@@ -34,10 +34,11 @@ const TitleHeader = ({ title, subTitle, assignBtn }) => {
           </div>
 
           <div className="btns-main">
-            <button className="btn btn-primary btn-darkblue">
-              Create <BsArrowRight />
-            </button>
-
+            {createBtn && (
+              <button className="btn btn-primary btn-darkblue">
+                Create <BsArrowRight />
+              </button>
+            )}
             {assignBtn && (
               <button className="btn btn-primary  btn-darkblue ms-3">
                 Assign <BsArrowRight />

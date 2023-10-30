@@ -9,6 +9,8 @@ import { useAlert } from 'react-alert'
 import TextAreaField from '../../fields/TextAreaField'
 import SelectionField from '../../fields/SelectField'
 import { createCompany, getCompany, updateCompany } from '../../../redux/slices/Company/createCompanySlice'
+import defaultPicture from '../../../assets/images/Default.png';
+
 const CreateCompany = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [companyLogo, setCompanyLogo] = useState(null);
@@ -48,7 +50,7 @@ const CreateCompany = () => {
   }, []);
 
   useEffect(() => {
-    if (company) {
+    if (Object.keys(params).length > 0) {
       setEditUser(true);
       setcredentials({
         companyName: company?.companyName,
@@ -63,6 +65,7 @@ const CreateCompany = () => {
         companyEstimatedRevenue: company?.companyEstimatedRevenue,
       })
     } else {
+      setEditUser(false);
       setcredentials({
         companyName: "",
         companyContactPerson: "",
@@ -87,12 +90,18 @@ const CreateCompany = () => {
     const formData = new FormData();
     formData.append('companyLogo', companyLogo);
 
-    if (!editUser) {
-      dispatch(createCompany({data: credentials, formData} ));
-      alert.success('Successfully Create Company');
+    if (editUser) {
+      dispatch(updateCompany({ data: credentials, formData, updateId: params.id, alert })).then((response) => {
+        if (response?.payload?.success) {
+          navigate('/admin/company/all-companies'); // Replace with your desired path
+        }
+      });
     } else {
-      dispatch(updateCompany({data: credentials, formData, updateId: params.id} ));
-      alert.success('Successfully Update Company');
+      dispatch(createCompany({ data: credentials, formData: companyLogo, alert })).then((response) => {
+        if (response?.payload?.success) {
+          navigate('/admin/company/all-companies'); // Replace with your desired path
+        }
+      });
     }
   };
 
@@ -104,7 +113,8 @@ const CreateCompany = () => {
     <>
       <form onSubmit={handleSubmit}>
         <CreateCollectionTemplate
-          title={'Create New Company'}
+          title={editUser ? "Update Company" : 'Create New Company'}
+          ButtonInnerText={editUser ? "Update" : 'Create'}
           viewAllCompanies={true}
           createNewCompany={true}
         />
@@ -116,13 +126,11 @@ const CreateCompany = () => {
                   width={140}
                   height={140}
                   className="object-fit-cover rounded-circle m-img"
-                  src="https://images.unsplash.com/flagged/photo-1573603867003-89f5fd7a7576?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=746&q=80"
+                  src={defaultPicture}
                   alt="Profile"
                 />
               </div>
-              <h6 className="align-self-center pt-3 text-secondary">
-                Angela Jolie
-              </h6>
+              <h6 className="align-self-center pt-3 text-secondary">Profile Picture</h6>
               <div className="px-3 d-flex flex-column  gap-2 mt-5">
                 <div class="input-group mb-3 input-group-fields">
                   <button
@@ -292,14 +300,13 @@ const CreateCompany = () => {
                 >
                   Update Company Logo
                 </label>
-                <div>
-                  {!selectedImage && (
-                    <input
-                      class="form-control form__comapny-description"
-                      type="file"
-                      onChange={handleImageChange}
-                    />
-                  )}
+                <label className='form-control form__comapny-description'>
+                  <input
+                    className="d-none form-control form__comapny-description"
+                    type="file"
+                    accept="image/svg+xml"
+                    onChange={handleImageChange}
+                  />
                   {selectedImage && (
                     <div className="form-control p-0">
                       <img
@@ -310,7 +317,7 @@ const CreateCompany = () => {
                       />
                     </div>
                   )}
-                </div>
+                </label>
               </div>
               <div className="col-lg-5 col-xl-5 col-10  mb-2 profile-input-div">
               <TextAreaField
@@ -321,6 +328,7 @@ const CreateCompany = () => {
                   placeholder="Enter About Company"
                   id="companyAbout"
                   type="text"
+                  rows={5}
                   value={credentials.companyAbout}
                   onChange={onChange}
                 />

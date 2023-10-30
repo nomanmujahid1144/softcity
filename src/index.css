@@ -281,3 +281,16 @@ button.btn-darkblue:hover {
 .w-24rem{
   width: 24rem;
 }
+
+.visible-icon{
+  height: 60px;
+  top: 30px;
+  right: 0;
+  bottom: 0;
+  width: 50px;
+  text-align: center;
+  z-index: 1;
+  color: rgba(0,0,0,.45);
+  font-size: 17px;
+  position: absolute;
+}

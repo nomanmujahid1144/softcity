@@ -5,6 +5,7 @@ function TextAreaField(props) {
     label,
     id,
     extra,
+    rows,
     extraClasses,
     style,
     placeholder,
@@ -32,6 +33,7 @@ function TextAreaField(props) {
         name={id}
         required={required}
         placeholder={placeholder}
+        rows={rows}
         value={value}
         onChange={onChange}
         defaultValue={defaultValue}
