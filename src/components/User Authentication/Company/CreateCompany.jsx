@@ -86,20 +86,17 @@ const CreateCompany = () => {
     e.preventDefault();
     console.log(credentials, 'credentials')
     console.log(companyLogo, 'companyLogo');
-    
-    const formData = new FormData();
-    formData.append('companyLogo', companyLogo);
 
     if (editUser) {
-      dispatch(updateCompany({ data: credentials, formData, updateId: params.id, alert })).then((response) => {
+      dispatch(updateCompany({ data: credentials, companyLogo: companyLogo, updateId: params.id, alert })).then((response) => {
         if (response?.payload?.success) {
           navigate('/admin/company/all-companies'); // Replace with your desired path
         }
       });
     } else {
-      dispatch(createCompany({ data: credentials, formData: companyLogo, alert })).then((response) => {
+      dispatch(createCompany({ data: credentials, companyLogo: companyLogo, alert })).then((response) => {
         if (response?.payload?.success) {
-          navigate('/admin/company/all-companies'); // Replace with your desired path
+          // navigate('/admin/company/all-companies'); // Replace with your desired path
         }
       });
     }

@@ -17,15 +17,30 @@ const Select_from_labeled_data_col = () => {
     setData
   } = useContext(Context);
 
+  console.log(Labels, "Labels")
+  console.log(Data, "Data")
+
   const handleLabels = function (e) {
     if (!Labels.includes(e.target.value)){
-      setLabels([ ...Labels, e.target.value]);
+      if (e.target.value.includes(',')){
+        var arr = e.target.value.split(',');
+        setLabels([ ...Labels, ...arr]);
+      }
+      else {
+        setLabels([ ...Labels, e.target.value]);
+      }
     }
   };
 
   const handleColumns = function (e) {
     if (!Data.includes(e.target.value)){
-      setData([ ...Data, e.target.value]);
+      if (e.target.value.includes(',')){
+        var arr = e.target.value.split(',');
+        setData([ ...Data, ...arr]);
+      }
+      else {
+        setData([ ...Data, e.target.value]);
+      }
     }
   };
 
@@ -71,14 +86,17 @@ const Select_from_labeled_data_col = () => {
                         class="form-select select-label"
                         aria-label="Default select example"
                       >
-                        <option selected disabled>Select a Label</option>
+                        <option selected disabled>Select x-axis</option>
+                        <option>Time Series</option>
+                        <option>Time Stamp</option>
+                        <option>Pie Chart</option>
                         {item.labels?.map((elem, ind) => (
-                          <option>{elem}</option>
+                          <option value={item.columns.filter((element, index) => { return index % item.labels.length === item.labels.indexOf(elem)})}>{elem}</option>
                         ))}
                       </select>
                     </div>
                   )}
-                  {item.columns && item.columns.length > 0 && (
+                  {item.labels && item.labels.length > 0 && (
                     <div style={{ marginBottom: "10px" }}>
                       <select
                         onChange={handleColumns}
@@ -86,9 +104,12 @@ const Select_from_labeled_data_col = () => {
                         class="form-select select-label"
                         aria-label="Default select example"
                       >
-                        <option selected disabled>Select a Column</option>
-                        {item.columns?.map((elem, ind) => (
-                          <option>{elem}</option>
+                        <option selected disabled>Select y-axis</option>
+                        <option>Time Series</option>
+                        <option>Time Stamp</option>
+                        <option>Pie Chart</option>
+                        {item.labels?.map((elem, ind) => (
+                          <option value={item.columns.filter((element, index) => { return index % item.labels.length === item.labels.indexOf(elem)})}>{elem}</option>
                         ))}
                       </select>
                     </div>

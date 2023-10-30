@@ -12,19 +12,21 @@ const initialState = {
 };
 
 export const createCompany = createAsyncThunk("createCompany", async (params) => {
-    const { data, formData, alert } = params;
+    const { data, companyLogo, alert } = params;
     console.log("entered in create data collections action", data);
-    console.log(formData, 'formData')
+    console.log(companyLogo, 'companyLogo')
     // const { selectedDataPoints, TemplateName, TemplateDescription } = data;
   
   try {
+    const formData = new FormData();
+    formData.append('companyLogo', companyLogo);
     const res = await axiosInstance.post(`/api/v1/company/createcompany`, formData , { 
       params: {
         values: data
       },
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+      // headers: {
+      //   "Content-Type": "multipart/form-data",
+      // },
     });
       console.log(res, 'res')
       if (res.data.success) {
