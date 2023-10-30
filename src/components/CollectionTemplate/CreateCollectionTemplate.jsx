@@ -2,8 +2,9 @@ import React, { useContext } from "react";
 import Context from "../../Context/DashboardContext";
 import { BsArrowRight } from "react-icons/bs";
 import "./collectiontemplate.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const CreateCollectionTemplate = ({
+  ButtonInnerText,
   title,
   assign,
   update,
@@ -72,13 +73,15 @@ const CreateCollectionTemplate = ({
               )}
               {createNewCompany && (
                 <button type="submit" className="btn btn-primary btn-darkblue">
-                  Create <BsArrowRight />
+                  {ButtonInnerText} <BsArrowRight />
                 </button>
               )}
               {viewAllCompanies && (
-                <button className="btn btn-primary btn-darkblue">
-                  View All Companies <BsArrowRight />
-                </button>
+                <Link to="/admin/company/all-companies">
+                  <button type="button" className="btn btn-primary btn-darkblue">
+                    View All Companies <BsArrowRight />
+                  </button>
+                </Link>
               )}
             </div>
           </div>

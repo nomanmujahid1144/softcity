@@ -120,7 +120,12 @@ const AllCompaniesTable = () => {
       />
       <div className="div">
         <div>
-          <TitleHeader title={"All Comapny"} subTitle={companies?.length > 0 ? companies?.length : 0 } assignBtn={true} />
+          <TitleHeader
+            title={"All Comapny"}
+            subTitle={companies?.length > 0 ? companies?.length : 0}
+            assignBtn={false}
+            createBtn={false}
+          />
         </div>
       </div>
       <div className="my-3">
@@ -155,7 +160,7 @@ const AllCompaniesTable = () => {
                         <td>{res.companyContactPerson}</td>
                         <td>{res.companyContactPersonPhoneNumber}</td>
                         <td>{res.companyContactPersonEmail}</td>
-                        <td>{res.totalUsers}</td>
+                        <td>0</td>
                         <td>{res.createdAt?.split('T')[0]}</td>
                         <td>{res.lastUpdated?.split('T')[0]}</td>
                         <td>Admin</td>

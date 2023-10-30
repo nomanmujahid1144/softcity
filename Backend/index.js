@@ -1,14 +1,32 @@
 const express = require('express')
-const connectToMongo = require('./config/db')
+const connectToMongo = require('./config/db');
 const cors = require("cors");
+const fileupload = require("express-fileupload");
+const mongoSanitizer = require("express-mongo-sanitize");
+const path = require("path");
+const dotenv = require("dotenv");
+const errorHandler = require("./middleware/error");
 
 connectToMongo()
 
 const app = express()
-app.use(express.json())
+app.use(express.json({ limit: "50mb" }));
+app.use(errorHandler);
+
+//Data sanitization against NoSQL query injection
+app.use(mongoSanitizer());
+
+// set static folder
+app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 
-const PORT = 5000
+//File uploading
+app.use(fileupload());
+
+// Load env vars
+dotenv.config({ path: "./config/config.env" });
+
+const PORT = 9999
 
 
 // Available Routes

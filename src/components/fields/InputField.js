@@ -1,5 +1,6 @@
 // Custom components
 import React from "react";
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 
 function InputField(props) {
   const {
@@ -11,6 +12,7 @@ function InputField(props) {
     type,
     placeholder,
     variant,
+    isVisible,
     state,
     disabled,
     defaultValue,
@@ -19,7 +21,12 @@ function InputField(props) {
     onChange,
     onInput,
     onKeyDown,
+    isPasswordVisible
   } = props;
+
+  const handleVisible = () => {
+    isPasswordVisible();
+  }
 
   return (
     <div className={`${extra}`}>
@@ -50,8 +57,16 @@ function InputField(props) {
             : state === "success"
             ? "border-green-500 text-green-500 placeholder:text-green-500 dark:!border-green-400 dark:!text-green-400 dark:placeholder:!text-green-400"
             : "border-gray-200 dark:!border-white/10 dark:text-white"
-        }`}
+          }`}
       />
+      {isVisible ? 
+        <span className="visible-icon cursor-pointer" onClick={handleVisible}>
+          {type === 'password' ?
+            <AiFillEyeInvisible size="1.5em" />
+            :
+            <AiFillEye size="1.5em" />}
+      </span>
+      :null}
     </div>
   );
 }

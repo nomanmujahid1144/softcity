@@ -51,7 +51,7 @@ const Av_Datapoints_Table = () => {
             heading2={'Data Points'}
             heading3={'Data Points Type'}
             heading4={'Description'}
-            heading5={'TimeStamp'}
+            // heading5={'TimeStamp'}
             heading6={'Last Updated'}
             heading7={'Created By'}
             heading8={'Data Hits'}

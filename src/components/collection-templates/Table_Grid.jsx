@@ -148,9 +148,7 @@ const Table_Grid = ({
             <th>{heading3 ?? 'Total Data Points'}</th>
             <th>{heading4 ?? 'Description'}</th>
             <th>{heading5 ?? 'Create Timestamp'}</th>
-            {!dataCollectionTemplate ? 
-            <th>{heading10 ?? ''}</th>
-            :null}
+            {/* {!dataCollectionTemplate ?  <th>{heading10 ?? ''}</th>:null } */}
             <th>{heading6 ?? 'Last Updated'}</th>
             <th>{heading7 ?? 'Created By'}</th>
             <th>{heading8 ?? 'Data Submissions'}</th>

@@ -11,39 +11,41 @@ const initialState = {
   error: "",
 };
 
-export const createCompany = createAsyncThunk("createCompany", async ({data, formData}) => {
+export const createCompany = createAsyncThunk("createCompany", async (params) => {
+    const { data, formData, alert } = params;
     console.log("entered in create data collections action", data);
+    console.log(formData, 'formData')
     // const { selectedDataPoints, TemplateName, TemplateDescription } = data;
   
   try {
-    console.log(formData, 'formData')
-
-    const dataQueryString = new URLSearchParams(data).toString();
-    
-    const res = await fetch(`${BASE_URL}/api/v1/company/createcompany?${dataQueryString}`, {
-      method: "POST",
+    const res = await axiosInstance.post(`/api/v1/company/createcompany`, formData , { 
+      params: {
+        values: data
+      },
       headers: {
         "Content-Type": "multipart/form-data",
-        "auth-token": AUTH_TOKEN
       },
-      body: formData  // Include the formData as the request body
     });
-    
-    return await res.json();
-
+      console.log(res, 'res')
+      if (res.data.success) {
+        alert.success('Successfully Create Company');
+        return await res.data;
+      } else {
+        alert.success(res.data.message);
+      }
     } catch (error) {
-      console.log("error in createData collection");
+      console.log(error);
+      alert.success(error.response.data.message);
     }
   }
 );
 
-export const updateCompany = createAsyncThunk( "updateCompany", async ({data, updateId}) => {
+export const updateCompany = createAsyncThunk( "updateCompany", async ({data, updateId, alert}) => {
     console.log("entered in create data collections action", data);
     // const { selectedDataPoints, TemplateName, TemplateDescription } = data;
 
     try {
-      const res = await fetch(
-        `${BASE_URL}/api/v1/company/updatecompany/${updateId}`,
+      const res = await fetch(`${BASE_URL}/api/v1/company/updatecompany/${updateId}`,
         {
           method: "PATCH",
           headers: {
@@ -54,9 +56,10 @@ export const updateCompany = createAsyncThunk( "updateCompany", async ({data, up
           // body:
         }
       );
-
+      alert.success('Successfully Update Company');
       return await res.json();
     } catch (error) {
+      console.log(error)
       console.log("error in createData collection");
     }
   }
@@ -68,8 +71,7 @@ export const getCompanies = createAsyncThunk(
     console.log("entered in get data collections action");
 
     try {
-      const response = await axios.get(
-        `${BASE_URL}/api/v1/company/getallcompanies`,
+      const response = await axiosInstance.get(`/api/v1/company/getallcompanies`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -90,8 +92,7 @@ export const getCompany = createAsyncThunk(
     console.log("entered in get data collections action");
 
     try {
-      const response = await axios.get(
-        `${BASE_URL}/api/v1/company/getcompany/${id}`,
+      const response = await axiosInstance.get(`/api/v1/company/getcompany/${id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -111,8 +112,7 @@ export const deleteCompanies = createAsyncThunk( "deleteCompanies", async (ids) 
     console.log("entered in Delete data collections action");
 
     try {
-      const response = await axios.delete(
-        `${BASE_URL}/api/v1/company/deletecompanies`,
+      const response = await axiosInstance.delete(`/api/v1/company/deletecompanies`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -138,14 +138,14 @@ const createCompanySlice = createSlice({
   extraReducers: (builder) => {
 
     builder
-    // .addCase(createCompany.pending, (state) => {
-    //   state.loading = true;
-    // })
-    // .addCase(createCompany.rejected, (state, action) => {
-    //   state.loading = false;
-    //   state.company = {};
-    //   state.error = action.payload;
-    // })
+    .addCase(createCompany.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(createCompany.rejected, (state, action) => {
+      state.loading = false;
+      state.company = action.payload;
+      state.error = action.payload;
+    })
     .addCase(createCompany.fulfilled, (state, action) => {
       state.loading = false;
       state.company = action.payload;
