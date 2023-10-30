@@ -31,15 +31,7 @@ const CreateUserGroupSchema = new Schema({
     users :[{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    }],
-    createdAt: {
-        type: Date,
-        default: new Date()
-    },
-    lastUpdated: {
-        type: Date,
-        default: new Date()
-    }
-});
+    }]
+}, { timestamps: true });
 
 module.exports = mongoose.model('UserGroups', CreateUserGroupSchema)

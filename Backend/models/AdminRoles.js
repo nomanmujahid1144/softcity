@@ -12,14 +12,6 @@ const adminRolesSchema = new Schema({
         required: true,
         default: []
     },
-    createdAt: {
-        type: Date,
-        default: new Date()
-    },
-    lastUpdated: {
-        type: Date,
-        default: new Date()
-    }
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('AdminRoles', adminRolesSchema)

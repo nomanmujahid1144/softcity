@@ -31,7 +31,7 @@ const All_User_Groups = () => {
         <div>
           <TitleHeader
             title={'All User Groups'}
-            subTitle={390}
+            subTitle={userGroups?.length > 0 ? userGroups?.length : 0}
             assignBtn={false}
           />
         </div>

@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { AUTH_TOKEN, BASE_URL } from "../../constants/reduxContants";
 import axios from "axios";
+import { axiosInstance } from "../../../constants/axiosInstance";
 const initialState = {
   msg: "",
   userGroups: [],
@@ -9,28 +10,20 @@ const initialState = {
   error: "",
 };
 
-export const createUserGroup = createAsyncThunk(
-  "createUserGroup",
-  async ({userGroup, selectedUsers}) => {
+export const createUserGroup = createAsyncThunk("createUserGroup", async ({userGroup, selectedUsers, alert}) => {
     console.log("entered in create User Group action", userGroup);
     console.log("users", selectedUsers);
     userGroup.users = selectedUsers;
     // const { selectedDataPoints, TemplateName, TemplateDescription } = data;
     try {
-      const res = await fetch(
-        `${BASE_URL}/api/v1/admin/usergroups/createusergroup`,
-        {
-          method: "POST",
+      const res = await axiosInstance.post(`/api/v1/admin/usergroups/createusergroup`, JSON.stringify(userGroup),{
           headers: {
-            "Content-Type": "application/json",
-            "auth-token": `${AUTH_TOKEN}`,
-          },
-          body: JSON.stringify(userGroup),
-          // body:
+            "Content-Type": "application/json"
+          }
         }
       );
-
-      return await res.json();
+      alert.success('User group Created Successfully');
+      return await res.data;
     } catch (error) {
       console.log("error in createData collection");
     }

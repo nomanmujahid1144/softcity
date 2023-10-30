@@ -22,7 +22,7 @@
     "express-validator": "^7.0.1",
     "fs": "^0.0.1-security",
     "jsonwebtoken": "^9.0.1",
-    "mongoose": "^7.0.3",
+    "mongoose": "^5.13.14",
     "nodemailer": "^6.9.5",
     "nodemon": "^2.0.22",
     "path": "^0.12.7"

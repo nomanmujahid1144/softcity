@@ -51,14 +51,6 @@ const userSchema = new mongoose.Schema({
     profilePhoto:{
         type:String,
         default:''
-    },
-    createdAt: {
-        type: Date,
-        default: new Date()
-    },
-    lastUpdated: {
-        type: Date,
-        default: new Date()
     }
 })
 

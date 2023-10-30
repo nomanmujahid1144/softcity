@@ -32,7 +32,7 @@ const DashboardState = (props) => {
   const [datapointtable, setdatapointtable] = useState([]);
   const [assignedtemplatecollection, setassignedtemplatecollection] = useState(
     []
-  );
+  ); 
   const [createDataArr, setCreateDataArr] = useState(false);
   const [selectedDataPoints, setSelectedDataPoints] = useState([]);
   const [selectedDataPointsObj, setSelectedDataPointsObj] = useState([]);

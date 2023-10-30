@@ -17,15 +17,7 @@ const CreateDataCollectionTemplate = new Schema({
     selectedDataPoints: [{
         type: Schema.Types.ObjectId,
         ref: 'DataPoints',
-    }],
-    createdAt: {
-        type: Date,
-        default: new Date()
-    },
-    lastUpdated: {
-        type: Date,
-        default: new Date()
-    }
+    }]
 });
 
 module.exports = mongoose.model('DataCollectionTemplate', CreateDataCollectionTemplate)

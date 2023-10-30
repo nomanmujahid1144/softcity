@@ -201,7 +201,7 @@ const Table_Grid = ({
                   {allUserGroups && (
                     <>
                       <td>{res?.GroupName}</td>
-                      <td>0</td>
+                      <td>{res?.users.length > 0 ? res?.users.length : 0}</td>
                       <td className='cursor-pointer' onClick={() => handleClick(ind)}>Click to View</td>
                       {/* <td>{res.createdAt.split('T')[0]}</td>
                       <td>{res.lastUpdated.split('T')[0]}</td>

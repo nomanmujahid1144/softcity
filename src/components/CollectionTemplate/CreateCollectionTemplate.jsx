@@ -4,6 +4,7 @@ import { BsArrowRight } from "react-icons/bs";
 import "./collectiontemplate.css";
 import { Link, useNavigate } from "react-router-dom";
 const CreateCollectionTemplate = ({
+  viewAllLink,
   ButtonInnerText,
   title,
   assign,
@@ -62,9 +63,11 @@ const CreateCollectionTemplate = ({
                 </div>
               )}
               {!update && !viewallusers && !createNewCompany && (
-                <button className="btn btn-dark">
-                  View All <BsArrowRight />
-                </button>
+                <Link to={`${viewAllLink}`}>
+                  <button type="button" className="btn btn-dark">
+                    View All <BsArrowRight />
+                  </button>
+                </Link>
               )}
               {viewallusers && (
                 <button className="btn bg-blue text-white">

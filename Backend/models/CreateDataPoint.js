@@ -26,15 +26,7 @@ const CreateDataPointSchema = new Schema({
     },
     dataColumns: {
         type: [String],
-    },
-    createdAt: {
-        type: Date,
-        default: new Date()
-    },
-    lastUpdated: {
-        type: Date,
-        default: new Date()
     }
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('DataPoints', CreateDataPointSchema)

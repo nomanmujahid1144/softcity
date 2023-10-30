@@ -55,16 +55,6 @@ const companySchema = new Schema({
         type: String,
         default: ''       
     },
-
-
-    createdAt: {
-        type: Date,
-        default: new Date()
-    },
-    lastUpdated: {
-        type: Date,
-        default: new Date()
-    }
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('Company', companySchema)

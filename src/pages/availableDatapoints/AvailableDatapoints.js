@@ -11,7 +11,7 @@ import UserPoint from "../../components/available-data-points/data-point/UserPoi
 
 function AvailableDatapoints({ title, isUserGroup, isDataPoint, totalLength, data, selected, UpdateSelectedDataPoints }) {
   const finalData = useContext(Context);
-  const { mode, selectedDataPoints, setSelectedDataPoints} = finalData;
+  const { mode, selectedDataPoints, setSelectedDataPoints, setSelectedUsers} = finalData;
   
   const [items , setItems] = useState([])
   const [alreadySelectedList, setAlreadySelectedList] = useState([]);
@@ -81,12 +81,12 @@ function AvailableDatapoints({ title, isUserGroup, isDataPoint, totalLength, dat
 
         if (!updatedItem.selected) {
           // Remove the ID if 'selected' is true
-          setSelectedDataPoints((prevDataPoints) =>
+          setSelectedUsers((prevDataPoints) =>
             prevDataPoints.filter((id) => id !== arg._id)
           );
         } else {
           // Add the ID if 'selected' is false
-          setSelectedDataPoints((prevDataPoints) => [...prevDataPoints, arg._id]);
+          setSelectedUsers((prevDataPoints) => [...prevDataPoints, arg._id]);
         }
 
         return updatedItem;
@@ -112,7 +112,7 @@ function AvailableDatapoints({ title, isUserGroup, isDataPoint, totalLength, dat
             <p className="fs-7 total text-muted">Total: {totalLength}</p>
           </div>
           {console.log(items, 'items')}
-          {isUserGroup && (
+          {/* {isUserGroup && (
             <div class="dropdown">
               <button
                 className={`btn  dropdown-toggle d-flex align-items-center ${
@@ -154,13 +154,13 @@ function AvailableDatapoints({ title, isUserGroup, isDataPoint, totalLength, dat
                 </li>
               </ul>
             </div>
-          )}
+          )} */}
           <div className="d-flex  align-items-center justify-content-end flex-column flex-xl-row flex-lg-row flex-md-row margin-left gap-4 w-50">
-            {isUserGroup && (
+            {/* {isUserGroup && (
               <button className="m-0 py-2 px-3 btn-darkblue text-white border-0 rounded-2 text-white fw-lighter fs-7">
                 Add all Users <BsArrowRight />
               </button>
-            )}
+            )} */}
 
             <div className="border bg-white primary-inputs d-flex align-items-center rounded search-bar">
               <span className="px-2">

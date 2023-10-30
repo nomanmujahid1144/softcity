@@ -15,7 +15,12 @@ exports.createUserGroup = async (req, res, next) => {
         const savedUserGroup = await createUserGroup.save();
 
         // return the saved data point
-        return res.status(200).json(savedUserGroup);
+        // return res.status(200).json(savedUserGroup);
+        return res.status(200).json({
+            success: true,
+            message: "Usergroup Created Succesfully",
+            data: savedUserGroup
+        })
     } catch (error) {
         console.error(error);
         return res.status(500).json({ errors: [{ msg: "Server error" }] });

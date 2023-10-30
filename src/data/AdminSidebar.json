@@ -22,10 +22,6 @@
     "icon": "bi-collection",
     "childrens": [
       {
-        "title": "Multi collections",
-        "path": "/admin/reorder-collection-elements"
-      },
-      {
         "title": "Single collections",
         "path": "/admin/Scollections"
       },
@@ -83,18 +79,6 @@
       {
         "title": "Users Groups",
         "path": "/admin/all-user-groups"
-      },
-      {
-        "title": "Manage User",
-        "path": "/admin/users/profile"
-      },
-      {
-        "title": "User Setting",
-        "path": "/admin/profile"
-      },
-      {
-        "title": "Admin",
-        "path": "/admin/admin-role"
       }
     ]
   },
@@ -102,14 +86,6 @@
     "title": "Users",
     "icon": "bi-person",
     "childrens": [
-      {
-        "title": "Profile",
-        "path": "/admin/users/account"
-      },
-      {
-        "title": "Accounts",
-        "path": "/admin/accounts"
-      },
       {
         "title": "Create User",
         "path": "/admin/createUser"
@@ -133,16 +109,8 @@
         "path": "/admin/company/createCompany"
       },
       {
-        "title": "Manage comapnies",
-        "path": "/admin/company/manage"
-      },
-      {
         "title": "All Companies",
         "path": "/admin/company/all-companies"
-      },
-      {
-        "title": "Company Users",
-        "path": "/admin/company/Company-Users"
       }
     ]
   },

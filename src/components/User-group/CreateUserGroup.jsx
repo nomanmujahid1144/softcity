@@ -11,11 +11,13 @@ import CheckBoxField from "../fields/CheckBoxField";
 import { createUserGroup, getUserGroups } from "../../redux/slices/UserGroups/UserGroups";
 import AvailableDatapoints from "../../pages/availableDatapoints/AvailableDatapoints";
 import { getAllUsers } from "../../redux/slices/createUserSlice";
+import { useAlert } from "react-alert";
 const CreateUserGroup = () => {
   const { mode, selectedUsers } = useContext(Context);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const alert = useAlert();
 
   const [subGroups, setSubGroups] = useState([]);
   const [userGroup, setUserGroup] = useState({
@@ -53,7 +55,11 @@ const CreateUserGroup = () => {
 
 const handleSubmit = async (e) => {
   e.preventDefault();
-  dispatch(createUserGroup({userGroup, selectedUsers}));
+  dispatch(createUserGroup({ userGroup, selectedUsers, alert })).then((response) => {
+    if (response?.payload?.success) {
+      navigate('/admin/all-user-groups'); // Replace with your desired path
+    }
+  });
   setUserGroup({
     GroupName: "",
     ApprovingOfficer: "",
@@ -92,6 +98,7 @@ const onChange = (e) => {
             title={"Create User Groups"}
             assign={false}
             create={true}
+            viewAllLink="/admin/all-user-groups"
           />
           <main>
             <div className={`bg-white my-4 rounded-3 p-4 shadow-sm `}>
