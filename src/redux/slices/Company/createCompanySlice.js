@@ -29,7 +29,6 @@ export const createCompany = createAsyncThunk("createCompany", async (params) =>
       //   "Content-Type": "multipart/form-data",
       // },
     });
-      console.log(res, 'res')
       if (res.data.success) {
         alert.success('Successfully Create Company');
         return await res.data;

@@ -11,11 +11,14 @@ import { getAllRoles } from "../../redux/slices/RolesManagement/roleManagement";
 import ReactSelect from "react-select";
 import { getUserRole, handleApiError } from "../../constants/helpers";
 import { useAlert } from "react-alert";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import defaultPicture from '../../assets/images/Default.png';
+import { baseURL } from "../../constants/baseURL";
 
 export default function CreateAdminContainer() {
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const params = useParams();
   const alert = useAlert();
 
@@ -28,6 +31,11 @@ export default function CreateAdminContainer() {
 
   // Define a state to store filtered suggestions
   const [suggestions, setSuggestions] = useState([]);
+
+  
+  const [profileImage, setProfileImage] = useState(null);
+  const [profileImagePreview, setProfileImagePreview] = useState(null);
+  const [profileImageEdit, setProfileImageEdit] = useState(null);
 
   // Handle input changes and update suggestions
   const handleInputChange = async (selectedOptions) => {
@@ -80,7 +88,7 @@ export default function CreateAdminContainer() {
 
   // Update User UseEffect Call
   useEffect(() => {
-    if (Object.keys(singleUser).length > 0) {
+    if (Object.keys(params).length > 0) {
       setEditUser(true);
       setUser({
         firstName: singleUser.firstName,
@@ -91,14 +99,29 @@ export default function CreateAdminContainer() {
         company: singleUser.company,
         administrativeRole: singleUser.administrativeRole,
         role: singleUser.role,
-        profilePhoto: singleUser.profilePhoto
       });
+      setProfileImageEdit(singleUser.profilePhoto)
       const matchedUserGroups = findUserGroupById(userGroups, singleUser.userGroups);
       setSuggestions(matchedUserGroups?.map((option) => option.value));
       setEditGroupsValues(matchedUserGroups);
 
+    } else {
+      setEditUser(false);
+      setUser({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phoneNumber: "",
+        country: "",
+        company: "",
+        administrativeRole: "",
+        role: "",
+      });
+      setProfileImageEdit(null);
+      setProfileImage(null);
+      setProfileImagePreview(null);
     }
-  }, [singleUser])
+  }, [singleUser, params])
 
   useEffect(() => {
     if (Object.keys(params).length > 0) {
@@ -141,35 +164,18 @@ export default function CreateAdminContainer() {
 
     console.log(user, 'user')
     // if Edit User is trur it means its an Update request
-    if (!editUser) {
-      dispatch(createUser({ data: user, alert })).then(() => {
-        setUser({
-          firstName: "",
-          lastName: "",
-          email: "",
-          phoneNumber: "",
-          country: "",
-          company: "",
-          administrativeRole: "",
-          role: "",
-          userGroup: [],
-          profilePhoto: ""
-        });
+    if (editUser) {
+      dispatch(updateUser({ data: user, profilePhoto: profileImage, alert })).then((response) => {
+        if (response?.payload?.success) {
+          navigate('/admin/all-users'); // Replace with your desired path
+        }
       });
     } else {
-      dispatch(updateUser({ data: user, alert })).then(() => {
-        setUser({
-          firstName: "",
-          lastName: "",
-          email: "",
-          phoneNumber: "",
-          country: "",
-          company: "",
-          administrativeRole: "",
-          role: "",
-          userGroup: [],
-          profilePhoto: ""
-        });
+      dispatch(createUser({ data: user, profilePhoto: profileImage, alert })).then((response) => {
+        console.log(response, 'response')
+        if (response?.payload?.success) {
+          navigate('/admin/all-users'); // Replace with your desired path
+        }
       });
     }
 
@@ -205,13 +211,26 @@ export default function CreateAdminContainer() {
 
       <div className="row col-10 mt-5 p-0 border-0 bg-white rounded-3 fw-bold text-sg container-bs">
         <div className=" mb-5 d-flex justify-content-center">
-          <img
-            width={140}
-            height={140}
-            className="object-fit-cover rounded-circle m-img"
-            src="https://images.unsplash.com/flagged/photo-1573603867003-89f5fd7a7576?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=746&q=80"
-            alt="Profile"
-          />
+          <label className='cursor-pointer'>
+            <input
+              className="d-none form-control form__comapny-description"
+              type="file"
+              accept="image/svg+xml"
+              onChange={(event) => {
+                setProfileImage(event.currentTarget.files[0]);
+                setProfileImagePreview( URL.createObjectURL(event.target.files[0]));
+              }}
+            />
+            <div className="form-control p-0">
+              <img
+                width={140}
+                height={140}
+                className="object-fit-cover bg-white rounded-circle m-img"
+                src={profileImagePreview ? profileImagePreview : editUser && profileImageEdit ? baseURL + profileImageEdit : defaultPicture}
+                alt="Profile"
+              />
+            </div>
+          </label>
         </div>
 
         <div className="row mt-5 px-6">
