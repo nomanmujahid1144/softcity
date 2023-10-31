@@ -182,7 +182,7 @@ const Table_Grid = ({
                       <td>{res.dataPointType}</td>
                       <td className='cursor-pointer' onClick={() => handleSeeDescription(res.description)}>Click to View</td>
                       <td>{res.createdAt.split('T')[0]}</td>
-                      <td>{res.lastUpdated.split('T')[0]}</td>
+                      <td>{res.updatedAt.split('T')[0]}</td>
                       <td>{res.createdBy}</td>
                       <td>{res.dataHits}</td>
                     </>
@@ -193,7 +193,7 @@ const Table_Grid = ({
                       <td>{res?.selectedDataPoints?.length }</td>
                       <td className='cursor-pointer' onClick={() => handleSeeDescription(res.description)}>Click to View</td>
                       <td>{res.createdAt.split('T')[0]}</td>
-                      <td>{res.lastUpdated.split('T')[0]}</td>
+                      <td>{res.updatedAt.split('T')[0]}</td>
                       <td>Admin</td>
                       <td>340</td>
                     </>
@@ -209,8 +209,8 @@ const Table_Grid = ({
                       <td>{res.dataHits}</td> */}
 
                       {/* hard coded waiting for API correction*/}
-                      <td>{new Date().toLocaleDateString('en-GB')}</td>
-                      <td>15/03/2023</td>
+                      <td>{res.createdAt.split('T')[0]}</td>
+                      <td>{res.updatedAt.split('T')[0]}</td>
                       <td>Admin</td>
                       <td>340</td>
                     </>

@@ -12,7 +12,7 @@ const initialState = {
 };
 
 export const createCompany = createAsyncThunk("createCompany", async (params) => {
-    const { data, companyLogo, alert } = params;
+    const { data, companyLogo, companyContactPersonImage, alert } = params;
     console.log("entered in create data collections action", data);
     console.log(companyLogo, 'companyLogo')
     // const { selectedDataPoints, TemplateName, TemplateDescription } = data;
@@ -20,6 +20,7 @@ export const createCompany = createAsyncThunk("createCompany", async (params) =>
   try {
     const formData = new FormData();
     formData.append('companyLogo', companyLogo);
+    formData.append('companyContactPersonImage', companyContactPersonImage);
     const res = await axiosInstance.post(`/api/v1/company/createcompany`, formData , { 
       params: {
         values: data
@@ -42,27 +43,31 @@ export const createCompany = createAsyncThunk("createCompany", async (params) =>
   }
 );
 
-export const updateCompany = createAsyncThunk( "updateCompany", async ({data, updateId, alert}) => {
+export const updateCompany = createAsyncThunk( "updateCompany", async (params) => {
+    const { data, companyLogo, companyContactPersonImage, updateId, alert } = params;
     console.log("entered in create data collections action", data);
     // const { selectedDataPoints, TemplateName, TemplateDescription } = data;
 
-    try {
-      const res = await fetch(`${BASE_URL}/api/v1/company/updatecompany/${updateId}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            "auth-token": `${AUTH_TOKEN}`,
+  try { 
+      const formData = new FormData();
+      formData.append('companyLogo', companyLogo);
+      formData.append('companyContactPersonImage', companyContactPersonImage);
+
+    const res = await axiosInstance.patch(`/api/v1/company/updatecompany/${updateId}`, formData , {
+          params: {
+            values: data
           },
-          body: JSON.stringify(data),
-          // body:
         }
       );
-      alert.success('Successfully Update Company');
-      return await res.json();
+      if (res.data.success) {
+        alert.success('Successfully Update Company');
+        return await res.data;
+      } else {
+        alert.success(res.data.message);
+      }
     } catch (error) {
       console.log(error)
-      console.log("error in createData collection");
+      alert.success(error.response.data.message);
     }
   }
 );

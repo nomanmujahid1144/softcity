@@ -10,10 +10,19 @@ import TextAreaField from '../../fields/TextAreaField'
 import SelectionField from '../../fields/SelectField'
 import { createCompany, getCompany, updateCompany } from '../../../redux/slices/Company/createCompanySlice'
 import defaultPicture from '../../../assets/images/Default.png';
+import defaultPictures from '../../../assets/images/defaults.png';
+import defaultIcon from '../../../assets/images/upload.svg';
+import { baseURL } from '../../../constants/baseURL'
 
 const CreateCompany = () => {
+  
   const [selectedImage, setSelectedImage] = useState(null);
   const [companyLogo, setCompanyLogo] = useState(null);
+  const [companyLogoEdit, setCompanyLogoEdit] = useState(null);
+
+  const [profileImage, setProfileImage] = useState(null);
+  const [profileImagePreview, setProfileImagePreview] = useState(null);
+  const [profileImageEdit, setProfileImageEdit] = useState(null);
   const handleImageChange = (event) => {
     setSelectedImage(URL.createObjectURL(event.target.files[0]));
     setCompanyLogo(event.target.files[0]);
@@ -64,6 +73,8 @@ const CreateCompany = () => {
         companySize: company?.companySize,
         companyEstimatedRevenue: company?.companyEstimatedRevenue,
       })
+      setCompanyLogoEdit(company?.companyLogo);
+      setProfileImageEdit(company?.companyContactPersonImage);
     } else {
       setEditUser(false);
       setcredentials({
@@ -78,25 +89,32 @@ const CreateCompany = () => {
         companySize: "",
         companyEstimatedRevenue: "",
       })
+      setSelectedImage(null);
+      setCompanyLogo(null);
+      setCompanyLogoEdit(null);
+      setProfileImage(null);
+      setProfileImageEdit(null);
+      setProfileImagePreview(null)
     }
-  }, [company]);
+  }, [company, params]);
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(credentials, 'credentials')
     console.log(companyLogo, 'companyLogo');
+    console.log(profileImage, 'profileImage');
 
     if (editUser) {
-      dispatch(updateCompany({ data: credentials, companyLogo: companyLogo, updateId: params.id, alert })).then((response) => {
+      dispatch(updateCompany({ data: credentials, companyLogo: companyLogo, companyContactPersonImage : profileImage, updateId: params.id, alert })).then((response) => {
         if (response?.payload?.success) {
           navigate('/admin/company/all-companies'); // Replace with your desired path
         }
       });
     } else {
-      dispatch(createCompany({ data: credentials, companyLogo: companyLogo, alert })).then((response) => {
+      dispatch(createCompany({ data: credentials, companyLogo: companyLogo , companyContactPersonImage : profileImage, alert })).then((response) => {
         if (response?.payload?.success) {
-          // navigate('/admin/company/all-companies'); // Replace with your desired path
+          navigate('/admin/company/all-companies'); // Replace with your desired path
         }
       });
     }
@@ -119,13 +137,26 @@ const CreateCompany = () => {
           <section className="d-flex flex-row gap-md-1 gap-4 profile-main-div">
             <div className="col-3 col-md-4 me-3 d-flex flex-column bg-white rounded-4 shadow-sm profile-div ">
               <div className="mb-5 d-flex justify-content-center">
-                <img
-                  width={140}
-                  height={140}
-                  className="object-fit-cover rounded-circle m-img"
-                  src={defaultPicture}
-                  alt="Profile"
-                />
+                <label className=''>
+                  <input
+                    className="d-none form-control form__comapny-description"
+                    type="file"
+                    accept="image/svg+xml"
+                    onChange={(event) => {
+                      setProfileImage(event.currentTarget.files[0]);
+                      setProfileImagePreview( URL.createObjectURL(event.target.files[0]));
+                    }}
+                  />
+                  <div className="form-control p-0">
+                    <img
+                      width={140}
+                      height={140}
+                      className="object-fit-cover bg-white rounded-circle m-img"
+                      src={profileImagePreview ? profileImagePreview : editUser && profileImageEdit ? baseURL + profileImageEdit : defaultPicture}
+                      alt="Profile"
+                    />
+                  </div>
+                </label>
               </div>
               <h6 className="align-self-center pt-3 text-secondary">Profile Picture</h6>
               <div className="px-3 d-flex flex-column  gap-2 mt-5">
@@ -304,12 +335,12 @@ const CreateCompany = () => {
                     accept="image/svg+xml"
                     onChange={handleImageChange}
                   />
-                  {selectedImage && (
+                  {(selectedImage || editUser) && (
                     <div className="form-control p-0">
                       <img
                         width={'100%'}
                         className="form__comapny-image"
-                        src={selectedImage}
+                        src={selectedImage ? selectedImage : editUser && companyLogoEdit ? baseURL + companyLogoEdit : defaultIcon}
                         alt="preview"
                       />
                     </div>

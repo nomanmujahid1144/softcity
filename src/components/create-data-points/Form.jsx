@@ -484,7 +484,7 @@ const Form = ({submitted}) => {
                   cols="40"
                   rows="3"
                   minLength="5"
-                  maxLength="30"
+                  maxLength="10000"
                   placeholder="Description"
                 ></textarea>
               </div>

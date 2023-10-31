@@ -51,6 +51,10 @@ const companySchema = new Schema({
         type: String,
         default: ''       
     },
+    companyContactPersonImage:  {
+        type: String,
+        default: ''       
+    },
     companyContactPersonPhoneNumber: {
         type: String,
         default: ''       

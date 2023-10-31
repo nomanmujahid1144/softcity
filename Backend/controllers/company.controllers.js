@@ -1,3 +1,4 @@
+const { uploadImage } = require('../helpers/helpers');
 const CreateCompany = require('../models/Company');
 const mongoose = require('mongoose');
 
@@ -31,9 +32,27 @@ exports.createNewCompany = async (req, res, next) => {
             })
         } else {
 
+            let companyLogo = '';
+            let companyContactPersonImage = '';
+
+            if (req.files) {
+                if (req.files.companyLogo) {
+                    const uploadedPath = await uploadImage(req.files.companyLogo, next);
+                    companyLogo = uploadedPath.photoPath;
+                }
+
+                if (req.files.companyContactPersonImage) {
+                    const uploadedPath2 = await uploadImage(req.files.companyContactPersonImage, next);
+                    companyContactPersonImage = uploadedPath2.photoPath;
+                }
+
+            }
+
+
             // if there are no errors, create a new CreateDataPoint and save it
             const createCompany = new CreateCompany({
                 companyName,
+                companyLogo,
                 companyLocation,
                 companyPhoneNumber,
                 companyEmail,
@@ -42,6 +61,7 @@ exports.createNewCompany = async (req, res, next) => {
                 companyEstimatedRevenue,
                 
                 companyContactPerson,
+                companyContactPersonImage,
                 companyContactPersonEmail,
                 companyContactPersonPhoneNumber
             });
@@ -67,33 +87,35 @@ exports.updateCompany = async (req, res, next) => {
     try {
         console.log(req.body)
         console.log(req.params.id)
-        const {
-            companyName,
-            companyLocation,
-            companyPhoneNumber,
-            companyEmail,
-            companyAbout,
-            companySize,
-            companyEstimatedRevenue,
+        // const {
+        //     companyName,
+        //     companyLocation,
+        //     companyPhoneNumber,
+        //     companyEmail,
+        //     companyAbout,
+        //     companySize,
+        //     companyEstimatedRevenue,
 
-            companyContactPerson,
-            companyContactPersonEmail,
-            companyContactPersonPhoneNumber
-        } = req.body;
+        //     companyContactPerson,
+        //     companyContactPersonEmail,
+        //     companyContactPersonPhoneNumber
+        // } = req.query.values;
 
-        const savedDataPoint = await CreateCompany.findByIdAndUpdate(req.params.id, {
-            companyName,
-            companyLocation,
-            companyPhoneNumber,
-            companyEmail,
-            companyAbout,
-            companySize,
-            companyEstimatedRevenue,
+        const body = req.query.values;
 
-            companyContactPerson,
-            companyContactPersonEmail,
-            companyContactPersonPhoneNumber
-        })
+        if (req.files) {
+            if (req.files.companyLogo) {
+                const uploadedPath = await uploadImage(req.files.companyLogo, next);
+                body.companyLogo = uploadedPath.photoPath;
+            }
+
+            if (req.files.companyContactPersonImage) {
+                const uploadedPath2 = await uploadImage(req.files?.companyContactPersonImage, next);
+                body.companyContactPersonImage = uploadedPath2.photoPath;
+            }
+        }
+
+        const savedDataPoint = await CreateCompany.findByIdAndUpdate(req.params.id, body)
 
         // return the saved data point
         // return res.status(200).json(savedDataPoint);

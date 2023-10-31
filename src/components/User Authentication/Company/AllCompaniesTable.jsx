@@ -162,7 +162,7 @@ const AllCompaniesTable = () => {
                         <td>{res.companyContactPersonEmail}</td>
                         <td>0</td>
                         <td>{res.createdAt?.split('T')[0]}</td>
-                        <td>{res.lastUpdated?.split('T')[0]}</td>
+                        <td>{res.updatedAt?.split('T')[0]}</td>
                         <td>Admin</td>
                         <td>
                           <div class="dropdown dropdown-ul">

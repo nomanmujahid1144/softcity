@@ -11,7 +11,7 @@ import { getAllRoles } from "../../redux/slices/RolesManagement/roleManagement";
 import ReactSelect from "react-select";
 import { getUserRole, handleApiError } from "../../constants/helpers";
 import { useAlert } from "react-alert";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export default function CreateAdminContainer() {
 
@@ -189,23 +189,17 @@ export default function CreateAdminContainer() {
       <div className="row mb-5 p-0 d-flex align-items-center style">
         <h5 className="col p-0 fs-4 header-before">{editUser ? "Update User" : "Create New User"}</h5>
         <div className="col p-0 d-flex gap-2 justify-content-end">
-          <button className="m-0 py-2 px-3 bg-blue text-white border-0 rounded-2 fw-lighter fs-7">
-            View all Users <BsArrowRight />
-          </button>
-          <button className="py-2 px-3 border-0 position-relative bg-blue border-0 rounded-2 text-white fw-lighter fs-7">
-            Upload CSV <BsArrowRight />
-            <input
-              role="button"
-              type="file"
-              className="m-0 p-0 position-absolute top-0 start-0 opacity-0"
-            />
-          </button>
           <button
             onClick={handleSubmit}
             className="me-3 py-2 px-3 border-0 bg-blue position-relative bg-blue border-0 rounded-2 text-white fw-lighter fs-7"
           >
             {editUser ? "Update User" : "Create User"}<BsArrowRight />
           </button>
+          <Link to='/admin/all-users'>
+            <button type="button" className="m-0 py-2 px-3 bg-blue text-white border-0 rounded-2 fw-lighter fs-7">
+              View all Users <BsArrowRight />
+            </button>
+          </Link>
         </div>
       </div>
 

@@ -21,8 +21,6 @@ const DashboardUI = () => {
 
   const { authToken, userRole } = useSelector((state) => state.auth);
 
-  console.log(userRole, "userRoleuserRoleuserRoleuserRoleuserRoleuserRole");
-
   return (
     <>
       <div className="App">

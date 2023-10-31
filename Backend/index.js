@@ -1,11 +1,11 @@
 const express = require('express')
-const connectToMongo = require('./config/db');
-const cors = require("cors");
-const fileupload = require("express-fileupload");
+const dotenv = require("dotenv");
 const mongoSanitizer = require("express-mongo-sanitize");
 const path = require("path");
-const dotenv = require("dotenv");
+const connectToMongo = require('./config/db');
+const fileupload = require("express-fileupload");
 const errorHandler = require("./middleware/error");
+const cors = require("cors");
 
 connectToMongo()
 
