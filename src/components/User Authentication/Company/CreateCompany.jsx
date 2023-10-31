@@ -137,7 +137,7 @@ const CreateCompany = () => {
           <section className="d-flex flex-row gap-md-1 gap-4 profile-main-div">
             <div className="col-3 col-md-4 me-3 d-flex flex-column bg-white rounded-4 shadow-sm profile-div ">
               <div className="mb-5 d-flex justify-content-center">
-                <label className=''>
+                <label className='cursor-pointer'>
                   <input
                     className="d-none form-control form__comapny-description"
                     type="file"
@@ -328,7 +328,7 @@ const CreateCompany = () => {
                 >
                   Update Company Logo
                 </label>
-                <label className='form-control form__comapny-description'>
+                <label className='cursor-pointer form-control form__comapny-description'>
                   <input
                     className="d-none form-control form__comapny-description"
                     type="file"

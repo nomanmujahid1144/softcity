@@ -188,7 +188,7 @@ const Form = () => {
                 }`}
               >
                 <div className="d-flex flex-row align-items-center justify-content-between">
-                  <h5 className="header-beforeAdmin">Creata Data Point</h5>
+                  <h5 className="header-beforeAdmin">Update Data Point</h5>
                   <div className="d-flex flex-row align-items-center gap-2">
                     <div>
                       <button
@@ -196,15 +196,6 @@ const Form = () => {
                         className="btn py-2 btn-primary btn-darkblue me-3"
                       >
                         Update <BsArrowRight />
-                      </button>
-                      <button
-                        onClick={() => {
-                          formreset()
-                        }}
-                        type="submit"
-                        className="btn btn-dark py-2 create-btn-form"
-                      >
-                        Reset
                       </button>
                     </div>
                   </div>

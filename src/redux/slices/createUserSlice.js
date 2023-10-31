@@ -14,19 +14,54 @@ const initialState = {
   error: "",
 };
 
-export const createUser = createAsyncThunk("createuser", async ({data, alert}) => {
+export const createUser = createAsyncThunk("createuser", async (params) => {
+  const { data, profilePhoto, alert } = params;
   console.log("entered in create user action", data);
-  await axiosInstance.post('/api/v1/auth/signup', JSON.stringify(data), {
-    headers: {
-      "Content-Type": "application/json",
-    }
-  }).then(async (res) => {
-    alert.success('User create Successfully');
-    return await res.data.data;
-  }).catch((err) => {
-    const error = handleApiError(err);
-    alert.error(error.length > 0 ? error[0].message : "Something went Wrong");
-  })
+  
+  try {
+    const formData = new FormData();
+    formData.append('profilePhoto', profilePhoto);
+  
+    await axiosInstance.post('/api/v1/auth/signup', formData , {
+      params: {
+        values: data
+      }
+    }).then(async (res) => {
+      alert.success('User create Successfully');
+      return await res.data;
+    }).catch((err) => {
+      const error = handleApiError(err);
+      alert.error(error.length > 0 ? error[0].message : "Something went Wrong");
+    })
+  } catch (error) {
+    console.log(error);
+    alert.success(error.response.data.message);
+  }
+});
+
+
+export const updateUser = createAsyncThunk("updateUser", async (params) => {
+  const { data, profilePhoto, alert } = params;
+  console.log("entered in update user action", data);
+  try {
+    const formData = new FormData();
+    formData.append('profilePhoto', profilePhoto);
+
+    await axiosInstance.patch('/api/v1/auth/updateuser', formData , {
+      params: {
+        values: data
+      }
+    }).then(async (res) => {
+      alert.success('User update Successfully');
+      return await res.data;
+    }).catch((err) => {
+      const error = handleApiError(err);
+      alert.error(error.length > 0 ? error[0].message : "Something went Wrong");
+    })
+  } catch (error) {
+    console.log(error);
+    alert.success(error.response.data.message);
+  }
 });
 
 export const userLogin = ({ data, navigate, alert, location}) => {
@@ -173,20 +208,6 @@ export const deleteUser = createAsyncThunk("deleteUser", async (ids) => {
 }
 );
 
-export const updateUser = createAsyncThunk("updateUser", async ({data, alert}) => {
-  console.log("entered in update user action", data);
-  await axiosInstance.patch('/api/v1/auth/updateuser', JSON.stringify(data), {
-    headers: {
-      "Content-Type": "application/json",
-    }
-  }).then(async (res) => {
-    alert.success('User update Successfully');
-    return await res.data.data;
-  }).catch((err) => {
-    const error = handleApiError(err);
-    alert.error(error.length > 0 ? error[0].message : "Something went Wrong");
-  })
-});
 
 const createUserSlice = createSlice({
   name: "user",

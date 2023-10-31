@@ -27,7 +27,9 @@ exports.userSignup = async (req, res, next) => {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(pass, salt);
 
-    let userInfo = await User.findOne({ email: req.body.email });
+    const body = req.query.values;
+
+    let userInfo = await User.findOne({ email: body.email });
 
     if (userInfo) {
       return res.status(409).json({
@@ -37,8 +39,15 @@ exports.userSignup = async (req, res, next) => {
       })
     } else {
 
+      if (req.files) {
+          if (req.files.profilePhoto) {
+              const uploadedPath = await uploadImage(req.files.profilePhoto, next);
+              body.profilePhoto = uploadedPath.photoPath;
+          }
+      }
+
       let user = new User({
-        ...req.body,
+        ...body,
         password: hash,
       });
       const token = jsonwebtoken.sign(
@@ -90,12 +99,12 @@ exports.userSignup = async (req, res, next) => {
                 console.log(error);
               } else {
                 console.log("Mail sent : %s", info.response);
-                return res.status(200).json({
-                  success: true,
-                  message: "User Successfully Created",
-                  data: result,
-                });
               }
+            });
+            return res.status(200).json({
+              success: true,
+              message: "User Successfully Created",
+              data: result,
             });
           }
         }
@@ -237,14 +246,18 @@ exports.deleteUsers = async (req, res, next) => {
 
 exports.updateUser = async (req, res, next) => {
   try {
-
+ 
     const userId = req.user.data[1];
 
-    let body = JSON.parse(req.query.values);
+    let body = req.query.values;
+    console.log(body)
+    console.log(req.files)
 
     if (req.files) {
-      const profilePhotoUploaded = await uploadImage(req.files.profilePhoto, next)
-      body.profilePhoto = profilePhotoUploaded.photoPath
+      if (req.files.profilePhoto) {
+          const uploadedPath = await uploadImage(req.files.profilePhoto, next);
+          body.profilePhoto = uploadedPath.photoPath;
+      }
     }
 
     const updatedUser = await User.findOneAndUpdate({

@@ -143,12 +143,15 @@ const Table_Grid = ({
       >
         <thead class="tHead">
           <tr>
+            {console.log(heading10, 'heading10')}
             <th>{heading1 ?? 'SN'}</th>
             <th>{heading2 ?? 'Collection Name'}</th>
             <th>{heading3 ?? 'Total Data Points'}</th>
             <th>{heading4 ?? 'Description'}</th>
             <th>{heading5 ?? 'Create Timestamp'}</th>
-            {/* {!dataCollectionTemplate ?  <th>{heading10 ?? ''}</th>:null } */}
+            {users ?
+              <th>{heading10 ?? ''}</th>
+            : null}
             <th>{heading6 ?? 'Last Updated'}</th>
             <th>{heading7 ?? 'Created By'}</th>
             <th>{heading8 ?? 'Data Submissions'}</th>
@@ -172,7 +175,7 @@ const Table_Grid = ({
                       <td>{res?.company}</td>
                       {/* <td className='cursor-pointer' onClick={() => handleSeeDescription(res.description)}>Click to View</td> */}
                       <td>{res?.createdAt?.split('T')[0]}</td>
-                      <td>{res?.lastUpdated?.split('T')[0]}</td>
+                      <td>{res?.updatedAt?.split('T')[0]}</td>
                       <td>{res?.role}</td>
                     </>
                   )}
