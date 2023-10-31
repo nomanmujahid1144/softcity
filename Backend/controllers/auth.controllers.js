@@ -23,7 +23,6 @@ function randomPassword() {
 exports.userSignup = async (req, res, next) => {
   try {
     req.body.password = randomPassword();
-    console.log(req.body.password);
     const pass = req.body.password;
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(pass, salt);
@@ -237,19 +236,15 @@ exports.deleteUsers = async (req, res, next) => {
 }
 
 exports.updateUser = async (req, res, next) => {
-  console.log(req.body, "update user");
   try {
 
     const userId = req.user.data[1];
 
     let body = JSON.parse(req.query.values);
-    console.log(body)
-    console.log(req.files)
 
     if (req.files) {
       const profilePhotoUploaded = await uploadImage(req.files.profilePhoto, next)
       body.profilePhoto = profilePhotoUploaded.photoPath
-      console.log(body, " :new body")
     }
 
     const updatedUser = await User.findOneAndUpdate({

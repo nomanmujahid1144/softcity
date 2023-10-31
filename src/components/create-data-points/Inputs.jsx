@@ -55,7 +55,7 @@ const Inputs = (props) => {
           cols="40"
           rows="3"
           minLength="5"
-          maxLength="30"
+          maxLength="300"
           placeholder="Description"
         ></textarea>
       </div>

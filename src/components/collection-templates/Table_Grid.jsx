@@ -181,8 +181,8 @@ const Table_Grid = ({
                       <td>{res.dataPointName}</td>
                       <td>{res.dataPointType}</td>
                       <td className='cursor-pointer' onClick={() => handleSeeDescription(res.description)}>Click to View</td>
-                      <td>{res.createdAt.split('T')[0]}</td>
-                      <td>{res.updatedAt.split('T')[0]}</td>
+                      <td>{res.createdAt?.split('T')[0]}</td>
+                      <td>{res.updatedAt?.split('T')[0]}</td>
                       <td>{res.createdBy}</td>
                       <td>{res.dataHits}</td>
                     </>
@@ -192,8 +192,8 @@ const Table_Grid = ({
                       <td>{res?.collectionTemplateName}</td>
                       <td>{res?.selectedDataPoints?.length }</td>
                       <td className='cursor-pointer' onClick={() => handleSeeDescription(res.description)}>Click to View</td>
-                      <td>{res.createdAt.split('T')[0]}</td>
-                      <td>{res.updatedAt.split('T')[0]}</td>
+                      <td>{res.createdAt?.split('T')[0]}</td>
+                      <td>{res.updatedAt?.split('T')[0]}</td>
                       <td>Admin</td>
                       <td>340</td>
                     </>
@@ -201,7 +201,7 @@ const Table_Grid = ({
                   {allUserGroups && (
                     <>
                       <td>{res?.GroupName}</td>
-                      <td>{res?.users.length > 0 ? res?.users.length : 0}</td>
+                      <td>{res?.users?.length > 0 ? res?.users?.length : 0}</td>
                       <td className='cursor-pointer' onClick={() => handleClick(ind)}>Click to View</td>
                       {/* <td>{res.createdAt.split('T')[0]}</td>
                       <td>{res.lastUpdated.split('T')[0]}</td>
@@ -209,8 +209,8 @@ const Table_Grid = ({
                       <td>{res.dataHits}</td> */}
 
                       {/* hard coded waiting for API correction*/}
-                      <td>{res.createdAt.split('T')[0]}</td>
-                      <td>{res.updatedAt.split('T')[0]}</td>
+                      <td>{res.createdAt?.split('T')[0]}</td>
+                      <td>{res.updatedAt?.split('T')[0]}</td>
                       <td>Admin</td>
                       <td>340</td>
                     </>

@@ -51,9 +51,7 @@ const Form = () => {
   useEffect(() => {
     dispatch(getDataPoint(params.id))
     setischecked(datapoint ? datapoint?.enableSheetMode : false)
-  }, [datapoint?.dataPointName])
-  
-  console.log(datapoint?.enableSheetMode, ischecked, "ischecked")
+  }, [params.id])
 
   //checkbox logic
   const checkbox = function () {
@@ -137,8 +135,6 @@ const Form = () => {
     let array = new Array(+e.target.value).fill({ label: '', column: '' })
     setcolumns(array)
   }
-  //
-  const onchangetext = function (e) {}
   //submit
   const formreset = function () {
     setstate(false)
@@ -165,12 +161,12 @@ const Form = () => {
     // fetch_data(data)
     // const { dataForm } = dataForm
     const dataArr = {
-      dataPointName: data.DataPointName == "" ? datapoint?.DataPointName : data.DataPointName,
-      dataPointType: data.dataFieldType == "" ? datapoint?.dataFieldType : data.dataFieldType,
-      description: data.Description == "" ? datapoint?.Description : data.Description,
-      enableSheetMode: data.enableSheetMode == "" ? datapoint?.enableSheetMode : data.enableSheetMode,
-      noOfColumns: data.NoOfColumns !== null ? +data.NoOfColumns : datapoint?.noOfColumns,
-      labelColumns: labelColArr.length > 0 ? labelColArr : datapoint?.labelColArr,
+      dataPointName: data?.DataPointName == "" ? datapoint?.DataPointName : data?.DataPointName,
+      dataPointType: data?.dataFieldType == "" ? datapoint?.dataFieldType : data?.dataFieldType,
+      description: data?.Description == "" ? datapoint?.Description : data?.Description,
+      enableSheetMode: data?.enableSheetMode == "" ? datapoint?.enableSheetMode : data?.enableSheetMode,
+      noOfColumns: data?.NoOfColumns !== null ? +data?.NoOfColumns : datapoint?.noOfColumns,
+      labelColumns: labelColArr?.length > 0 ? labelColArr : datapoint?.labelColArr,
     }
     
     dispatch(updateDataPoint({dataArr: dataArr, id: params.id}))
@@ -226,15 +222,15 @@ const Form = () => {
                   </label>
                   <input
                     {...register('DataPointName')}
-                    onChange={onchangetext}
                     required="true"
-                    defaultValue={datapoint?.dataPointName || ""}
                     autofocus="true"
                     placeholder="Data point name"
                     type="text"
                     name="DataPointName"
                     className="form-control inputs-data"
                     id="DataPointname"
+                    key={datapoint?.dataPointName}
+                    defaultValue={datapoint?.dataPointName || ""}
                     aria-describedby="Data-Point-name"
                   />
                 </div>
@@ -370,7 +366,8 @@ const Form = () => {
                   minLength="5"
                   maxLength="30"
                   placeholder="Description"
-                  defaultValue={datapoint?.description}
+                  key={datapoint?.description || ""}
+                  defaultValue={datapoint?.description || ""}
                 ></textarea>
               </div>
               <div className="flex-grow-1 d-flex flex-column">

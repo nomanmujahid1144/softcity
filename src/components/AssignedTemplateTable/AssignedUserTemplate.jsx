@@ -141,7 +141,7 @@ const AssignedUserTemplate = ({
                   </td>
                   <td>{ind + 1}</td>
                   <td>{res.collectionTemplateName}</td>
-                  <td>{res.availableDataPoints.length + 1}</td>
+                  <td>{res.availableDataPoints?.length + 1}</td>
                   {/* <td>{res.Description}</td>
                   <td>{res.CreateTimestamp}</td>
                   <td>{res.LastUpdated}</td>

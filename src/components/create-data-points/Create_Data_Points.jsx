@@ -34,14 +34,14 @@ const Create_Data_Points = ({ func }) => {
       <div>
         {/* <ContainerHeading
           title={'Available Data Point'}
-          totalLength={dataPoints.length > 0 ? dataPoints.length : 0}
+          totalLength={dataPoints?.length > 0 ? dataPoints?.length : 0}
         /> */}
         <AvailableDatapoints
           isDataPoint={true}
           isUserGroup={false}
           title={'Available Data Point'}
-          totalLength={dataPoints.length > 0 ? dataPoints.length : 0}
-          data={dataPoints.length > 0 ? dataPoints : []}
+          totalLength={dataPoints?.length > 0 ? dataPoints?.length : 0}
+          data={dataPoints?.length > 0 ? dataPoints : []}
           selected={false}
         />
       </div>
