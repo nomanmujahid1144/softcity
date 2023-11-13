@@ -49,7 +49,7 @@ exports.updateDataTemplate = async (req, res, next) => {
 exports.getDataTemplates = async (req, res, next) => {
 
     try {
-        const dataTemplates = await CreateDataTemplate.find({}).populate('companyId')
+        const dataTemplates = await CreateDataTemplate.find({}).populate('companyId');
         
         console.log(dataTemplates, 'dataTemplates')
 

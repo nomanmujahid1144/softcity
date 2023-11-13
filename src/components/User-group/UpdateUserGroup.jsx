@@ -12,7 +12,7 @@ import { getAllUsers } from "../../redux/slices/createUserSlice";
 import { useAlert } from "react-alert";
 import ReactSelect from "react-select";
 const UpdateUserGroup = () => {
-  const { selectedUsers, setSelectedUsers } = useContext(Context);
+  const { selectedUsers, setSelectedUsers, setItems } = useContext(Context);
 
   const dispatch = useDispatch();
   const params = useParams();
@@ -121,6 +121,7 @@ const handleSubmit = async (e) => {
   dispatch(updateUserGroup({ userGroup, userGroupId, alert })).then((response) => {
     if (response?.payload?.success) {
       navigate('/admin/all-user-groups'); // Replace with your desired path
+      setItems([]);
       setSelectedUsers([])
       setUserGroup({
         GroupName: "",

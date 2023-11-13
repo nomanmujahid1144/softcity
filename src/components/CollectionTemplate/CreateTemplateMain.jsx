@@ -16,10 +16,8 @@ const CreateTemplateMain = () => {
   const {
     point,
     assignCollectionTemplate,
-    createcollectiontemplate,
     dataForm,
-    selectedDataPoints,
-    setSelectedDataPoints,
+    setItems,
   } = useContext(Context)
 
   const dispatch = useDispatch();
@@ -38,7 +36,7 @@ const CreateTemplateMain = () => {
 
       data.companyId = id;
 
-      assignCollectionTemplate(data);
+      assignCollectionTemplate(data).then(() => setItems([]) );
       alert.success('The data Collection created successfully');
       navigate('/admin/collection-templates')
       // setTimeout(() => {

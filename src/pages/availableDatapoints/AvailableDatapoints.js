@@ -21,10 +21,8 @@ function AvailableDatapoints({
 }) {
   const [handleRefresh, setHandleRefresh] = useState(false);
   const finalData = useContext(Context);
-  const { mode, selectedDataPoints, setSelectedDataPoints, setSelectedUsers } =
-    finalData;
+  const { mode, selectedDataPoints, setSelectedDataPoints, setSelectedUsers,items, setItems } = finalData;
 
-  const [items, setItems] = useState([]);
   const [alreadySelectedList, setAlreadySelectedList] = useState([]);
 
   useEffect(() => {
@@ -33,8 +31,14 @@ function AvailableDatapoints({
   }, []);
 
   useEffect(() => {
+    if (data?.length > 0) {
+      setItems(data);
+    }
+  }, [data]);
+
+  useEffect(() => {
     if (UpdateSelectedDataPoints?.length > 0) {
-      const updatedDataList = data.map((data) => {
+      const updatedDataList = items.map((data) => {
         const newData = { ...data, selected: false };
 
         const matchingDataPoint = UpdateSelectedDataPoints.find(
@@ -52,7 +56,8 @@ function AvailableDatapoints({
         return newData;
       });
 
-      data = updatedDataList;
+      // data = updatedDataList;
+      setItems(updatedDataList);
     }
   }, [UpdateSelectedDataPoints]);
 
@@ -62,7 +67,7 @@ function AvailableDatapoints({
 
   useEffect(() => {
     if (UpdateSelectedUsers?.length > 0) {
-      const updatedDataList = data.map((data) => {
+      const updatedDataList = items.map((data) => {
         const newData = { ...data, selected: false };
 
         const matchingDataPoint = UpdateSelectedUsers.find(
@@ -80,13 +85,14 @@ function AvailableDatapoints({
         return newData;
       });
 
-      data = updatedDataList;
+      // data = updatedDataList;
+      setItems(updatedDataList);
     }
   }, [UpdateSelectedUsers]);
 
   const handleClickTabs = async (e, arg) => {
     // Create a new array with updated 'selected' values
-    const updatedData = data.map((item) => {
+    const updatedData = items.map((item) => {
       if (item._id === arg._id) {
         // Toggle the 'selected' property
         const updatedItem = { ...item, selected: !item.selected };
@@ -109,12 +115,13 @@ function AvailableDatapoints({
     });
 
     // Update the 'data' variable with the new array
-    data = updatedData;
+    // data = updatedData;
+    setItems(updatedData)
   };
 
   const handleClickUsersTabs = async (e, arg) => {
     // Create a new array with updated 'selected' values
-    const updatedData = data.map((item) => {
+    const updatedData = items.map((item) => {
       if (item._id === arg._id) {
         // Toggle the 'selected' property
         const updatedItem = { ...item, selected: !item.selected };
@@ -135,7 +142,8 @@ function AvailableDatapoints({
     });
 
     // Update the 'data' variable with the new array
-    data = updatedData;
+    // data = updatedData;
+    setItems(updatedData)
   };
 
 
@@ -176,8 +184,8 @@ function AvailableDatapoints({
                     {/* mapping over all the form data */}
                     {isUserGroup && (
                       <>
-                        {data &&
-                          data?.map((res, ind) => {
+                        {items &&
+                          items?.map((res, ind) => {
                             return (
                               <>
                                 <UserPoint
@@ -197,8 +205,8 @@ function AvailableDatapoints({
                     )}
                     {isDataPoint && (
                       <>
-                        {data &&
-                          data?.map((res, ind) => {
+                        {items &&
+                          items?.map((res, ind) => {
                             return (
                               <>
                                 <DataPoint

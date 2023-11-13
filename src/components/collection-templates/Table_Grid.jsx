@@ -144,7 +144,6 @@ const Table_Grid = ({
       >
         <thead class="tHead">
           <tr>
-            {console.log(heading10, 'heading10')}
             <th>{heading1 ?? 'SN'}</th>
             <th>{heading2 ?? 'Collection Name'}</th>
             <th>{heading3 ?? 'Total Data Points'}</th>
@@ -173,7 +172,7 @@ const Table_Grid = ({
                       <td>{res?.phoneNumber}</td>
                       <td>{res?.email}</td>
                       <td>{res?.country}</td>
-                      <td>{res?.company}</td>
+                      <td>{res?.companyId?.companyName}</td>
                       {/* <td className='cursor-pointer' onClick={() => handleSeeDescription(res.description)}>Click to View</td> */}
                       <td>{res?.createdAt?.split('T')[0]}</td>
                       <td>{res?.updatedAt?.split('T')[0]}</td>
