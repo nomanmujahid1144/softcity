@@ -72,9 +72,7 @@ export const updateCompany = createAsyncThunk( "updateCompany", async (params) =
   }
 );
 
-export const getCompanies = createAsyncThunk(
-  "getCompanies",
-  async () => {
+export const getCompanies = createAsyncThunk("getCompanies", async () => {
     console.log("entered in get data collections action");
 
     try {
@@ -93,9 +91,7 @@ export const getCompanies = createAsyncThunk(
     }
   }
 );
-export const getCompany = createAsyncThunk(
-  "getCompany",
-  async ({id}) => {
+export const getCompany = createAsyncThunk("getCompany",async ({id}) => {
     console.log("entered in get data collections action");
 
     try {
@@ -119,19 +115,22 @@ export const deleteCompanies = createAsyncThunk( "deleteCompanies", async (ids) 
     console.log("entered in Delete data collections action");
 
     try {
-      const response = await axiosInstance.delete(`/api/v1/company/deletecompanies`,
+      const response = await axiosInstance.delete(`/api/v1/auth/deleteuser`,
         {
           headers: {
-            "Content-Type": "application/json",
-            "auth-token": `${AUTH_TOKEN}`,
+            "Content-Type": "application/json"
           },
           params: {
             IDS : ids
           }
         }
       );
-
-      return response.data.data;
+      if (response.data.success) { 
+        console.log(response.data, 'response.data')
+        return await response.data;
+      } else {
+        alert.success(response.data.message);
+      }
     } catch (error) {
       console.log("error in fetching get data collections", error);
     }
