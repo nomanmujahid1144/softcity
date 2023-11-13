@@ -6,10 +6,10 @@ const CreateUserGroupSchema = new Schema({
         type: String,
         required: true,
     },
-    ApprovingOfficer: {
-        type: String,
-        required: true,
-    },
+    ApprovingOfficers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
     subGroup: {
         type: String,
         default: '',

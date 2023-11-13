@@ -17,11 +17,14 @@ function AvailableDatapoints({
   data,
   selected,
   UpdateSelectedDataPoints,
+  UpdateSelectedUsers,
 }) {
-  const finalData = useContext(Context);  
   const [handleRefresh, setHandleRefresh] = useState(false);
+  const finalData = useContext(Context);
   const { mode, selectedDataPoints, setSelectedDataPoints, setSelectedUsers } =
     finalData;
+
+  const [items, setItems] = useState([]);
   const [alreadySelectedList, setAlreadySelectedList] = useState([]);
 
   useEffect(() => {
@@ -54,9 +57,33 @@ function AvailableDatapoints({
   }, [UpdateSelectedDataPoints]);
 
   const handleRefreshfun = () => {
-    setHandleRefresh(!handleRefresh)
+    setHandleRefresh(!handleRefresh);
   };
 
+  useEffect(() => {
+    if (UpdateSelectedUsers?.length > 0) {
+      const updatedDataList = data.map((data) => {
+        const newData = { ...data, selected: false };
+
+        const matchingDataPoint = UpdateSelectedUsers.find(
+          (updateData) => updateData === data._id
+        );
+
+        if (matchingDataPoint) {
+          newData.selected = true;
+          setAlreadySelectedList((prevList) => [
+            ...prevList,
+            matchingDataPoint._id,
+          ]);
+        }
+
+        return newData;
+      });
+
+      data = updatedDataList;
+      setItems(data);
+    }
+  }, [UpdateSelectedUsers]);
 
   const handleClickTabs = async (e, arg) => {
     // Create a new array with updated 'selected' values

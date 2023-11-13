@@ -1,24 +1,25 @@
 import React, { useContext, useEffect, useState } from "react";
 import CreateCollectionTemplate from "../CollectionTemplate/CreateCollectionTemplate";
-import AvailableData from "../available-data-points/AvailableData";
-import ContainerHeading from "../DataPointscontainer/ContainerHeading";
 import Context from "../../Context/DashboardContext";
 import InputField from "../fields/InputField";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import SelectionField from "../fields/SelectField";
 import CheckBoxField from "../fields/CheckBoxField";
-import { createUserGroup, getUserGroups } from "../../redux/slices/UserGroups/UserGroups";
+import { getUserGroup, getUserGroups, updateUserGroup } from "../../redux/slices/UserGroups/UserGroups";
 import AvailableDatapoints from "../../pages/availableDatapoints/AvailableDatapoints";
 import { getAllUsers } from "../../redux/slices/createUserSlice";
 import { useAlert } from "react-alert";
 import ReactSelect from "react-select";
-const CreateUserGroup = () => {
-  const { mode, selectedUsers, setSelectedUsers } = useContext(Context);
+const UpdateUserGroup = () => {
+  const { selectedUsers, setSelectedUsers } = useContext(Context);
 
   const dispatch = useDispatch();
+  const params = useParams();
   const navigate = useNavigate();
   const alert = useAlert();
+  
+  const userGroupId = params.id;
 
   const [subGroups, setSubGroups] = useState([]);
   const [approvingOfficers, setApprovingOfficers] = useState([]);
@@ -38,11 +39,17 @@ const CreateUserGroup = () => {
   const { userGroups } = useSelector(
     (state) => state.userGroups
   );
+  const { singleUserGroup } = useSelector(
+    (state) => state.userGroups
+  );
   const { users } = useSelector(
     (state) => state.users
   );
 
   useEffect(() => {
+    if (userGroupId) {
+      dispatch(getUserGroup(userGroupId))
+    }
     dispatch(getAllUsers());
     dispatch(getUserGroups());
   }, []) 
@@ -55,7 +62,45 @@ const CreateUserGroup = () => {
       }));
       setSubGroups(subGroupOptions);
     }
-  },[userGroups])
+  }, [userGroups])
+
+    // Funtion to fetch the exect usergroups that saved in my DB foe EDIT-USER
+    function findUserGroupById(users, idsToMatch) {
+      const matchedUserGroups = [];
+      if (idsToMatch) {
+        for (const idToMatch of idsToMatch) {
+          const user = users.find(user => user._id === idToMatch);
+          if (user) {
+            matchedUserGroups.push({
+              label: user.firstName + " " + user.lastName ,
+              value: user._id,
+            });
+          }
+        }
+      }
+    
+      return matchedUserGroups;
+    }
+  
+  useEffect(() => {
+    if (Object.keys(singleUserGroup).length > 0) {
+      const idArray = singleUserGroup?.users?.map(user => user);
+      setSelectedUsers(idArray);
+      setUserGroup({
+        GroupName: singleUserGroup?.GroupName,
+        subGroup: singleUserGroup?.subGroup,
+        roles: {
+          dataCollectors: singleUserGroup?.roles?.dataCollectors,
+          dashboardViewers: singleUserGroup?.roles?.dashboardViewers,
+          administrators: singleUserGroup?.roles?.administrators,
+        },
+        users: singleUserGroup?.users
+      })
+      const matchedUserGroups = findUserGroupById(users, singleUserGroup?.ApprovingOfficers);
+      // setSuggestions(matchedUserGroups?.map((option) => option.value));
+      setEditApprovingOfficers(matchedUserGroups);
+    }
+  },[singleUserGroup])
   
   useEffect(() => {
     if (users.length > 0) {
@@ -69,25 +114,25 @@ const CreateUserGroup = () => {
 
 const handleSubmit = async (e) => {
   e.preventDefault();
-  console.log(approvigOfficersIds, 'approvigOfficersIds')
-  userGroup.ApprovingOfficers = approvigOfficersIds;
+  userGroup.ApprovingOfficers  = approvigOfficersIds;
   userGroup.users = selectedUsers;
-  dispatch(createUserGroup({ userGroup, alert })).then((response) => {
+  dispatch(updateUserGroup({ userGroup, userGroupId, alert })).then((response) => {
     if (response?.payload?.success) {
-      setSelectedUsers([]);
       navigate('/admin/all-user-groups'); // Replace with your desired path
+      setSelectedUsers([])
+      setUserGroup({
+        GroupName: "",
+        ApprovingOfficer: "",
+        subGroup: "",
+        roles: {
+          dataCollectors: false,
+          dashboardViewers: false,
+          administrators: false,
+        }
+      })
     }
   });
-  setUserGroup({
-    GroupName: "",
-    ApprovingOfficer: "",
-    subGroup: "",
-    roles: {
-      dataCollectors: false,
-      dashboardViewers: false,
-      administrators: false,
-    }
-  })
+
 };
   
   
@@ -110,7 +155,7 @@ const onChange = (e) => {
   // Handle input changes and update suggestions
   const handleInputChange = async (selectedOptions) => {
     // const inputValue = event.target.value;
-    setEditApprovingOfficers(selectedOptions)
+    setEditApprovingOfficers(selectedOptions) 
     setSelectApprovigOfficersIds(selectedOptions?.map((option) => option.value))
   };
   
@@ -120,9 +165,10 @@ const onChange = (e) => {
       <section>
         <form onSubmit={handleSubmit}>
           <CreateCollectionTemplate
-            title={"Create User Groups"}
+            title={"Update User Groups"}
             assign={false}
-            create={true}
+            create={false}
+            update={true}
             viewAllLink="/admin/all-user-groups"
           />
           <main>
@@ -230,6 +276,7 @@ const onChange = (e) => {
                 isUserGroup={true}
                 isDataPoint={false}
                 selected={true}
+                UpdateSelectedUsers={userGroup?.users?.length > 0  ? userGroup?.users : []}
               />
             : null}
           </main>
@@ -239,4 +286,4 @@ const onChange = (e) => {
   );
 };
 
-export default CreateUserGroup;
+export default UpdateUserGroup;

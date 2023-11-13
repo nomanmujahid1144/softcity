@@ -88,7 +88,7 @@ export default function CreateAdminContainer() {
 
   // Update User UseEffect Call
   useEffect(() => {
-    if (Object.keys(params).length > 0) {
+    if (Object.keys(singleUser).length > 0) {
       setEditUser(true);
       setUser({
         firstName: singleUser.firstName,
@@ -96,11 +96,11 @@ export default function CreateAdminContainer() {
         email: singleUser.email,
         phoneNumber: singleUser.phoneNumber,
         country: singleUser.country,
-        company: singleUser.company,
+        // company: singleUser.company,
         administrativeRole: singleUser.administrativeRole,
         role: singleUser.role,
       });
-      setProfileImageEdit(singleUser.profilePhoto)
+      setProfileImageEdit(singleUser.profilePhoto);
       const matchedUserGroups = findUserGroupById(userGroups, singleUser.userGroups);
       setSuggestions(matchedUserGroups?.map((option) => option.value));
       setEditGroupsValues(matchedUserGroups);
@@ -113,7 +113,7 @@ export default function CreateAdminContainer() {
         email: "",
         phoneNumber: "",
         country: "",
-        company: "",
+        // company: "",
         administrativeRole: "",
         role: "",
       });
@@ -157,6 +157,7 @@ export default function CreateAdminContainer() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     user.userGroups = suggestions;
+    user.isCompany = false;
     // Check if administrativeRole is empty and remove it if so
     if (user.administrativeRole === "") {
       delete user.administrativeRole;
@@ -165,7 +166,8 @@ export default function CreateAdminContainer() {
     console.log(user, 'user')
     // if Edit User is trur it means its an Update request
     if (editUser) {
-      dispatch(updateUser({ data: user, profilePhoto: profileImage, alert })).then((response) => {
+      dispatch(updateUser({ data: user, profilePhoto: profileImage, userId: params.id, alert })).then((response) => {
+        console.log(response, 'response')
         if (response?.payload?.success) {
           navigate('/admin/all-users'); // Replace with your desired path
         }
@@ -215,7 +217,7 @@ export default function CreateAdminContainer() {
             <input
               className="d-none form-control form__comapny-description"
               type="file"
-              accept="image/svg+xml"
+              accept="image/*"
               onChange={(event) => {
                 setProfileImage(event.currentTarget.files[0]);
                 setProfileImagePreview( URL.createObjectURL(event.target.files[0]));
@@ -286,7 +288,7 @@ export default function CreateAdminContainer() {
               onChange={onChange}
             />
           </div>
-          <div className="col-6 my-3 mx-0 d-flex flex-column">
+          {/* <div className="col-6 my-3 mx-0 d-flex flex-column">
             <InputField
               label="Company"
               required={true}
@@ -295,7 +297,7 @@ export default function CreateAdminContainer() {
               value={user.company}
               onChange={onChange}
             />
-          </div>
+          </div> */}
           {/* ///// */}
           <div className="col-6 my-3 mx-0 d-flex flex-column">
             <label className={`form-label fw-semibold fs-7-5`} >

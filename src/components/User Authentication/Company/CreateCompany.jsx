@@ -35,10 +35,11 @@ const CreateCompany = () => {
 
   const [editUser, setEditUser] = useState(false);
   const [credentials, setcredentials] = useState({
+    firstName: "",
+    email: "",
+    phoneNumber: "",
+
     companyName: "",
-    companyContactPerson: "",
-    companyContactPersonEmail: "",
-    companyContactPersonPhoneNumber: "",
     companyLocation: "",
     companyPhoneNumber: "",
     companyEmail: "",
@@ -62,10 +63,11 @@ const CreateCompany = () => {
     if (Object.keys(params).length > 0) {
       setEditUser(true);
       setcredentials({
+        firstName: company?.firstName,
+        email: company?.email,
+        phoneNumber: company?.phoneNumber,
+
         companyName: company?.companyName,
-        companyContactPerson: company?.companyContactPerson,
-        companyContactPersonEmail: company?.companyContactPersonEmail,
-        companyContactPersonPhoneNumber: company?.companyContactPersonPhoneNumber,
         companyLocation: company?.companyLocation,
         companyPhoneNumber: company?.companyPhoneNumber,
         companyEmail: company?.companyEmail,
@@ -74,14 +76,15 @@ const CreateCompany = () => {
         companyEstimatedRevenue: company?.companyEstimatedRevenue,
       })
       setCompanyLogoEdit(company?.companyLogo);
-      setProfileImageEdit(company?.companyContactPersonImage);
+      setProfileImageEdit(company?.profilePhoto);
     } else {
       setEditUser(false);
       setcredentials({
+        firstName: "",
+        email: "",
+        phoneNumber: "",
+
         companyName: "",
-        companyContactPerson: "",
-        companyContactPersonEmail: "",
-        companyContactPersonPhoneNumber: "",
         companyLocation: "",
         companyPhoneNumber: "",
         companyEmail: "",
@@ -101,9 +104,8 @@ const CreateCompany = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(credentials, 'credentials')
-    console.log(companyLogo, 'companyLogo');
-    console.log(profileImage, 'profileImage');
+    credentials.isCompany = true;
+    credentials.role = "superAdmin";
 
     if (editUser) {
       dispatch(updateCompany({ data: credentials, companyLogo: companyLogo, companyContactPersonImage : profileImage, updateId: params.id, alert })).then((response) => {
@@ -141,7 +143,7 @@ const CreateCompany = () => {
                   <input
                     className="d-none form-control form__comapny-description"
                     type="file"
-                    accept="image/svg+xml"
+                    accept="image/*"
                     onChange={(event) => {
                       setProfileImage(event.currentTarget.files[0]);
                       setProfileImagePreview( URL.createObjectURL(event.target.files[0]));
@@ -161,59 +163,59 @@ const CreateCompany = () => {
               <h6 className="align-self-center pt-3 text-secondary">Profile Picture</h6>
               <div className="px-3 d-flex flex-column  gap-2 mt-5">
                 <div class="input-group mb-3 input-group-fields">
-                  <button
+                  <div
                     class="btn bg-gray py-2 fw-semibold text-secondary bg-gray"
                     type="button"
                     id="button-addon1"
                   >
                     Contact Person
-                  </button>
+                  </div>
                   <input
                     type="text"
                     class="form-control bg-white text-secondary"
                     placeholder=""
                     aria-label="Example text with button addon"
                     aria-describedby="button-addon1"
-                    name='companyContactPerson'
-                    value={credentials.companyContactPerson}
+                    name='firstName'
+                    value={credentials.firstName}
                     onChange={onChange}
                   />
                 </div>
                 <div class="input-group mb-3 input-group-fields">
-                  <button
+                  <div
                     class="btn bg-gray py-2 fw-semibold text-secondary bg-gray"
                     type="button"
                     id="button-addon1"
                   >
                     Email
-                  </button>
+                  </div>
                   <input
                     type="email"
                     class="form-control bg-white text-secondary"
                     placeholder=""
                     aria-label="Example text with button addon"
                     aria-describedby="button-addon1"
-                    name='companyContactPersonEmail'
-                    value={credentials.companyContactPersonEmail}
+                    name='email'
+                    value={credentials.email}
                     onChange={onChange}
                   />
                 </div>
                 <div class="input-group mb-3 input-group-fields">
-                  <button
+                  <div
                     class="btn bg-gray py-2 fw-semibold text-secondary bg-gray"
                     type="button"
                     id="button-addon1"
                   >
                     Phone Number
-                  </button>
+                  </div>
                   <input
-                    type="text"
+                    type="number"
                     class="form-control bg-white text-secondary"
                     placeholder=""
                     aria-label="Example text with button addon"
                     aria-describedby="button-addon1"
-                    name='companyContactPersonPhoneNumber'
-                    value={credentials.companyContactPersonPhoneNumber}
+                    name='phoneNumber'
+                    value={credentials.phoneNumber}
                     onChange={onChange}
                   />
                 </div>
@@ -303,7 +305,7 @@ const CreateCompany = () => {
                   required={true}
                   placeholder="Enter Company Phone"
                   id="companyPhoneNumber"
-                  type="text"
+                  type="number"
                   value={credentials.companyPhoneNumber}
                   onChange={onChange}
                 />
@@ -332,7 +334,7 @@ const CreateCompany = () => {
                   <input
                     className="d-none form-control form__comapny-description"
                     type="file"
-                    accept="image/svg+xml"
+                    accept="image/*"
                     onChange={handleImageChange}
                   />
                   {(selectedImage || editUser) && (

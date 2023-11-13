@@ -196,24 +196,19 @@ const Form = ({ submitted }) => {
                     </button>
                   </div>
 
-
-
                   {!showLabels ? (
                     <p className="mt-3 fs-5 fw-bold text-center ">
                       Would you like to prefill a column?
                     </p>
+                  ) : !showCols ? (
+                    <p className="mt-3 fs-5 fw-bold text-center ">
+                      Select a Column to fill it
+                    </p>
                   ) : (
-                    !showCols ? (
-                      <p className="mt-3 fs-5 fw-bold text-center ">
-                        Select a Column to fill it
-                      </p>
-                    ) : (
-                      <p className="mt-3 fs-5 fw-bold text-center ">
-                        Enter the data into the Columns Below
-                      </p>
-                    )
+                    <p className="mt-3 fs-5 fw-bold text-center ">
+                      Enter the data into the Columns Below
+                    </p>
                   )}
-                  
 
                   <div className="col-12 mb-4 d-flex justify-content-center ">
                     <div className="blue-line mt-3"></div>
@@ -266,7 +261,8 @@ const Form = ({ submitted }) => {
                       </Carousel>
                     </div>
                   ) : null}
-                  {showLabels ? (
+                  
+                  {showLabels && !showCols ? (
                     <div className="carousal-form mb-4">
                       {labelColArr.map((elem, ind) => {
                         return (
@@ -275,7 +271,7 @@ const Form = ({ submitted }) => {
                             className="btn-light rounded-2 border-0 px-3 py-2 me-2"
                             onClick={(e) => {
                               e.preventDefault();
-                              setShowCols("elem");
+                              setShowCols(elem);
                             }}
                           >
                             {elem}
@@ -285,43 +281,57 @@ const Form = ({ submitted }) => {
                     </div>
                   ) : null}
 
-                  {!showLabels ? (
-                    <div className="d-flex justify-content-center gap-2">
+                  {!showLabels || showCols ? (
+                    !showCols ? (
+                      <div className="d-flex justify-content-center gap-2">
+                        <button
+                          type="button"
+                          className="btn-light rounded-2 border-0 px-3"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setShowLabels(true);
+                          }}
+                        >
+                          Yes
+                        </button>
+                        <button
+                          type="submit"
+                          className="btn-blue rounded-2 border-0 px-3"
+                          onClick={(e) => setShow(false)}
+                        >
+                          No
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="d-flex justify-content-center gap-2">
                       <button
                         type="button"
-                        className="btn-light rounded-2 border-0 px-3"
+                        className="btn-light rounded-2 border-0 px-3 py-2"
                         onClick={(e) => {
                           e.preventDefault();
                           setShowLabels(true);
+                          setShowCols(null)
                         }}
                       >
-                        Yes
-                      </button>
-                      <button
-                        type="submit"
-                        className="btn-blue rounded-2 border-0 px-3"
-                        onClick={(e) => setShow(false)}
-                      >
-                        No
+                        Done
                       </button>
                     </div>
-                  ) : (
-                    <div className="d-flex justify-content-center gap-2">
-                      <button
-                        type="submit"
-                        className="btn-blue rounded-2 border-0 px-3"
-                      >
-                        Create
-                      </button>
-                      <button
-                        type="button"
-                        className="btn-light rounded-2 border-0 px-3"
-                        onClick={(e) => setShow(false)}
-                      >
-                        No
-                      </button>
-                    </div>
-                  )}
+                    )
+                  ) :  <div className="d-flex justify-content-center gap-2">
+                  <button
+                    type="submit"
+                    className="btn-blue rounded-2 border-0 px-3"
+                  >
+                    Create
+                  </button>
+                  <button
+                    type="button"
+                    className="btn-light rounded-2 border-0 px-3"
+                    onClick={(e) => setShow(false)}
+                  >
+                    No
+                  </button>
+                </div>}
                 </div>
               </div>
             </Alert>

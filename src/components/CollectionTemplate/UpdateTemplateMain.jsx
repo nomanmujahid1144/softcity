@@ -172,7 +172,7 @@ const UpdateTemplateMain = () => {
         <AvailableDatapoints
           isDataPoint={true}
           isUserGroup={false}
-          title={'Available Data Point'}
+          title={'Select Available Data Points'}
           totalLength={dataPoints.length > 0 ? dataPoints.length : 0}
           data={dataPoints.length > 0 ? dataPoints : []}
           selected={true}

@@ -19,9 +19,9 @@ export const createCompany = createAsyncThunk("createCompany", async (params) =>
   
   try {
     const formData = new FormData();
-    formData.append('companyLogo', companyLogo);
-    formData.append('companyContactPersonImage', companyContactPersonImage);
-    const res = await axiosInstance.post(`/api/v1/company/createcompany`, formData , { 
+    formData.append('companyLogo', companyLogo); 
+    formData.append('profilePhoto', companyContactPersonImage);
+    const res = await axiosInstance.post(`/api/v1/auth/signup`, formData , { 
       params: {
         values: data
       },
@@ -36,25 +36,26 @@ export const createCompany = createAsyncThunk("createCompany", async (params) =>
         alert.success(res.data.message);
       }
     } catch (error) {
-      console.log(error);
+      console.log(error, 'error');
       alert.success(error.response.data.message);
     }
   }
 );
 
 export const updateCompany = createAsyncThunk( "updateCompany", async (params) => {
-    const { data, companyLogo, companyContactPersonImage, updateId, alert } = params;
+    const { data, companyLogo, companyContactPersonImage,updateId, alert } = params;
     console.log("entered in create data collections action", data);
     // const { selectedDataPoints, TemplateName, TemplateDescription } = data;
 
   try { 
       const formData = new FormData();
       formData.append('companyLogo', companyLogo);
-      formData.append('companyContactPersonImage', companyContactPersonImage);
+      formData.append('profilePhoto', companyContactPersonImage);
 
-    const res = await axiosInstance.patch(`/api/v1/company/updatecompany/${updateId}`, formData , {
+    const res = await axiosInstance.patch(`/api/v1/auth/updateuser`, formData , {
           params: {
-            values: data
+            values: data,
+            id: updateId  
           },
         }
       );
@@ -77,7 +78,7 @@ export const getCompanies = createAsyncThunk(
     console.log("entered in get data collections action");
 
     try {
-      const response = await axiosInstance.get(`/api/v1/company/getallcompanies`,
+      const response = await axiosInstance.get(`/api/v1/auth/get-all-companies`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -98,7 +99,7 @@ export const getCompany = createAsyncThunk(
     console.log("entered in get data collections action");
 
     try {
-      const response = await axiosInstance.get(`/api/v1/company/getcompany/${id}`,
+      const response = await axiosInstance.get(`/api/v1/auth/getsingleuser/${id}`,
         {
           headers: {
             "Content-Type": "application/json",

@@ -5,20 +5,7 @@ const jsonwebtoken = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const mongoose = require('mongoose');
 const ejs = require("ejs");
-const { uploadImage } = require("../helpers/helpers");
-
-function randomPassword() {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  const passwordLength = Math.floor(Math.random() * 3) + 6; // Generates a length between 6 and 8
-
-  let password = '';
-  for (let i = 0; i < passwordLength; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
-    password += characters.charAt(randomIndex);
-  }
- 
-  return password;
-}
+const { uploadImage, randomPassword } = require("../helpers/helpers");
 
 exports.userSignup = async (req, res, next) => {
   try {
@@ -28,6 +15,9 @@ exports.userSignup = async (req, res, next) => {
     const hash = bcrypt.hashSync(pass, salt);
 
     const body = req.query.values;
+
+    console.log(body, 'BODY')
+    console.log(req.files, 'files')
 
     let userInfo = await User.findOne({ email: body.email });
 
@@ -44,12 +34,18 @@ exports.userSignup = async (req, res, next) => {
               const uploadedPath = await uploadImage(req.files.profilePhoto, next);
               body.profilePhoto = uploadedPath.photoPath;
           }
+        
+          if (req.files.companyLogo) {
+            const uploadedPath = await uploadImage(req.files.companyLogo, next);
+            body.companyLogo = uploadedPath.photoPath;
+          }
       }
 
       let user = new User({
         ...body,
         password: hash,
       });
+
       const token = jsonwebtoken.sign(
         {
           data: [user.email, user._id],
@@ -58,59 +54,118 @@ exports.userSignup = async (req, res, next) => {
         "" + process.env.JWT_SECRET
       );
       const result = await user.save();
+
       if (!result) {
         return next(new ErrorResponse("Signup failed", 400));
       }
-      ejs.renderFile(
-        __dirname + "/../views/email.ejs",
-        {
-          user: result,
-          password: pass,
-          message: "User has been created successfully",
-          link: "www.google.com"
-        },
-        function (err, data) {
+
+      if (body.isCompany === 'true') {
+        // Sending Email to Company Owner User
+        ejs.renderFile(
+          __dirname + "/../views/companyEmail.ejs",
+          {
+              user: result,
+              password: pass,
+              emailHeader: `Account Creation Confirmation for ${result.companyName}`,
+              emailMessage: "Congratulations! Your company account has been successfully created. Please check your email for login credentials. Welcome aboard!",
+              link: "www.google.com"
+          },
+          function (err, data) {
           if (err) return err;
           else {
-            const transporter = nodemailer.createTransport({
+              const transporter = nodemailer.createTransport({
               host: "smtp.office365.com", // Office 365 server
               port: 587, // secure SMTP
               secure: false, // false for TLS - as a boolean not string - but the default is false so just remove this completely
               auth: {
-                user: "support@vipinfluencers.com",
-                pass: "Sm@rt77385",
+                  user: "support@vipinfluencers.com",
+                  pass: "Sm@rt77385",
               },
               tls: {
-                ciphers: "SSLv3",
+                  ciphers: "SSLv3",
               },
-            });
+              });
 
-            // send mail with defined transport object
-            const mailOptions = {
-              from: '"Softcity" <support@vipinfluencers.com>', // sender address
-              to: result.email, // list of receivers
-              subject: `Your user has been registered`, // Subject line
-              html: data,
-            };
+              // send mail with defined transport object
+              const mailOptions = {
+                  from: '"Softcity" <support@vipinfluencers.com>', // sender address
+                  to: result.companyEmail, // list of receivers
+                  subject: `Your Company ${result.companyName} has been registered`, // Subject line
+                  html: data,
+              };
 
-            transporter.sendMail(mailOptions, (error, info) => {
+              transporter.sendMail(mailOptions, (error, info) => {
               if (error) {
-                console.log("........error");
-                console.log(error);
+                  console.log("........error");
+                  console.log(error);
               } else {
-                console.log("Mail sent : %s", info.response);
+                  console.log("Mail sent : %s", info.response);
               }
-            });
-            return res.status(200).json({
-              success: true,
-              message: "User Successfully Created",
-              data: result,
-            });
+              });    
+              // return the saved data point
+              // return res.status(200).json(savedDataPoint);
+              return res.status(200).json({
+                  success: true,
+                  message: "Company Created Succesfully",
+                  data: result
+              })
           }
-        }
-      );
+          }
+        );
+      } else {
+        // Sending Email to Company User
+        ejs.renderFile(
+          __dirname + "/../views/email.ejs",
+          {
+            user: result,
+            password: pass,
+            message: "User has been created successfully",
+            link: "www.google.com"
+          },
+          function (err, data) {
+            if (err) return err;
+            else {
+              const transporter = nodemailer.createTransport({
+                host: "smtp.office365.com", // Office 365 server
+                port: 587, // secure SMTP
+                secure: false, // false for TLS - as a boolean not string - but the default is false so just remove this completely
+                auth: {
+                  user: "support@vipinfluencers.com",
+                  pass: "Sm@rt77385",
+                },
+                tls: {
+                  ciphers: "SSLv3",
+                },
+              });
+  
+              // send mail with defined transport object
+              const mailOptions = {
+                from: '"Softcity" <support@vipinfluencers.com>', // sender address
+                to: result.email, // list of receivers
+                subject: `Your user has been registered`, // Subject line
+                html: data,
+              };
+  
+              transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                  console.log("........error");
+                  console.log(error);
+                } else {
+                  console.log("Mail sent : %s", info.response);
+                }
+              });
+              return res.status(200).json({
+                success: true,
+                message: "User Successfully Created",
+                data: result,
+              });
+            }
+          }
+        );
+      }
       
     }
+
   } catch (err) {
     console.log(err);
     return next(new ErrorResponse(err, 400));
@@ -174,7 +229,50 @@ exports.getAllUsers = async (req, res, next) => {
     return next(new ErrorResponse(err, 400));
   }
 };
+exports.getAllCompanies = async (req, res, next) => {
+  try {
+    const allUsers = await User.find({isCompany : true});
 
+    console.log(allUsers, 'USERS')
+
+    if (allUsers) {
+      return res.status(200).json({
+        success: true,
+        message: "Got All Companies Successfully",
+        data: allUsers,
+      });
+    }
+    return res.status(200).json({
+      success: false,
+      message: "No Company Found",
+      data: [],
+    });
+  } catch (err) {
+    return next(new ErrorResponse(err, 400));
+  }
+};
+exports.getAllCompanyUsers = async (req, res, next) => {
+  try {
+    const allUsers = await User.find({isCompany : false});
+
+    console.log(allUsers, 'USERS')
+
+    if (allUsers) {
+      return res.status(200).json({
+        success: true,
+        message: "Got All Users Successfully",
+        data: allUsers,
+      });
+    }
+    return res.status(200).json({
+      success: false,
+      message: "No User Found",
+      data: [],
+    });
+  } catch (err) {
+    return next(new ErrorResponse(err, 400));
+  }
+};
 exports.getSingleUser = async (req, res, next) => {
 
   try {
@@ -247,8 +345,8 @@ exports.deleteUsers = async (req, res, next) => {
 exports.updateUser = async (req, res, next) => {
   try {
  
-    const userId = req.user.data[1];
-
+    const userId = req.query.id;
+    console.log(req.user, 'req.user')
     let body = req.query.values;
     console.log(body)
     console.log(req.files)
@@ -258,9 +356,14 @@ exports.updateUser = async (req, res, next) => {
           const uploadedPath = await uploadImage(req.files.profilePhoto, next);
           body.profilePhoto = uploadedPath.photoPath;
       }
+        
+      if (req.files.companyLogo) {
+        const uploadedPath = await uploadImage(req.files.companyLogo, next);
+        body.companyLogo = uploadedPath.photoPath;
+      }
     }
 
-    const updatedUser = await User.findOneAndUpdate({
+    const updatedUser = await User.findByIdAndUpdate({
       _id: mongoose.Types.ObjectId(userId)
     }, body, { new: true });
     

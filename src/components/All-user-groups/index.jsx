@@ -7,7 +7,7 @@ import Stepper from './Stepper'
 import './Stepper/stepper.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUserGroups } from '../../redux/slices/UserGroups/UserGroups'
-const All_User_Groups = () => {
+const All_User_Groups = () => { 
 
   const [refresh, setRefresh] = useState(false);
 
