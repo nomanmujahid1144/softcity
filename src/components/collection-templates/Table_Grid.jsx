@@ -177,7 +177,7 @@ const Table_Grid = ({
                       {/* <td className='cursor-pointer' onClick={() => handleSeeDescription(res.description)}>Click to View</td> */}
                       <td>{res?.createdAt?.split('T')[0]}</td>
                       <td>{res?.updatedAt?.split('T')[0]}</td>
-                      <td>{res?.role}</td>
+                      <td>{res.companyId?.firstName} / {getRoleDescription(res.companyId?.role)}</td>
                     </>
                   )}
                   {dataPointsAvailable && (
@@ -198,8 +198,8 @@ const Table_Grid = ({
                       <td className='cursor-pointer' onClick={() => handleSeeDescription(res.description)}>Click to View</td>
                       <td>{res.createdAt?.split('T')[0]}</td>
                       <td>{res.updatedAt?.split('T')[0]}</td>
-                      <td>Admin</td>
-                      <td>340</td>
+                      <td>{res.companyId?.firstName} / {getRoleDescription(res.companyId?.role)}</td>
+                      <td>0</td>
                     </>
                   )}
                   {allUserGroups && (
@@ -215,8 +215,8 @@ const Table_Grid = ({
                       {/* hard coded waiting for API correction*/}
                       <td>{res.createdAt?.split('T')[0]}</td>
                       <td>{res.updatedAt?.split('T')[0]}</td>
-                      <td>Admin</td>
-                      <td>340</td>
+                      <td>{res.companyId?.firstName} / {getRoleDescription(res.companyId?.role)}</td>
+                      <td>0</td>
                     </>
                   )}
                   <td>
