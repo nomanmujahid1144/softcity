@@ -16,6 +16,7 @@ const Create_Data_Points = ({ func }) => {
 
   useEffect(() => {
     dispatch(getDataPoints());
+    console.log(dataPoints, "dataPointsdataPointsdataPointsdataPoints")
   },[refresh])
 
   const submitted = () => {

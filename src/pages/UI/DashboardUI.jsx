@@ -28,7 +28,7 @@ const DashboardUI = () => {
           <>
             <Header />
             <div className={`app-main ${mode || "light-mode"}`}>
-              {userRole === "admin" ? <AdminSidebar /> : <Sidebar />}
+              {userRole === "companyUser" ? <Sidebar /> : <AdminSidebar />}
               <div className="app-main__outer">
                 <div className="app-main__inner">
                   {(() => {
@@ -36,6 +36,8 @@ const DashboardUI = () => {
                       return <AppRoutes />;
                     } else if (userRole === "companyUser") {
                       return <UserRoutes />;
+                    } else if (userRole === "superAdmin") {
+                      return <AppRoutes />;
                     } else if (userRole === "both") {
                       return <AllRoutes />;
                     }

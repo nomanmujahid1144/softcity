@@ -75,15 +75,17 @@ export const userLogin = ({ data, navigate, alert, location}) => {
       if (res.data?.token) {
         const role = res.data?.data?.role;
         const newToken = res.data?.token;
-        console.log(res.data?.data, 'RESULT')
+        const id = res.data?.data._id;
+        // console.log(res.data?.data, 'RESULT')
 
         if (role === 'companyUser') {
           // Update the AUTH_TOKEN in localStorage
           localStorage.setItem("AUTH_TOKEN", newToken);
           localStorage.setItem("role", role);
+          localStorage.setItem("id", id);
 
           // Dispatch the token to Redux if needed
-          dispatch(setUserAuth({ authToken: newToken, userRole: 'companyUser' }));
+          dispatch(setUserAuth({ authToken: newToken, userRole: 'companyUser', id: id }));
 
           alert.show("Logged In Successfully");
           navigate("/");
@@ -91,24 +93,38 @@ export const userLogin = ({ data, navigate, alert, location}) => {
           // Update the AUTH_TOKEN in localStorage
           localStorage.setItem("AUTH_TOKEN", newToken);
           localStorage.setItem("role", role);
+          localStorage.setItem("id", id);
   
           // Dispatch the token to Redux if needed
-          dispatch(setUserAuth({ authToken: newToken, userRole: 'admin' }));
+          dispatch(setUserAuth({ authToken: newToken, userRole: 'admin', id: id }));
   
           alert.show("Logged In Successfully");
           navigate("/admin");
-        } else {
+        } 
+        else if (role === 'superAdmin') {
+          // Update the AUTH_TOKEN in localStorage
+          localStorage.setItem("AUTH_TOKEN", newToken);
+          localStorage.setItem("role", role);          
+          localStorage.setItem("id", id);
+  
+          // Dispatch the token to Redux if needed
+          dispatch(setUserAuth({ authToken: newToken, userRole: 'superAdmin', id: id }));
+  
+          alert.show("Logged In Successfully");
+          navigate("/admin");
+        }
+        else {
           // Update the AUTH_TOKEN in localStorage
           localStorage.setItem("AUTH_TOKEN", newToken);
           localStorage.setItem("role", role);
+          localStorage.setItem("id", id);
 
           // Dispatch the token to Redux if needed
-          dispatch(setUserAuth({ authToken: newToken, userRole: 'both' }));
+          dispatch(setUserAuth({ authToken: newToken, userRole: 'both', id: id }));
 
           alert.show("Logged In Successfully");
           navigate(`${location}`);
         }
-
       } else {
         // Handle the case where the API response does not contain a token
         alert.error("Login failed. Please check your credentials.");

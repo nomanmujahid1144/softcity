@@ -17,9 +17,6 @@ const Select_from_labeled_data_col = () => {
     setData
   } = useContext(Context);
 
-  console.log(Labels, "Labels")
-  console.log(Data, "Data")
-
   const handleLabels = function (e) {
     if (!Labels.includes(e.target.value)){
       if (e.target.value.includes(',')){

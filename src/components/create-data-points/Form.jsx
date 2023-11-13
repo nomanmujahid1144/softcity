@@ -17,38 +17,41 @@ import Alert from "react-bootstrap/Alert";
 import "../alertProceed/alertProceed.css";
 import { BsX } from "react-icons/bs";
 
-const Form = ({submitted}) => {
-  const submit = useContext(DashboardContext)
-  const { fetch_data, mode, dataForm, createDataArr, setCreateDataArr } = submit
-  const methods = useForm()
-  const { register, handleSubmit, watch, reset, setValue } = methods
-  //
+const Form = ({ submitted }) => {
+  const submit = useContext(DashboardContext);
+  const { fetch_data, mode, dataForm, createDataArr, setCreateDataArr } =
+    submit;
+  const methods = useForm();
+  const { register, handleSubmit, watch, reset, setValue } = methods;
+
   const dispatch = useDispatch();
-  //
 
   const [inputFields, setInputFields] = useState([
     { dataPointName: "", description: "", checkbox: "" },
   ]);
   const [show, setShow] = useState(false);
-  const [showCols, setShowCols] = useState(false);
+  const [showCols, setShowCols] = useState(null);
+  const [showLabels, setShowLabels] = useState(false);
   const [ischecked, setischecked] = useState(false);
   const [columns, setcolumns] = useState([]);
   const [state, setstate] = useState(false);
-  //
 
   //add
   const add1 = function () {
     const obj = { dataPointName: "", description: "", checkbox: null };
     setInputFields([obj, ...inputFields]);
   };
+
   const add2 = function () {
     const obj = { dataPointName: "", description: "", checkbox: null };
     setInputFields([...inputFields, obj]);
   };
+
   //checkbox logic
   const checkbox = function () {
     setischecked(!ischecked);
   };
+
   //data pointtype
   const onchange = function (e) {
     e.persist();
@@ -118,15 +121,14 @@ const Form = ({submitted}) => {
       setstate({ success: false });
     }
   };
-  //
+
   const createColumns = function (e) {
     //a little animation
-
     setValue("NoOfColumns", e.target.value);
     let array = new Array(+e.target.value).fill({ label: "", column: "" });
     setcolumns(array);
   };
-  //
+
   const onchangetext = function (e) {};
   //submit
   const formreset = function () {
@@ -145,6 +147,7 @@ const Form = ({submitted}) => {
     labelColArr[ind] = e.target.value;
     setValue("LabelColumns", labelColArr);
   };
+
   const [dataColArr, setDataColArr] = useState([]);
   const dataColumnhandler = (e, ind) => {
     dataColArr[ind] = e.target.value;
@@ -169,7 +172,7 @@ const Form = ({submitted}) => {
     setCreateDataArr(true);
     formreset();
     submitted();
-  }
+  };
 
   return (
     <>
@@ -193,9 +196,13 @@ const Form = ({submitted}) => {
                     </button>
                   </div>
 
-                  {!showCols ? (
+                  {!showLabels ? (
                     <p className="mt-3 fs-5 fw-bold text-center ">
-                      Do you want to autofill the first row?
+                      Would you like to prefill a column?
+                    </p>
+                  ) : !showCols ? (
+                    <p className="mt-3 fs-5 fw-bold text-center ">
+                      Select a Column to fill it
                     </p>
                   ) : (
                     <p className="mt-3 fs-5 fw-bold text-center ">
@@ -206,76 +213,111 @@ const Form = ({submitted}) => {
                   <div className="col-12 mb-4 d-flex justify-content-center ">
                     <div className="blue-line mt-3"></div>
                   </div>
+
                   {showCols ? (
-                  <div className="carousal-form mb-4">
-                    <Carousel
-                      interval={null}
-                      indicators={false}
-                      // wrap={false}
-                      prevIcon={
-                        <BsFillCaretLeftFill className="text-dark fs-10" />
-                      }
-                      nextIcon={
-                        <BsFillCaretRightFill className="text-dark fs-10" />
-                      }
-                    >
-                      {!ischecked && (
-                        <Carousel.Item>
-                          <div>
-                            <input
-                              disabled
-                              type="text"
-                              className="form-control form-column "
-                              id="DataPointname"
-                              aria-describedby="Data-Point-name"
-                            />
-                          </div>
-                        </Carousel.Item>
-                      )}
-                      {ischecked &&
-                        columns.map((res, ind) => {
-                          return (
-                            <Carousel.Item key={ind}>
-                              <div>
-                                <input
-                                  onChange={(e) => dataColumnhandler(e, ind)}
-                                  autoFocus={true}
-                                  placeholder={`Column-${ind + 1}`}
-                                  type="text"
-                                  className="form-control form-column "
-                                  id="DataPointname"
-                                  aria-describedby="Data-Point-name"
-                                />
-                              </div>
-                            </Carousel.Item>
-                          );
-                        })}
-                    </Carousel>
-                  </div>
+                    <div className="carousal-form mb-4">
+                      <Carousel
+                        interval={null}
+                        indicators={false}
+                        // wrap={false}
+                        prevIcon={
+                          <BsFillCaretLeftFill className="text-dark fs-10" />
+                        }
+                        nextIcon={
+                          <BsFillCaretRightFill className="text-dark fs-10" />
+                        }
+                      >
+                        {!ischecked && (
+                          <Carousel.Item>
+                            <div>
+                              <input
+                                disabled
+                                type="text"
+                                className="form-control form-column "
+                                id="DataPointname"
+                                aria-describedby="Data-Point-name"
+                              />
+                            </div>
+                          </Carousel.Item>
+                        )}
+                        {ischecked &&
+                          columns.map((res, ind) => {
+                            return (
+                              <Carousel.Item key={ind}>
+                                <div>
+                                  <input
+                                    onChange={(e) => dataColumnhandler(e, ind)}
+                                    autoFocus={true}
+                                    placeholder={`Column-${ind + 1}`}
+                                    type="text"
+                                    className="form-control form-column "
+                                    id="DataPointname"
+                                    aria-describedby="Data-Point-name"
+                                  />
+                                </div>
+                              </Carousel.Item>
+                            );
+                          })}
+                      </Carousel>
+                    </div>
+                  ) : null}
+                  
+                  {showLabels && !showCols ? (
+                    <div className="carousal-form mb-4">
+                      {labelColArr.map((elem, ind) => {
+                        return (
+                          <button
+                            type="button"
+                            className="btn-light rounded-2 border-0 px-3 py-2 me-2"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setShowCols(elem);
+                            }}
+                          >
+                            {elem}
+                          </button>
+                        );
+                      })}
+                    </div>
                   ) : null}
 
-                  {!showCols ? (
-
-                  <div className="d-flex justify-content-center gap-2">
-                    <button
-                      type="button"
-                      className="btn-light rounded-2 border-0 px-3"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setShowCols(true)
-                      }}
-                    >
-                      Yes
-                    </button>
-                    <button
-                      type="button"
-                      className="btn-blue rounded-2 border-0 px-3"
-                      onClick={(e) => setShow(false)}
-                    >
-                      No
-                    </button>
-                  </div>
-                  ) : <div className="d-flex justify-content-center gap-2">
+                  {!showLabels || showCols ? (
+                    !showCols ? (
+                      <div className="d-flex justify-content-center gap-2">
+                        <button
+                          type="button"
+                          className="btn-light rounded-2 border-0 px-3"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setShowLabels(true);
+                          }}
+                        >
+                          Yes
+                        </button>
+                        <button
+                          type="submit"
+                          className="btn-blue rounded-2 border-0 px-3"
+                          onClick={(e) => setShow(false)}
+                        >
+                          No
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="d-flex justify-content-center gap-2">
+                      <button
+                        type="button"
+                        className="btn-light rounded-2 border-0 px-3 py-2"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setShowLabels(true);
+                          setShowCols(null)
+                        }}
+                      >
+                        Done
+                      </button>
+                    </div>
+                    )
+                  ) :  <div className="d-flex justify-content-center gap-2">
                   <button
                     type="submit"
                     className="btn-blue rounded-2 border-0 px-3"
