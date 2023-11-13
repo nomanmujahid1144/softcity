@@ -50,7 +50,7 @@ const DataPoint = ({
 
   const handleOnClick = function (e, arg) {
     handleClicksTab(e, arg);
-    // setclassselect(!classselect);
+    setclassselect(!classselect);
     // // Check the value of classselect
 
     e.selected = !e.selected;
@@ -71,7 +71,7 @@ const DataPoint = ({
     handleRefresh();
     setShow(false);
   }
-
+  
   return (
     <>
       <Alert

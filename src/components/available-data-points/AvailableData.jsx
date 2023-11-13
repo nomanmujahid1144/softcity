@@ -9,7 +9,6 @@ import { getDataPoints } from '../../redux/slices/createDataPointsSlice'
 const AvailableData = () => {
   const datapoints = useContext(context);
   const { dataForm } = datapoints;
-
   
   const dispatch = useDispatch();
 

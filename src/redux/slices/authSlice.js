@@ -4,7 +4,7 @@ const authSlice = createSlice({
     initialState: {
       authToken: localStorage.getItem("AUTH_TOKEN") || null, // Initialize authToken from localStorage if available
       userRole: localStorage.getItem("role") || null, // Initialize userRole to null
-      userRole: localStorage.getItem("id") || null, // Initialize userRole to null
+      id: localStorage.getItem("id") || null, // Initialize id to null
       // ... other authentication-related state properties
     },
     reducers: {
