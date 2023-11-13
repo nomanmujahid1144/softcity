@@ -22,17 +22,17 @@ export const createUser = createAsyncThunk("createuser", async (params) => {
     const formData = new FormData();
     formData.append('profilePhoto', profilePhoto);
   
-    await axiosInstance.post('/api/v1/auth/signup', formData , {
+    const res = await axiosInstance.post('/api/v1/auth/signup', formData , {
       params: {
         values: data
       }
-    }).then(async (res) => {
+    })
+    if (res.data.success) { 
       alert.success('User create Successfully');
       return await res.data;
-    }).catch((err) => {
-      const error = handleApiError(err);
-      alert.error(error.length > 0 ? error[0].message : "Something went Wrong");
-    })
+    } else {
+      alert.success(res.data.message);
+    }
   } catch (error) {
     console.log(error);
     alert.success(error.response.data.message);
@@ -41,23 +41,24 @@ export const createUser = createAsyncThunk("createuser", async (params) => {
 
 
 export const updateUser = createAsyncThunk("updateUser", async (params) => {
-  const { data, profilePhoto, alert } = params;
+  const { data, profilePhoto,userId, alert } = params;
   console.log("entered in update user action", data);
   try {
     const formData = new FormData();
     formData.append('profilePhoto', profilePhoto);
 
-    await axiosInstance.patch('/api/v1/auth/updateuser', formData , {
+    const res = await axiosInstance.patch('/api/v1/auth/updateuser', formData , {
       params: {
-        values: data
+        values: data,
+        id:userId
       }
-    }).then(async (res) => {
+    })
+    if (res.data.success) {
       alert.success('User update Successfully');
       return await res.data;
-    }).catch((err) => {
-      const error = handleApiError(err);
-      alert.error(error.length > 0 ? error[0].message : "Something went Wrong");
-    })
+    } else {
+        alert.success(res.data.message);
+    }
   } catch (error) {
     console.log(error);
     alert.success(error.response.data.message);
@@ -155,7 +156,7 @@ export const userLogin = ({ data, navigate, alert, location}) => {
 
 export const getAllUsers = createAsyncThunk("getAllUsers", async () => {
   try {
-    const res = await axiosInstance.get(`/api/v1/auth/getallusers`, {
+    const res = await axiosInstance.get(`/api/v1/auth/get-all-company-users`, {
       headers: {
         "Content-Type": "application/json",
       }
@@ -297,13 +298,13 @@ const createUserSlice = createSlice({
       })
       .addCase(updateUser.rejected, (state, action) => {
         state.loading = false;
-        state.user = {};
+        state.users = [];
         state.msg = "Failed"
         state.error = action.payload;
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
+        state.users = action.payload;
         state.error = "";
       });
 

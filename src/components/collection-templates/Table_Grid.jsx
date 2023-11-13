@@ -309,6 +309,7 @@ const Table_Grid = ({
                               <button
                                 class="dropdown-item dropdown-menu-buttons"
                                 type="button"
+                                onClick={(e) => url(`/admin/update-user-group/${res._id}`)} 
                               >
                                 Edit User Group
                               </button>

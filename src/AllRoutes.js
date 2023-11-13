@@ -125,10 +125,7 @@ function AllRoutes() {
         <Route path="admin/company/createCompany" element={<CreateCompany />} />
         <Route path="admin/company/manage" element={<ManageCompanyProfile />} />
         <Route path="admin/company/Company-Users" element={<AllAdminTable />} />
-        <Route
-          path="admin/company/all-companies"
-          element={<AllCompaniesTable />}
-        />
+        <Route path="admin/company/all-companies" element={<AllCompaniesTable />} />
         <Route path="admin/notifications" element={<Notifications />} />
 
         <Route path="/accounts/create" element={<CreateUser />} />

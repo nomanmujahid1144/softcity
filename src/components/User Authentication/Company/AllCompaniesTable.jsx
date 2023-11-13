@@ -157,9 +157,9 @@ const AllCompaniesTable = () => {
                       <tr className="first-tr" key={ind}>
                         <td>{ind + 1}</td>
                         <td>{res.companyName}</td>
-                        <td>{res.companyContactPerson}</td>
-                        <td>{res.companyContactPersonPhoneNumber}</td>
-                        <td>{res.companyContactPersonEmail}</td>
+                        <td>{res.firstName}</td>
+                        <td>{res.phoneNumber}</td>
+                        <td>{res.email}</td>
                         <td>0</td>
                         <td>{res.createdAt?.split('T')[0]}</td>
                         <td>{res.updatedAt?.split('T')[0]}</td>

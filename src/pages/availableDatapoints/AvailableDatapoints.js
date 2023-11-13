@@ -9,7 +9,7 @@ import PaginationRounded from "../../components/pagination/PaginationMui";
 import DataPoint from "../../components/available-data-points/data-point/DataPoint";
 import UserPoint from "../../components/available-data-points/data-point/UserPoint";
 
-function AvailableDatapoints({ title, isUserGroup, isDataPoint, totalLength, data, selected, UpdateSelectedDataPoints }) {
+function AvailableDatapoints({ title, isUserGroup, isDataPoint, totalLength, data, selected, UpdateSelectedDataPoints, UpdateSelectedUsers }) {
   const finalData = useContext(Context);
   const { mode, selectedDataPoints, setSelectedDataPoints, setSelectedUsers} = finalData;
   
@@ -43,6 +43,29 @@ function AvailableDatapoints({ title, isUserGroup, isDataPoint, totalLength, dat
       setItems(data);
     }
   }, [UpdateSelectedDataPoints]);
+
+
+  useEffect(() => {
+    if (UpdateSelectedUsers?.length > 0) {
+      const updatedDataList = data.map((data) => {
+        const newData = { ...data, selected: false };
+
+        const matchingDataPoint = UpdateSelectedUsers.find(
+          (updateData) => updateData === data._id
+        );
+
+        if (matchingDataPoint) {
+          newData.selected = true;
+          setAlreadySelectedList((prevList) => [...prevList, matchingDataPoint._id]);
+        }
+
+        return newData;
+      });
+
+      data = updatedDataList;
+      setItems(data);
+    }
+  }, [UpdateSelectedUsers]);
 
 
   const handleClickTabs = async (e, arg) => {

@@ -67,7 +67,8 @@ const CreateTemplateMain = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <CreateCollectionTemplate
           title={'Create Data Collection Template'}
-          assign={false}
+          viewallTemplates={true}
+          update={false}
           create={true}
         />
         <div className="bg-white my-4 rounded-3 p-4 pb-5 shadow-sm ">
@@ -116,7 +117,7 @@ const CreateTemplateMain = () => {
           <AvailableDatapoints
             isDataPoint={true}
             isUserGroup={false}
-            title={'Available Data Point'}
+            title={'Select Available Data Points'}
             totalLength={dataPoints.length > 0 ? dataPoints.length : 0}
             data={dataPoints.length > 0 ? dataPoints : []}
             selected={true}

@@ -29,6 +29,10 @@ const companySchema = new Schema({
         lowercase: true,
         trim: true     
     },
+    password: {
+        type: String,
+        required: [true, "Please provide password"]
+    },
     companyAbout: {
         type: String,
         default: ''       

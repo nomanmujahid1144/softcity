@@ -42,6 +42,7 @@ import OTPinput from "./components/User Authentication/Reset/OTPInput";
 import CompanySelect from "./components/User Authentication/LoginSelect/CompanySelect";
 import Notifications from "./pages/Notifications";
 import UpdateTemplateMain from "./components/CollectionTemplate/UpdateTemplateMain";
+import UpdateUserGroup from "./components/User-group/UpdateUserGroup";
 
 function AppRoutes() {
   return (
@@ -84,6 +85,7 @@ function AppRoutes() {
 
         {/* USER-GROUPS ROUTES */}
         <Route path="admin/create-user-group" element={<CreateUserGroup />} />
+        <Route path="admin/update-user-group/:id" element={<UpdateUserGroup />} />
         <Route path="admin/all-user-groups" element={<AllUserGroups />} />
 
         <Route path="admin/AssignTemplate" element={<AssignDataCollTemplate />}/>

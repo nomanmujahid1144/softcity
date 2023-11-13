@@ -1,11 +1,20 @@
-const { uploadImage } = require('../helpers/helpers');
+const { uploadImage, randomPassword } = require('../helpers/helpers');
 const CreateCompany = require('../models/Company');
 const mongoose = require('mongoose');
+const bcrypt = require("bcrypt");
+const nodemailer = require("nodemailer");
+const ejs = require("ejs");
 
 exports.createNewCompany = async (req, res, next) => {
     try {
         console.log(req.query, 'req.query')
         console.log(req.files, 'req.files');
+
+        req.body.password = randomPassword();
+        const pass = req.body.password;
+        const salt = bcrypt.genSaltSync(10);
+        const hash = bcrypt.hashSync(pass, salt);
+
         const {
             companyName,
             companyLocation,
@@ -56,6 +65,7 @@ exports.createNewCompany = async (req, res, next) => {
                 companyLocation,
                 companyPhoneNumber,
                 companyEmail,
+                password: hash,
                 companyAbout,
                 companySize,
                 companyEstimatedRevenue,
@@ -67,14 +77,61 @@ exports.createNewCompany = async (req, res, next) => {
             });
     
             const savedDataPoint = await createCompany.save();
-    
-            // return the saved data point
-            // return res.status(200).json(savedDataPoint);
-            return res.status(200).json({
-                success: true,
-                message: "Company Created Succesfully",
-                data: savedDataPoint
-            })
+
+            if (!savedDataPoint) {
+                return next(new ErrorResponse("Signup failed", 400));
+            }
+            ejs.renderFile(
+                __dirname + "/../views/companyEmail.ejs",
+                {
+                    user: savedDataPoint,
+                    password: pass,
+                    emailHeader: `Account Creation Confirmation for ${savedDataPoint.companyName}`,
+                    emailMessage: "Congratulations! Your company account has been successfully created. Please check your email for login credentials. Welcome aboard!",
+                    link: "www.google.com"
+                },
+                function (err, data) {
+                if (err) return err;
+                else {
+                    const transporter = nodemailer.createTransport({
+                    host: "smtp.office365.com", // Office 365 server
+                    port: 587, // secure SMTP
+                    secure: false, // false for TLS - as a boolean not string - but the default is false so just remove this completely
+                    auth: {
+                        user: "support@vipinfluencers.com",
+                        pass: "Sm@rt77385",
+                    },
+                    tls: {
+                        ciphers: "SSLv3",
+                    },
+                    });
+
+                    // send mail with defined transport object
+                    const mailOptions = {
+                        from: '"Softcity" <support@vipinfluencers.com>', // sender address
+                        to: savedDataPoint.companyEmail, // list of receivers
+                        subject: `Your Company ${savedDataPoint.companyName} has been registered`, // Subject line
+                        html: data,
+                    };
+
+                    transporter.sendMail(mailOptions, (error, info) => {
+                    if (error) {
+                        console.log("........error");
+                        console.log(error);
+                    } else {
+                        console.log("Mail sent : %s", info.response);
+                    }
+                    });    
+                    // return the saved data point
+                    // return res.status(200).json(savedDataPoint);
+                    return res.status(200).json({
+                        success: true,
+                        message: "Company Created Succesfully",
+                        data: savedDataPoint
+                    })
+                }
+                }
+            );
         }
 
     } catch (error) {

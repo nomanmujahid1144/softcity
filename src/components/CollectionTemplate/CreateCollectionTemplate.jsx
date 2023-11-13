@@ -53,22 +53,22 @@ const CreateCollectionTemplate = ({
                 </div>
               )}
               {viewallTemplates && (
-                <div>
+                <Link to="/admin/collection-templates">
                     <button
                       onClick={(e) => navigate('/admin/collection-templates')}
                       className="btn btn-primary btn-darkblue me-3"
                     >
                       View All Templates <BsArrowRight />
                     </button>
-                </div>
+                </Link>
               )}
-              {!update && !viewallusers && !createNewCompany && (
+              {/* {!update && !viewallusers && !createNewCompany && (
                 <Link to={`${viewAllLink}`}>
                   <button type="button" className="btn btn-dark">
                     View All <BsArrowRight />
                   </button>
                 </Link>
-              )}
+              )} */}
               {viewallusers && (
                 <button className="btn bg-blue text-white">
                   View all Users <BsArrowRight />

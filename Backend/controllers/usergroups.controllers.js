@@ -5,11 +5,11 @@ exports.createUserGroup = async (req, res, next) => {
     try {
         console.log(req.body)
         // const { dataTemplateName, description, dataPoints } = req.body;
-        const { GroupName, ApprovingOfficer, subGroup, roles, users } = req.body;
+        const { GroupName, ApprovingOfficers, subGroup, roles, users } = req.body;
 
         // if there are no errors, create a new CreateDataPoint and save it
         const createUserGroup = new UserGroups({
-            GroupName, ApprovingOfficer, subGroup, roles, users
+            GroupName, ApprovingOfficers, subGroup, roles, users
         });
 
         const savedUserGroup = await createUserGroup.save();
@@ -27,6 +27,62 @@ exports.createUserGroup = async (req, res, next) => {
     }
 }
 
+exports.updateUserGroup = async (req, res, next) => {
+    try {
+        const id = req.query.id;
+        // const { dataTemplateName, description, dataPoints } = req.body;
+        // const { GroupName, ApprovingOfficers, subGroup, roles, users } = req.body;
+
+        const body = req.body;
+
+        const updatedUserGroup = await UserGroups.findByIdAndUpdate({
+            _id: mongoose.Types.ObjectId(id)
+        }, body, { new: true });
+        
+        if (!updatedUserGroup) {
+            return res.status("User Group Update Failed", 400);
+        }
+        return res.status(200).json({
+            success: true,
+            message: "User Group Updated Succesfully",
+            data: updatedUserGroup
+        })
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ errors: [{ msg: "Server error" }] });
+    }
+}
+
+exports.getUserGroup = async (req, res, next) => {
+
+    try {
+        const userGroup = await UserGroups.findById(req.params.id)
+        
+
+        if (userGroup) {
+            return res.status(200).json({
+                success: true,
+                message: 'Got User Group Successfully',
+                data: userGroup
+            });
+
+        }
+        return res.status(200).json({
+            success: false,
+            message: 'No User Group Found',
+            data: []
+        });
+
+
+    }
+    catch (err) {
+        return res.status(200).json({
+            success: false,
+            message: err.message,
+            data: []
+        });
+    }
+}
 exports.getUserGroups = async (req, res, next) => {
 
     try {
