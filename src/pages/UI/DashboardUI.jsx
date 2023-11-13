@@ -19,7 +19,7 @@ const DashboardUI = () => {
   const menuMode = useContext(Context);
   const { mode } = menuMode;
 
-  const { authToken, userRole } = useSelector((state) => state.auth);
+  const { id, authToken, userRole } = useSelector((state) => state.auth);
 
   return (
     <>

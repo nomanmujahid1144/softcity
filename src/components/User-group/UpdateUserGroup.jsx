@@ -20,6 +20,7 @@ const UpdateUserGroup = () => {
   const alert = useAlert();
   
   const userGroupId = params.id;
+  const { id } = useSelector((state) => state.auth);
 
   const [subGroups, setSubGroups] = useState([]);
   const [approvingOfficers, setApprovingOfficers] = useState([]);
@@ -116,6 +117,7 @@ const handleSubmit = async (e) => {
   e.preventDefault();
   userGroup.ApprovingOfficers  = approvigOfficersIds;
   userGroup.users = selectedUsers;
+  userGroup.companyId = id;
   dispatch(updateUserGroup({ userGroup, userGroupId, alert })).then((response) => {
     if (response?.payload?.success) {
       navigate('/admin/all-user-groups'); // Replace with your desired path

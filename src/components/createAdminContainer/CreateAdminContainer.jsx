@@ -22,6 +22,8 @@ export default function CreateAdminContainer() {
   const params = useParams();
   const alert = useAlert();
 
+  const { id } = useSelector((state) => state.auth);
+
   const [user, setUser] = useState({});
   const [groups, setGroups] = useState([]);
   const [editGroupsValues, setEditGroupsValues] = useState([]);
@@ -113,7 +115,7 @@ export default function CreateAdminContainer() {
         email: "",
         phoneNumber: "",
         country: "",
-        // company: "",
+        company: "",
         administrativeRole: "",
         role: "",
       });
@@ -157,13 +159,13 @@ export default function CreateAdminContainer() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     user.userGroups = suggestions;
+    user.companyId = id;
     user.isCompany = false;
     // Check if administrativeRole is empty and remove it if so
     if (user.administrativeRole === "") {
       delete user.administrativeRole;
     }
 
-    console.log(user, 'user')
     // if Edit User is trur it means its an Update request
     if (editUser) {
       dispatch(updateUser({ data: user, profilePhoto: profileImage, userId: params.id, alert })).then((response) => {

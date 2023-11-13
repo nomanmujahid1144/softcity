@@ -5,11 +5,11 @@ exports.createUserGroup = async (req, res, next) => {
     try {
         console.log(req.body)
         // const { dataTemplateName, description, dataPoints } = req.body;
-        const { GroupName, ApprovingOfficers, subGroup, roles, users } = req.body;
+        const {companyId, GroupName, ApprovingOfficers, subGroup, roles, users } = req.body;
 
         // if there are no errors, create a new CreateDataPoint and save it
         const createUserGroup = new UserGroups({
-            GroupName, ApprovingOfficers, subGroup, roles, users
+            companyId, GroupName, ApprovingOfficers, subGroup, roles, users
         });
 
         const savedUserGroup = await createUserGroup.save();
@@ -56,7 +56,7 @@ exports.updateUserGroup = async (req, res, next) => {
 exports.getUserGroup = async (req, res, next) => {
 
     try {
-        const userGroup = await UserGroups.findById(req.params.id)
+        const userGroup = await UserGroups.findById(req.params.id).populate('companyId')
         
 
         if (userGroup) {
@@ -86,7 +86,7 @@ exports.getUserGroup = async (req, res, next) => {
 exports.getUserGroups = async (req, res, next) => {
 
     try {
-        const userGroup = await UserGroups.find({})
+        const userGroup = await UserGroups.find({}).populate('companyId')
         
 
         if (userGroup) {

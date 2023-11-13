@@ -41,6 +41,8 @@ const CreateUserGroup = () => {
   const { users } = useSelector(
     (state) => state.users
   );
+  
+  const { id } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(getAllUsers());
@@ -72,6 +74,7 @@ const handleSubmit = async (e) => {
   console.log(approvigOfficersIds, 'approvigOfficersIds')
   userGroup.ApprovingOfficers = approvigOfficersIds;
   userGroup.users = selectedUsers;
+  userGroup.companyId = id;
   dispatch(createUserGroup({ userGroup, alert })).then((response) => {
     if (response?.payload?.success) {
       setSelectedUsers([]);

@@ -8,7 +8,7 @@ import DashboardContext from "../../Context/DashboardContext";
 import { BsFillCaretLeftFill } from "react-icons/bs";
 import { BsFillCaretRightFill } from "react-icons/bs";
 import Carousel from "react-bootstrap/Carousel";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   createDataPoints,
   getDataPoints,
@@ -23,6 +23,8 @@ const Form = ({ submitted }) => {
     submit;
   const methods = useForm();
   const { register, handleSubmit, watch, reset, setValue } = methods;
+
+  const { id } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
@@ -158,7 +160,9 @@ const Form = ({ submitted }) => {
     fetch_data(data);
     // fetch_data(data)
     // const { dataForm } = dataForm
+
     const dataArr = {
+      companyId: id,
       dataPointName: data.DataPointName,
       dataPointType: data.dataFieldType,
       description: data.Description,
@@ -167,6 +171,9 @@ const Form = ({ submitted }) => {
       labelColumns: labelColArr,
       dataColumns: dataColArr,
     };
+
+    console.log(dataArr, 'Array')
+
     dispatch(createDataPoints(dataArr));
     dispatch(getDataPoints());
     setCreateDataArr(true);

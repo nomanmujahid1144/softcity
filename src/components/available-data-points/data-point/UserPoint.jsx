@@ -73,6 +73,8 @@ const UserPoint = ({ data, index, arr, selected, handleClicksTab, alreadySelecte
         id={deleteId}
         getDeleteId={getDeleteId}
       />
+      {console.log(name, 'name.selected')}
+      {console.log(name.selected, 'name.selected')}
       <div key={index}
         className={`data__point-container d-flex justify-content-center align-items-center mb-2 mx-1 cursor ${
           name.selected ? 'data__point-select' : ''}`}>

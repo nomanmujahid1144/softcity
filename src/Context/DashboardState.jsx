@@ -93,6 +93,7 @@ const DashboardState = (props) => {
     const formData = {
       collectionTemplateName: data.TemplateName,
       description: data.TemplateDescription,
+      companyId: data.companyId,
       selectedDataPoints: selectedDataPoints,
     };
     dispatch(createDataCollections(formData));

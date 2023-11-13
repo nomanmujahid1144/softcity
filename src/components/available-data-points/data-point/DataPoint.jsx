@@ -123,6 +123,8 @@ const DataPoint = ({
         id={name._id}
         getDeleteId={deleteDataPointHandler}
       />
+      {console.log(name, 'name.selected')}
+      {/* {console.log(name.selected, 'name.selected')} */}
       <div
         key={index}
         className={`data__point-container d-flex justify-content-center align-items-center mb-2 mx-1 cursor ${

@@ -29,10 +29,15 @@ const CreateTemplateMain = () => {
   const { collectionTemplate } = useSelector(
     (state) => state.createDataCollections
   );
+  
+  const { id } = useSelector((state) => state.auth);
 
   const { register, handleSubmit, reset } = useForm()
   const onSubmit = (data) => {
     try {
+
+      data.companyId = id;
+
       assignCollectionTemplate(data);
       alert.success('The data Collection created successfully');
       navigate('/admin/collection-templates')
@@ -52,9 +57,6 @@ const CreateTemplateMain = () => {
 
     
   }
-  useEffect(() => {
-    console.log(collectionTemplate, 'collectionTemplate')
-  }, [onSubmit])
 
   const { dataPoints, loading } = useSelector((state) => state.createDataPoints)
 

@@ -10,8 +10,7 @@ const initialState = {
   error: "",
 };
 
-export const createDataCollections = createAsyncThunk(
-  "createDataCollections",
+export const createDataCollections = createAsyncThunk("createDataCollections",
   async (data) => {
     console.log("entered in create data collections action", data);
 
@@ -23,8 +22,7 @@ export const createDataCollections = createAsyncThunk(
         {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
-            "auth-token": `${AUTH_TOKEN}`,
+            "Content-Type": "application/json"
           },
           body: JSON.stringify(data)
           // body:

@@ -2,10 +2,11 @@ const AdminRoles = require('../models/AdminRoles');
 
 exports.createAdminRoles = async (req, res, next) => {
     try {
-        const { roleName, roles } = req.body;
+        const { companyId, roleName, roles } = req.body;
 
         // if there are no errors, create a new CreateDataPoint and save it
         const adminRoles = new AdminRoles({
+            companyId,
             roleName,
             roles,
         });
@@ -22,13 +23,14 @@ exports.createAdminRoles = async (req, res, next) => {
 
 exports.updateAdminRole = async (req, res, next) => {
     try {
-        const { roleName, roles } = req.body;
+        const { companyId, roleName, roles } = req.body;
 
         // if there are no errors, create a new CreateDataPoint and save it\
 
         console.log(req.params.id, req.body)
 
         const savedRoleName = await AdminRoles.findByIdAndUpdate(req.params.id, {
+            "companyId": companyId,
             "roleName": roleName,
             "roles": roles,
         })
@@ -44,7 +46,7 @@ exports.updateAdminRole = async (req, res, next) => {
 exports.getAdminRoles = async (req, res, next) => {
 
     try {
-        const adminRoles = await AdminRoles.find({})
+        const adminRoles = await AdminRoles.find({}).populate('companyId')
         
         if (adminRoles) {
             return res.status(200).json({
@@ -74,7 +76,7 @@ exports.getAdminRoles = async (req, res, next) => {
 exports.getAdminRole = async (req, res, next) => {
 
     try {
-        const adminrole = await AdminRoles.findById(req.params.id)
+        const adminrole = await AdminRoles.findById(req.params.id).populate('companyId')
         
         if (adminrole) {
             return res.status(200).json({

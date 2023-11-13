@@ -2,7 +2,7 @@ const CreateDataPoint = require('../models/CreateDataPoint');
 
 exports.createDataPoint = async (req, res, next) => {
     try {
-        const { dataPointName, description, dataPointType, enableSheetMode, noOfColumns, labelColumns, dataColumns } = req.body;
+        const {companyId, dataPointName, description, dataPointType, enableSheetMode, noOfColumns, labelColumns, dataColumns } = req.body;
 
         // if noOfColumns is provided, it must be a valid integer
         if (noOfColumns && !Number.isInteger(noOfColumns)) {
@@ -15,6 +15,7 @@ exports.createDataPoint = async (req, res, next) => {
         }
         // if there are no errors, create a new CreateDataPoint and save it
         const createDataPoint = new CreateDataPoint({
+            companyId,
             dataPointName,
             description,
             dataPointType,
@@ -36,7 +37,7 @@ exports.createDataPoint = async (req, res, next) => {
 
 exports.updateDataPoint = async (req, res, next) => {
     try {
-        const { dataPointName, description, dataPointType, enableSheetMode, noOfColumns, labelColumns } = req.body;
+        const { companyId,dataPointName, description, dataPointType, enableSheetMode, noOfColumns, labelColumns } = req.body;
 
         // if noOfColumns is provided, it must be a valid integer
         if (noOfColumns && !Number.isInteger(noOfColumns)) {
@@ -52,6 +53,7 @@ exports.updateDataPoint = async (req, res, next) => {
         console.log(req.params.id, req.body)
 
         const savedDataPoint = await CreateDataPoint.findByIdAndUpdate(req.params.id, {
+            "companyId": companyId,
             "dataPointName": dataPointName,
             "description": description,
             "dataPointType": dataPointType,
@@ -71,7 +73,7 @@ exports.updateDataPoint = async (req, res, next) => {
 exports.getDataPoints = async (req, res, next) => {
 
     try {
-        const datapoints = await CreateDataPoint.find({})
+        const datapoints = await CreateDataPoint.find({}).populate('companyId');
         
         if (datapoints) {
             return res.status(200).json({

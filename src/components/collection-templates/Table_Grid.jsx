@@ -17,6 +17,7 @@ import DescriptionAlert from '../alertProceed/DescriptionAlert'
 import { deleteUserGroup, getUserGroups } from '../../redux/slices/UserGroups/UserGroups'
 import { deleteUser } from '../../redux/slices/createUserSlice';
 import { useAlert } from 'react-alert'
+import { getRoleDescription } from '../../constants/helpers'
 const Table_Grid = ({
   allUserGroups,
   users,
@@ -186,8 +187,8 @@ const Table_Grid = ({
                       <td className='cursor-pointer' onClick={() => handleSeeDescription(res.description)}>Click to View</td>
                       <td>{res.createdAt?.split('T')[0]}</td>
                       <td>{res.updatedAt?.split('T')[0]}</td>
-                      <td>{res.createdBy}</td>
-                      <td>{res.dataHits}</td>
+                      <td>{res.companyId?.firstName} / {getRoleDescription(res.companyId?.role)} </td>
+                      <td>0</td>
                     </>
                   )}
                   {dataCollectionTemplate && (

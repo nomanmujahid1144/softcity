@@ -81,7 +81,6 @@ function AvailableDatapoints({
       });
 
       data = updatedDataList;
-      setItems(data);
     }
   }, [UpdateSelectedUsers]);
 
@@ -91,7 +90,6 @@ function AvailableDatapoints({
       if (item._id === arg._id) {
         // Toggle the 'selected' property
         const updatedItem = { ...item, selected: !item.selected };
-
         if (!updatedItem.selected) {
           // Remove the ID if 'selected' is true
           setSelectedDataPoints((prevDataPoints) =>
@@ -115,7 +113,6 @@ function AvailableDatapoints({
   };
 
   const handleClickUsersTabs = async (e, arg) => {
-    console.log("Hi");
     // Create a new array with updated 'selected' values
     const updatedData = data.map((item) => {
       if (item._id === arg._id) {
@@ -140,6 +137,9 @@ function AvailableDatapoints({
     // Update the 'data' variable with the new array
     data = updatedData;
   };
+
+
+  
 
   return (
     <>
