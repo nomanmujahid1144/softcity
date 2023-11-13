@@ -270,6 +270,14 @@ const Table_Grid = ({
                               <button
                                 class="dropdown-item dropdown-menu-buttons"
                                 type="button"
+                              >
+                                Submit New Data
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                class="dropdown-item dropdown-menu-buttons"
+                                type="button"
                                 onClick={() => handleDeleteClick(res._id, "Do you want to delete this Data Point", "Delete", "Data Point")}
                               >
                                 Delete Data Point

@@ -11,14 +11,16 @@ import AdminStackedLineChart from '../../../../admin-site-charts/AdminChart/Admi
 import AdminRoundedBarChart from '../../../../admin-site-charts/AdminChart/AdminRoundedBarChart'
 
 const Preview_available_charts = () => {
-  const {
-    mode,
-    StepperStep,
-    setStepperStep,
-    addfield,
-    selectLabelData,
-    setselectLabelData
-  } = useContext(Context);
+  // const {
+  //   mode,
+  //   StepperStep,
+  //   setStepperStep,
+  //   addfield,
+  //   selectLabelData,
+  //   setselectLabelData
+  // } = useContext(Context);
+
+  
 
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap' }}>
@@ -28,14 +30,12 @@ const Preview_available_charts = () => {
       <div style={{ marginRight: '10px', marginBottom: '10px' }}>
         <AdminDoughnutChart />
       </div>
-
       <div style={{ marginRight: '10px', marginBottom: '10px' }}>
         <AdminSimpleBarChart />
       </div>
       <div style={{ marginRight: '10px', marginBottom: '10px' }}>
         <AdminHBarChart />
       </div>
-
       <div style={{ marginRight: '10px', marginBottom: '10px' }}>
         <AdminSteppedLineChart />
       </div>
@@ -51,8 +51,7 @@ const Preview_available_charts = () => {
       <div style={{ marginRight: '10px', marginBottom: '10px' }}>
         <AdminTableChart />
       </div>
-
-      <div>{/* <TableChart hasChartButtons={false} /> */}</div>
+      {/* <div>{<TableChart hasChartButtons={false} />}</div> */}
     </div>
   )
 }
