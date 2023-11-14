@@ -22,6 +22,14 @@
     "icon": "bi-collection",
     "childrens": [
       {
+        "title": "Create Collection",
+        "path": "/admin/create-datacollection"
+      },
+      {
+        "title": "Collections",
+        "path": "/admin/collection-templates"
+      },
+      {
         "title": "Single collections",
         "path": "/admin/Scollections"
       },
@@ -29,14 +37,6 @@
         "title": "Assign Template",
         "path": "/admin/AssignTemplate"
       },
-      {
-        "title": "Create Collection",
-        "path": "/admin/create-datacollection"
-      },
-      {
-        "title": "Collections",
-        "path": "/admin/collection-templates"
-      }
     ]
   },
   {
