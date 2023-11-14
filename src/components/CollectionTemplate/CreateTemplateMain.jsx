@@ -16,10 +16,8 @@ const CreateTemplateMain = () => {
   const {
     point,
     assignCollectionTemplate,
-    createcollectiontemplate,
     dataForm,
-    selectedDataPoints,
-    setSelectedDataPoints,
+    setItems,
   } = useContext(Context)
 
   const dispatch = useDispatch();
@@ -29,11 +27,16 @@ const CreateTemplateMain = () => {
   const { collectionTemplate } = useSelector(
     (state) => state.createDataCollections
   );
+  
+  const { id } = useSelector((state) => state.auth);
 
   const { register, handleSubmit, reset } = useForm()
   const onSubmit = (data) => {
     try {
-      assignCollectionTemplate(data);
+
+      data.companyId = id;
+
+      assignCollectionTemplate(data).then(() => setItems([]) );
       alert.success('The data Collection created successfully');
       navigate('/admin/collection-templates')
       // setTimeout(() => {
@@ -52,9 +55,6 @@ const CreateTemplateMain = () => {
 
     
   }
-  useEffect(() => {
-    console.log(collectionTemplate, 'collectionTemplate')
-  }, [onSubmit])
 
   const { dataPoints, loading } = useSelector((state) => state.createDataPoints)
 

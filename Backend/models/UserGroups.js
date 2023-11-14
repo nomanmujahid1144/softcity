@@ -31,7 +31,11 @@ const CreateUserGroupSchema = new Schema({
     users :[{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    }]
+    }],
+    companyId :{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model('UserGroups', CreateUserGroupSchema)

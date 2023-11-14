@@ -210,8 +210,7 @@ export const deleteUser = createAsyncThunk("deleteUser", async (ids) => {
   try {
     const response = await axiosInstance.delete(`/api/v1/auth/deleteuser`,{
         headers: {
-          "Content-Type": "application/json",
-          "auth-token": `${AUTH_TOKEN}`,
+          "Content-Type": "application/json"
         },
         params: {
           IDS : ids

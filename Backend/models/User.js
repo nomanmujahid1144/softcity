@@ -83,8 +83,8 @@ const userSchema = new mongoose.Schema({
         // ],
         // unique: [true, "This email already exists"],
         lowercase: true,
-        trim: true,
-        default: ''
+        // trim: true,
+        // default: ''
     },
     companyAbout: {
         type: String,
@@ -99,6 +99,10 @@ const userSchema = new mongoose.Schema({
         default: ''       
     },
 
+    companyId :{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }
 
 }, { timestamps: true })
 

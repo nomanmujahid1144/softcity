@@ -26,6 +26,10 @@ const CreateDataPointSchema = new Schema({
     },
     dataColumns: {
         type: [String],
+    },
+    companyId :{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }
 }, { timestamps: true });
 

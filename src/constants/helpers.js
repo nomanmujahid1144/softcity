@@ -46,4 +46,18 @@ export const handleApiError = (error) => {
       }
     
       return errors;
+}
+
+export const getRoleDescription = (role) => {
+  if (role === "admin") {
+      return "Admin";
+  } else if (role === "superAdmin") {
+      return "Super Admin";
+  } else if (role === "companyUser") {
+      return "Company User";
+  } else if (role === "both") {
+      return "Both";
+  } else {
+      return "Unknown Role"; // Handle any other input
   }
+}

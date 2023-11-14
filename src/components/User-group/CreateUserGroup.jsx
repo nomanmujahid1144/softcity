@@ -14,7 +14,7 @@ import { getAllUsers } from "../../redux/slices/createUserSlice";
 import { useAlert } from "react-alert";
 import ReactSelect from "react-select";
 const CreateUserGroup = () => {
-  const { mode, selectedUsers, setSelectedUsers } = useContext(Context);
+  const { mode, selectedUsers, setSelectedUsers, setItems } = useContext(Context);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -41,6 +41,8 @@ const CreateUserGroup = () => {
   const { users } = useSelector(
     (state) => state.users
   );
+  
+  const { id } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(getAllUsers());
@@ -72,8 +74,10 @@ const handleSubmit = async (e) => {
   console.log(approvigOfficersIds, 'approvigOfficersIds')
   userGroup.ApprovingOfficers = approvigOfficersIds;
   userGroup.users = selectedUsers;
+  userGroup.companyId = id;
   dispatch(createUserGroup({ userGroup, alert })).then((response) => {
     if (response?.payload?.success) {
+      setItems([]);
       setSelectedUsers([]);
       navigate('/admin/all-user-groups'); // Replace with your desired path
     }

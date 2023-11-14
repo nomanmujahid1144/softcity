@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteCompanies, getCompanies } from "../../../redux/slices/Company/createCompanySlice";
 import { useNavigate } from "react-router-dom";
 import DeleteAlert from "../../alertProceed/DeleteAlert";
+import { useAlert } from "react-alert";
 const AllCompaniesTable = () => {
   const { createcollectiontemplate } = useContext(Context);
 
@@ -77,6 +78,7 @@ const AllCompaniesTable = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const alert = useAlert();
   
   const [show, setShow] = useState(false);
   const [headingMessage, setHeadingMessage] = useState('');
@@ -102,11 +104,13 @@ const AllCompaniesTable = () => {
   const deleteCompany = (id) => {
     let ids = [];
     ids.push(id);
-    dispatch(deleteCompanies(ids));
-    alert.success('Successfully Delete Company');
-    navigate(`/admin/company/all-companies`);
-    // dispatch(getDataCollections());
-    setShow(false);
+    dispatch(deleteCompanies(ids)).then((response) => {
+      if (response?.payload?.success) {
+        alert.success('Successfully Delete Company');
+        navigate(`/admin/company/all-companies`);
+        setShow(false);
+      }
+    });
   }
 
   return (

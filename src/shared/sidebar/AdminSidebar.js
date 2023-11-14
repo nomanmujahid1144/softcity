@@ -7,47 +7,22 @@ import React, { useState, useContext } from "react";
 import { HeartFill } from "react-bootstrap-icons";
 import items from "../../data/AdminSidebar.json";
 import SidebarItem from "./SidebarItem";
-import { useDispatch, useSelector } from "react-redux";
 import { MdOutlineLightMode } from "react-icons/md";
 import { BsMoon } from "react-icons/bs";
 import DashboardContext from "../../Context/DashboardContext";
 import "./sidebar.css";
 import AdminSidebaritem from "./AdminSidebarItem";
 
-export default function AdminSidebar() {
+export default function   AdminSidebar() {
   const menuMode = useContext(DashboardContext);
   const { mode, setmode } = menuMode;
-
-  const { id, userRole } = useSelector((state) => state.auth);
-
-  console.log(id, "idddddddddd")
 
   return (
     <div className={`app-sidebar dark-mode bg-dashboard text-white`}>
       <div className="sidebar pe-1" id="sidebar_softcity">
-        {items.map((item, index) => {
-          if (userRole === "admin") {
-            if (item.title !== "Company") {
-              return (
-                <AdminSidebaritem
-                  key={index}
-                  item={item}
-                  index={index}
-                  mode={mode}
-                />
-              );
-            }
-          } else {
-            return (
-              <AdminSidebaritem
-                key={index}
-                item={item}
-                index={index}
-                mode={mode}
-              />
-            );
-          }
-        })}
+        {items.map((item, index) => (
+          <AdminSidebaritem key={index} item={item} index={index} mode={mode} />
+        ))}
         <div className="d-flex justify-content-center gap-2 mt-3 button-group">
           <button
             onClick={() => setmode("light-mode")}

@@ -5,10 +5,11 @@ exports.createDataTemplate = async (req, res, next) => {
     try {
         console.log(req.body)
         // const { dataTemplateName, description, dataPoints } = req.body;
-        const { collectionTemplateName, description, selectedDataPoints } = req.body;
+        const { companyId, collectionTemplateName, description, selectedDataPoints } = req.body;
 
         // if there are no errors, create a new CreateDataPoint and save it
         const createDataCollectionTemplate = new CreateDataTemplate({
+            companyId,
             collectionTemplateName,
             description,
             selectedDataPoints
@@ -27,11 +28,12 @@ exports.createDataTemplate = async (req, res, next) => {
 exports.updateDataTemplate = async (req, res, next) => {
     try {
         
-        const { collectionTemplateName, description, selectedDataPoints } = req.body;
+        const {companyId, collectionTemplateName, description, selectedDataPoints } = req.body;
 
         console.log(req.params.id)
 
         const savedDataTemplate = await CreateDataTemplate.findByIdAndUpdate(req.params.id, {
+            companyId,
             collectionTemplateName,
             description,
             selectedDataPoints
@@ -47,7 +49,7 @@ exports.updateDataTemplate = async (req, res, next) => {
 exports.getDataTemplates = async (req, res, next) => {
 
     try {
-        const dataTemplates = await CreateDataTemplate.find({})
+        const dataTemplates = await CreateDataTemplate.find({}).populate('companyId');
         
         console.log(dataTemplates, 'dataTemplates')
 
@@ -81,7 +83,7 @@ exports.getDataTemplate = async (req, res, next) => {
         const datatemplate = await CreateDataTemplate.findById(req.params.id).populate({
             path: 'selectedDataPoints', // Specify the field to populate
             model: 'DataPoints', // The model to use for populating
-        });
+        }).populate('companyId');
         
         if (datatemplate) {
             return res.status(200).json({

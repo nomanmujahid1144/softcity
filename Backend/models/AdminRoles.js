@@ -12,6 +12,10 @@ const adminRolesSchema = new Schema({
         required: true,
         default: []
     },
+    companyId :{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model('AdminRoles', adminRolesSchema)

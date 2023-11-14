@@ -49,6 +49,7 @@ const Form = () => {
   }
 
   useEffect(() => {
+    console.log(params.id)
     dispatch(getDataPoint(params.id))
     setischecked(datapoint ? datapoint?.enableSheetMode : false)
   }, [params.id])

@@ -17,6 +17,7 @@ import DescriptionAlert from '../alertProceed/DescriptionAlert'
 import { deleteUserGroup, getUserGroups } from '../../redux/slices/UserGroups/UserGroups'
 import { deleteUser } from '../../redux/slices/createUserSlice';
 import { useAlert } from 'react-alert'
+import { getRoleDescription } from '../../constants/helpers'
 const Table_Grid = ({
   allUserGroups,
   users,
@@ -143,7 +144,6 @@ const Table_Grid = ({
       >
         <thead class="tHead">
           <tr>
-            {console.log(heading10, 'heading10')}
             <th>{heading1 ?? 'SN'}</th>
             <th>{heading2 ?? 'Collection Name'}</th>
             <th>{heading3 ?? 'Total Data Points'}</th>
@@ -172,11 +172,11 @@ const Table_Grid = ({
                       <td>{res?.phoneNumber}</td>
                       <td>{res?.email}</td>
                       <td>{res?.country}</td>
-                      <td>{res?.company}</td>
+                      <td>{res?.companyId?.companyName}</td>
                       {/* <td className='cursor-pointer' onClick={() => handleSeeDescription(res.description)}>Click to View</td> */}
                       <td>{res?.createdAt?.split('T')[0]}</td>
                       <td>{res?.updatedAt?.split('T')[0]}</td>
-                      <td>{res?.role}</td>
+                      <td>{res.companyId?.firstName} / {getRoleDescription(res.companyId?.role)}</td>
                     </>
                   )}
                   {dataPointsAvailable && (
@@ -186,8 +186,8 @@ const Table_Grid = ({
                       <td className='cursor-pointer' onClick={() => handleSeeDescription(res.description)}>Click to View</td>
                       <td>{res.createdAt?.split('T')[0]}</td>
                       <td>{res.updatedAt?.split('T')[0]}</td>
-                      <td>{res.createdBy}</td>
-                      <td>{res.dataHits}</td>
+                      <td>{res.companyId?.firstName} / {getRoleDescription(res.companyId?.role)} </td>
+                      <td>0</td>
                     </>
                   )}
                   {dataCollectionTemplate && (
@@ -197,8 +197,8 @@ const Table_Grid = ({
                       <td className='cursor-pointer' onClick={() => handleSeeDescription(res.description)}>Click to View</td>
                       <td>{res.createdAt?.split('T')[0]}</td>
                       <td>{res.updatedAt?.split('T')[0]}</td>
-                      <td>Admin</td>
-                      <td>340</td>
+                      <td>{res.companyId?.firstName} / {getRoleDescription(res.companyId?.role)}</td>
+                      <td>0</td>
                     </>
                   )}
                   {allUserGroups && (
@@ -214,8 +214,8 @@ const Table_Grid = ({
                       {/* hard coded waiting for API correction*/}
                       <td>{res.createdAt?.split('T')[0]}</td>
                       <td>{res.updatedAt?.split('T')[0]}</td>
-                      <td>Admin</td>
-                      <td>340</td>
+                      <td>{res.companyId?.firstName} / {getRoleDescription(res.companyId?.role)}</td>
+                      <td>0</td>
                     </>
                   )}
                   <td>

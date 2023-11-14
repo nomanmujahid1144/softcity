@@ -209,7 +209,7 @@ exports.userLogin = async (req, res, next) => {
 
 exports.getAllUsers = async (req, res, next) => {
   try {
-    const allUsers = await User.find({});
+    const allUsers = await User.find({}).populate('companyId');
 
     console.log(allUsers, 'USERS')
 
@@ -231,7 +231,7 @@ exports.getAllUsers = async (req, res, next) => {
 };
 exports.getAllCompanies = async (req, res, next) => {
   try {
-    const allUsers = await User.find({isCompany : true});
+    const allUsers = await User.find({isCompany : true}).populate('companyId');
 
     console.log(allUsers, 'USERS')
 
@@ -253,7 +253,7 @@ exports.getAllCompanies = async (req, res, next) => {
 };
 exports.getAllCompanyUsers = async (req, res, next) => {
   try {
-    const allUsers = await User.find({isCompany : false});
+    const allUsers = await User.find({isCompany : false}).populate('companyId');
 
     console.log(allUsers, 'USERS')
 

@@ -42,10 +42,10 @@ const All_User_Groups = () => {
             heading2={'User Group Name'}
             heading3={'Total Users'}
             heading4={'User Group Tree'}
-            heading5={'User Group Type'}
-            heading6={'Create Timestamp'}
-            heading7={'Last Updated'}
-            heading8={'Created By'}
+            heading5={'Create Timestamp'}
+            heading6={'Last Updated'}
+            heading7={'Created By'}
+            heading8={'Data Hits'}
             heading9={'Action'}
             data={userGroups?.length > 0 ? userGroups : []}
             allUserGroups={true}
