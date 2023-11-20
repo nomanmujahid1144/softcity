@@ -156,6 +156,14 @@ const Form = ({ submitted }) => {
     setValue("LabelColumns", dataColArr);
   };
 
+  const setDataLabelColumn = (e, ind) => {
+    var dataLabelColumn  = {
+      key: showCols,
+      data: dataColArr
+    }
+    console.log(dataLabelColumn); 
+  }
+
   const onSubmit = (data) => {
     fetch_data(data);
     // fetch_data(data)
@@ -172,7 +180,7 @@ const Form = ({ submitted }) => {
       dataColumns: dataColArr,
     };
 
-    console.log(dataArr, 'Array')
+    console.log(dataArr, "Array");
 
     dispatch(createDataPoints(dataArr));
     dispatch(getDataPoints());
@@ -268,7 +276,7 @@ const Form = ({ submitted }) => {
                       </Carousel>
                     </div>
                   ) : null}
-                  
+
                   {showLabels && !showCols ? (
                     <div className="carousal-form mb-4">
                       {labelColArr.map((elem, ind) => {
@@ -304,41 +312,52 @@ const Form = ({ submitted }) => {
                         <button
                           type="submit"
                           className="btn-blue rounded-2 border-0 px-3"
-                          onClick={(e) => setShow(false)}
+                          onClick={(e) => {
+                            setShow(false);
+                            setShowLabels(false);
+                            setShowCols(null);
+                          }}
                         >
                           No
                         </button>
                       </div>
                     ) : (
                       <div className="d-flex justify-content-center gap-2">
+                        <button
+                          type="button"
+                          className="btn-light rounded-2 border-0 px-3 py-2"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setDataLabelColumn();
+                            setShowLabels(true);
+                            setShowCols(null);
+                          }}
+                        >
+                          Done
+                        </button>
+                      </div>
+                    )
+                  ) : (
+                    <div className="d-flex justify-content-center gap-2">
+                      <button
+                        type="submit"
+                        className="btn-blue rounded-2 border-0 px-3"
+                      >
+                        Create
+                      </button>
                       <button
                         type="button"
-                        className="btn-light rounded-2 border-0 px-3 py-2"
+                        className="btn-light rounded-2 border-0 px-3"
                         onClick={(e) => {
-                          e.preventDefault();
-                          setShowLabels(true);
-                          setShowCols(null)
+                          setShow(false);
+                          setShowLabels(false);
+                          setShowCols(null);
                         }}
                       >
-                        Done
+                        No
                       </button>
                     </div>
-                    )
-                  ) :  <div className="d-flex justify-content-center gap-2">
-                  <button
-                    type="submit"
-                    className="btn-blue rounded-2 border-0 px-3"
-                  >
-                    Create
-                  </button>
-                  <button
-                    type="button"
-                    className="btn-light rounded-2 border-0 px-3"
-                    onClick={(e) => setShow(false)}
-                  >
-                    No
-                  </button>
-                </div>}
+                  )}
                 </div>
               </div>
             </Alert>
