@@ -368,7 +368,7 @@ const Form = ({ submitted }) => {
                 }`}
               >
                 <div className="d-flex flex-row align-items-center justify-content-between">
-                  <h5 className="header-beforeAdmin">Creata Data Point</h5>
+                  <h5 className="header-beforeAdmin">Create Data Point</h5>
                   <div className="d-flex flex-row align-items-center gap-2">
                     <div>
                       {ischecked ? (

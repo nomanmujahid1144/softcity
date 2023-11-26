@@ -8,6 +8,7 @@ import PaginationRounded from '../pagination/PaginationMui'
 import Context from '../../Context/DashboardContext'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDataCollections } from '../../redux/slices/DataCollections/createDataCollectionsSlice'
+import { Link } from 'react-router-dom'
 
 const Collection_Templates_Comp = () => {
   const {
@@ -58,6 +59,13 @@ const Collection_Templates_Comp = () => {
               <CiSearch className="search-icon" />
             </span>
             <Form.Control placeholder="Search" className="input bg-white" />
+          </div>
+          <div className="btns-main">
+            <Link to={'/admin/create-datacollection'}>
+              <button className="btn btn-primary btn-darkblue">
+                Create <BsArrowRight />
+              </button>
+            </Link>
           </div>
         </div>
       </div>

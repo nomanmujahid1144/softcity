@@ -5,11 +5,31 @@ exports.createUserGroup = async (req, res, next) => {
     try {
         console.log(req.body)
         // const { dataTemplateName, description, dataPoints } = req.body;
-        const {companyId, GroupName, ApprovingOfficers, subGroup, roles, users } = req.body;
+        // const {companyId, GroupName, ApprovingOfficers, subGroup, roles, users } = req.body;
+
+        const userGroupId = req.body.subGroup;
+        let subGroup;
+        
+        if (userGroupId) {
+            const isValidObjectId = mongoose.Types.ObjectId.isValid(userGroupId);
+
+            if (!isValidObjectId) {
+                return res.status(400).json({ error: 'Invalid subGroup ObjectId' });
+            }
+
+            subGroup = mongoose.Types.ObjectId(userGroupId);
+        } else {
+            subGroup = null; // Set subGroup to null if it's an empty string
+        }
 
         // if there are no errors, create a new CreateDataPoint and save it
         const createUserGroup = new UserGroups({
-            companyId, GroupName, ApprovingOfficers, subGroup, roles, users
+            GroupName: req.body.GroupName,
+            ApprovingOfficers: req.body.ApprovingOfficers,
+            subGroup: subGroup,
+            roles: req.body.roles,
+            users: req.body.users,
+            companyId: req.body.companyId,
         });
 
         const savedUserGroup = await createUserGroup.save();
@@ -86,7 +106,7 @@ exports.getUserGroup = async (req, res, next) => {
 exports.getUserGroups = async (req, res, next) => {
 
     try {
-        const userGroup = await UserGroups.find({}).populate('companyId')
+        const userGroup = await UserGroups.find({}).populate('companyId').populate('subGroup')
         
 
         if (userGroup) {

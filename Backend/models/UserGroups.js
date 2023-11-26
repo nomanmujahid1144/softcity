@@ -11,8 +11,9 @@ const CreateUserGroupSchema = new Schema({
         ref: 'User'
     }],
     subGroup: {
-        type: String,
-        default: '',
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'UserGroups',
+        default: null,
     },
     roles: {
         dataCollectors: {

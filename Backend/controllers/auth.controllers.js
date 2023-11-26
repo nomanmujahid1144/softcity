@@ -13,11 +13,12 @@ exports.userSignup = async (req, res, next) => {
     const pass = req.body.password;
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(pass, salt);
-
+    console.log(pass, 'pass')
+    console.log(hash, 'hash')
     const body = req.query.values;
 
-    console.log(body, "BODY");
-    console.log(req.files, "files");
+    // console.log(body, "BODY");
+    // console.log(req.files, "files");
 
     let userInfo = await User.findOne({ email: body.email });
 

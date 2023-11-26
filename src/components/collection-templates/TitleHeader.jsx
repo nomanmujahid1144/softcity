@@ -5,8 +5,9 @@ import Form from "react-bootstrap/Form";
 import { BsArrowRight } from "react-icons/bs";
 import { useContext } from "react";
 import Context from "../../Context/DashboardContext";
+import { Link } from "react-router-dom";
 
-const TitleHeader = ({ title, subTitle, assignBtn, createBtn }) => {
+const TitleHeader = ({ title, subTitle, assignBtn, createBtn, navigationToLink }) => {
   const { mode } = useContext(Context);
   return (
     <div>
@@ -35,9 +36,11 @@ const TitleHeader = ({ title, subTitle, assignBtn, createBtn }) => {
 
           <div className="btns-main">
             {createBtn && (
-              <button className="btn btn-primary btn-darkblue">
-                Create <BsArrowRight />
-              </button>
+              <Link to={navigationToLink}>
+                <button className="btn btn-primary btn-darkblue">
+                  Create <BsArrowRight />
+                </button>
+              </Link>
             )}
             {assignBtn && (
               <button className="btn btn-primary  btn-darkblue ms-3">

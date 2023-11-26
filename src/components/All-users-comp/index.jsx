@@ -25,7 +25,13 @@ const AllUsersComp = () => {
   return (
     <div>
       <div>
-        <TitleHeader title={"All Users"} subTitle={users?.length > 0 ? users?.length : 0} assignBtn={false} />
+        <TitleHeader
+          title={"All Users"}
+          subTitle={users?.length > 0 ? users?.length : 0}
+          assignBtn={false}
+          createBtn={true}
+          navigationToLink={"/admin/createUser"}
+        />
       </div>
       <div style={{ marginTop: "30px" }}>
         <Table_Grid

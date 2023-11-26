@@ -61,3 +61,18 @@ export const getRoleDescription = (role) => {
       return "Unknown Role"; // Handle any other input
   }
 }
+
+
+export const getStatusCodes = (object) => {
+  // Helper function to calculate the status code recursively
+  function getStatus(obj, depth) {
+    if (!obj || !obj.subGroup) {
+      return depth;
+    } else {
+      return getStatus(obj.subGroup, depth + 1);
+    }
+  }
+
+  // Map each object in the array to its status code
+  return getStatus(object, 1);
+}

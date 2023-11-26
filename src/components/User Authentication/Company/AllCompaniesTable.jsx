@@ -128,7 +128,8 @@ const AllCompaniesTable = () => {
             title={"All Comapny"}
             subTitle={companies?.length > 0 ? companies?.length : 0}
             assignBtn={false}
-            createBtn={false}
+            createBtn={true}
+            navigationToLink={"/admin/company/createCompany"}
           />
         </div>
       </div>

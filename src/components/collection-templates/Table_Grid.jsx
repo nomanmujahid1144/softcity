@@ -17,7 +17,7 @@ import DescriptionAlert from '../alertProceed/DescriptionAlert'
 import { deleteUserGroup, getUserGroups } from '../../redux/slices/UserGroups/UserGroups'
 import { deleteUser } from '../../redux/slices/createUserSlice';
 import { useAlert } from 'react-alert'
-import { getRoleDescription } from '../../constants/helpers'
+import { getRoleDescription, getStatusCodes } from '../../constants/helpers'
 const Table_Grid = ({
   allUserGroups,
   users,
@@ -168,7 +168,7 @@ const Table_Grid = ({
                   <td>{ind + 1}</td>
                   {users && (
                     <>
-                      <td>{res?.firstName + " "+res?.lastName}</td>
+                      <td>{res?.firstName + " "+ res?.lastName}</td>
                       <td>{res?.phoneNumber}</td>
                       <td>{res?.email}</td>
                       <td>{res?.country}</td>
@@ -342,7 +342,9 @@ const Table_Grid = ({
                   <tr className="second-tr" key={ind} style={{ backgroundColor: 'none', padding: '0px',}}>
                     <td className="second-tr" colspan="9" style={{ width: '100%', backgroundColor: 'none', padding: '0px', }}>
                       <div className="stepper-div">
-                        <Stepper />
+                        <Stepper
+                          currentStep={getStatusCodes(res)}
+                        />
                       </div>
                     </td>
                   </tr>

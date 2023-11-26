@@ -263,8 +263,8 @@ export default function CreateAdminContainer() {
             <InputField
               label="Phone"
               required={true}
-              id="phoneNumber"
-              type="tel"
+              id="phoneNumber" 
+              type="number"
               value={user.phoneNumber}
               onChange={onChange}
             />

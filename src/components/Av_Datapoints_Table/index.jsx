@@ -40,6 +40,8 @@ const Av_Datapoints_Table = () => {
             title={'Available Data Points'}
             subTitle={dataPoints?.length}
             assignBtn={false}
+            createBtn={true}
+            navigationToLink={"/admin/create-datapoint"}
           />
         </div>
 

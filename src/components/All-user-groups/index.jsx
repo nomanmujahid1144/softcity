@@ -33,9 +33,11 @@ const All_User_Groups = () => {
             title={'All User Groups'}
             subTitle={userGroups?.length > 0 ? userGroups?.length : 0}
             assignBtn={false}
+            createBtn={true}
+            navigationToLink={"/admin/create-user-group"}
           />
         </div>
-
+        {console.log(userGroups, 'userGroups')}
         <div style={{ marginTop: '30px', marginBottom: '20px' }}>
           <Table_Grid
             heading1={'SN'}
