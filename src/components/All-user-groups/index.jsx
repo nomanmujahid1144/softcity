@@ -8,7 +8,7 @@ import './Stepper/stepper.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUserGroups } from '../../redux/slices/UserGroups/UserGroups'
 const All_User_Groups = () => { 
-
+ 
   const [refresh, setRefresh] = useState(false);
 
   const dispatch = useDispatch();
@@ -37,7 +37,6 @@ const All_User_Groups = () => {
             navigationToLink={"/admin/create-user-group"}
           />
         </div>
-        {console.log(userGroups, 'userGroups')}
         <div style={{ marginTop: '30px', marginBottom: '20px' }}>
           <Table_Grid
             heading1={'SN'}
