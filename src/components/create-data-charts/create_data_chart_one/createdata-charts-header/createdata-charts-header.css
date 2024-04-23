@@ -1,0 +1,78 @@
+.select-header {
+  width: 25%;
+  margin-left: 20px;
+}
+
+.select-lbl {
+  height: 48px;
+}
+
+.search-inp {
+  height: 48px;
+}
+
+@media screen and (max-width: 1024px) {
+  .create-data-points {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .title-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .select-header {
+    margin-top: 20px;
+    width: 70%;
+  }
+}
+
+.data-point-heading {
+  font-family: "Poppins", sans-serif;
+  /* font-size: 1.3rem; */
+  font-size: 20px;
+  margin-right: 10px;
+  color: #1a1d1f;
+}
+
+.create-data-color {
+  width: 1rem;
+  height: 2rem;
+  background-color: #547ba8;
+  border-radius: 3px;
+  margin-right: 10px;
+}
+
+.total-head {
+  font-size: 0.9rem;
+  color: #6f767e;
+  display: flex;
+  align-items: center;
+}
+
+.primary-inputs-search {
+  background-color: #fff !important;
+  outline: none !important;
+  font-size: 13px !important;
+  border: 1px solid #707070;
+  background-color: #ffffff;
+  /* width: 360px; */
+  width: 30%;
+  height: 40px;
+  padding-right: 0;
+}
+
+.input:focus {
+  color: #979797;
+}
+
+@media screen and (max-width: 1024px) {
+  .primary-inputs-search {
+    margin-top: 20px;
+    width: 75%;
+  }
+}
+
+.arrow-icon {
+  color: white;
+}

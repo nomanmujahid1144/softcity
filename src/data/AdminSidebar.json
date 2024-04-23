@@ -1,0 +1,156 @@
+[
+  {
+    "title": "Data Point",
+    "roleKeys": ["createDatapoint", "viewDatapoint", "updateDatapoint", "deleteDatapoint"],
+    "icon": "bi-grid",
+    "childrens": [
+      {
+        "title": "Create Data Point",
+        "path": "/admin/create-datapoint",
+        "roleKey": "createDatapoint"
+      },
+      {
+        "title": "View Data Point",
+        "path": "/admin/datapoints",
+        "roleKey": "viewDatapoint"
+      },
+      {
+        "title": "Data Points",
+        "path": "/admin/all-datapoints",
+        "roleKey": "viewDatapoint"
+      }
+    ]
+  },
+  {
+    "title": "Collections",
+    "roleKeys": ["createDataCollection", "viewDataCollection", "updateDataCollection", "deleteDataCollection"],
+    "icon": "bi-collection",
+    "childrens": [
+      {
+        "title": "Create Collection",
+        "path": "/admin/create-datacollection",
+        "roleKey": "createDataCollection"
+      },
+      {
+        "title": "Collections",
+        "path": "/admin/collection-templates",
+        "roleKey": "viewDataCollection"
+      },
+      {
+        "title": "Single collections",
+        "path": "/admin/Scollections",
+        "roleKey": "viewDataCollection"
+      },
+      {
+        "title": "Assign Template",
+        "path": "/admin/AssignTemplate",
+        "roleKey": "viewDataCollection"
+      }
+    ]
+  },
+  {
+    "title": "Charts",
+    "roleKeys": ["createCharts", "viewCharts", "updateCharts", "deleteCharts"],
+    "icon": "bi-pie-chart",
+    "childrens": [
+      {
+        "title": "Profile",
+        "path": "/admin/create-data-charts",
+        "roleKey": "createCharts"
+      }
+    ]
+  },
+  {
+    "title": "Dashboard",
+    "roleKeys": ["createDashboard", "viewDashboard", "updateDashboard", "deleteDashboard"],
+    "icon": "bi-columns-gap",
+    "path": "/",
+    "childrens": [
+      {
+        "title": "Create Dashboard",
+        "path": "/admin/createdashboard",
+        "roleKey": "createDashboard"
+      },
+      {
+        "title": "Available Charts",
+        "path": "/admin/all-available-elements",
+        "roleKey": "viewDashboard"
+      },
+      {
+        "title": "Delete Charts",
+        "path": "/admin/delete-data-point",
+        "roleKey": "deleteDashboard"
+      }
+    ]
+  },
+  {
+    "title": "User Group",
+    "roleKeys": ["createUserGroup", "viewUserGroup", "updateUserGroup", "deleteUserGroup", "assignUserGroup"],
+    "icon": "bi bi-people",
+    "childrens": [
+      {
+        "title": "Create User Group",
+        "path": "/admin/create-usergroup",
+        "roleKey": "createUserGroup"
+      },
+      {
+        "title": "Users Groups",
+        "path": "/admin/all-usergroups",
+        "roleKey": "viewUserGroup"
+      }
+    ]
+  },
+  {
+    "title": "Roles Management",
+    "roleKeys": ["createAdminRoleManagement", "viewAdminRoleManagement", "updateAdminRoleManagement", "deleteAdminRoleManagement"],
+    "icon": "bi-person-gear",
+    "path" : "/admin/roles-management",
+    "roleKey": "createAdminRoleManagement"
+  },
+  {
+    "title": "Users",
+    "roleKeys": ["createCompanyUser", "viewCompanyUser", "updateCompanyUser", "deleteCompanyUser"],
+    "icon": "bi-person",
+    "childrens": [
+      {
+        "title": "Create User",
+        "path": "/admin/create-user",
+        "roleKey": "createCompanyUser"
+      },
+      {
+        "title": "All Users",
+        "path": "/admin/all-users",
+        "roleKey": "viewCompanyUser"
+      }
+    ]
+  },
+  {
+    "title": "Company",
+    "roleKeys": ["createCompany", "viewCompany", "updateCompany", "deleteCompany"],
+    "icon": "bi-person",
+    "childrens": [
+      {
+        "title": "Create Company",
+        "path": "/admin/create-company",
+        "roleKey": "createCompany"
+      },
+      {
+        "title": "All Companies",
+        "path": "/admin/all-companies",
+        "roleKey": "viewCompany"
+      }
+    ]
+  },
+  {
+    "title": "Support",
+    "roleKeys": [],
+    "icon": "bi-person-gear",
+    "path": "/admin/support"
+  },
+  {
+    "title": "Report Bug",
+    "roleKeys": [],
+    "icon": "bi-bug",
+    "path": "/admin/report-bug"
+  }
+]

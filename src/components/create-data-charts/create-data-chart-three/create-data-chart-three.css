@@ -1,0 +1,18 @@
+.chart-three-main-div {
+  display: flex;
+}
+.chart-label-div {
+  width: 30%;
+}
+.chart-preview-div {
+  width: 100%;
+}
+@media screen and (max-width: 768px) {
+  .chart-three-main-div {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .chart-label-div {
+    width: 100%;
+  }
+}
