@@ -3,7 +3,7 @@ import "./createdatapoints.css";
 import { BsArrowRightShort } from "react-icons/bs";
 import { useForm, FormProvider, useFormState } from "react-hook-form";
 import Inputs from "./Inputs";
-import { BsArrowRight } from "react-icons/bs";
+import { BsArrowRight, BsTrash, BsPlus  } from "react-icons/bs";
 import DashboardContext from "../../Context/DashboardContext";
 import { BsFillCaretLeftFill } from "react-icons/bs";
 import { BsFillCaretRightFill } from "react-icons/bs";
@@ -16,6 +16,27 @@ import {
 import Alert from "react-bootstrap/Alert";
 import "../alertProceed/alertProceed.css";
 import { BsX } from "react-icons/bs";
+import { v4 as uuidv4 } from 'uuid';
+
+const inputFieldsDataTypes = [
+  { dataTypeName: '-- Select any Data Type --', value: '', name: '' },
+  { dataTypeName: 'Text Field', value: 'text', name: 'Text Field' },
+  { dataTypeName: 'Number Field', value: 'number', name: 'Number Field' },
+  { dataTypeName: 'Decimal Field', value: 'decimal', name: 'Decimal Field' },
+  { dataTypeName: 'Email Field', value: 'email', name: 'Email Field' },
+  { dataTypeName: 'Dates Field', value: 'date', name: 'Dates Field' },
+  { dataTypeName: 'Web Address Field', value: 'url', name: 'Web Address Field' },
+  { dataTypeName: 'Maps Coordinates Field', value: 'text', name: 'Maps Coordinates Field' },
+  { dataTypeName: 'Radio Button Field', value: 'radio', name: 'Radio Button Field' },
+  { dataTypeName: 'Check Box Field', value: 'checkbox', name: 'Check Box Field' },
+  { dataTypeName: 'Counter Field', value: 'number', name: 'Counter Field' },
+  { dataTypeName: 'Image Field', value: 'file', name: 'Image Field' }
+];
+
+const prefixedLabel = "Dear User, kindly prefill this column with labels for each row:";
+
+const noOfColumnsList = Array.from({ length: 12 }, (_, i) => i + 1);
+
 
 const Form = ({ submitted }) => {
   const submit = useContext(DashboardContext);
@@ -33,6 +54,7 @@ const Form = ({ submitted }) => {
     { dataPointName: "", description: "", checkbox: "" },
   ]);
   const [show, setShow] = useState(false);
+  const [rows, setRows] = useState([{ id: uuidv4() }]);
   const [showCols, setShowCols] = useState(null);
   const [showLabels, setShowLabels] = useState(false);
   const [ischecked, setischecked] = useState(false);
@@ -60,68 +82,12 @@ const Form = ({ submitted }) => {
     e.persist();
     e.preventDefault();
     console.log(e.target.value);
-    setischecked(false);
-
-    //triggering number selecton based on that checkbox
-    if (e.target.value === "number") {
-      setstate({
-        success: false,
-        type: e.target.value,
-        boxdescription: true,
-      });
-    }
-    //
-    else if (e.target.value === "text-area") {
-      setstate({
-        success: false,
-        type: e.target.value,
-      });
-    } else if (
-      e.target.value === "Sdrop-TextField" ||
-      e.target.value === "Mdrop-NumberField" ||
-      e.target.value === "Mdrop-TextField" ||
-      e.target.value === "checkbox" ||
-      e.target.value === "radio" ||
-      e.target.value === "date" ||
-      e.target.value === "url" ||
-      e.target.value === "Mdrop-NumberField"
-    ) {
-      //setting custom label
-      if (
-        e.target.value === "Mdrop-NumberField" ||
-        e.target.value === "Sdrop-TextField" ||
-        e.target.value === "Mdrop-TextField" ||
-        e.target.value === "date" ||
-        e.target.value === "Mdrop-NumberField"
-      ) {
-        setstate((state) => ({
-          ...state,
-          boxdescription: false,
-          label: "Label Drop",
-          success: true,
-        }));
-      }
-      if (e.target.value === "radio") {
-        setstate((state) => ({ ...state, label: "Label Radio" }));
-      }
-      if (e.target.value === "checkbox") {
-        setstate((state) => ({ ...state, label: "Label Box" }));
-      }
-      //settingthe little checkbox next to description box
-      if (
-        e.target.value === "checkbox" ||
-        e.target.value === "radio" ||
-        e.target.value === "date" ||
-        e.target.value === "url" ||
-        e.target.value === "Mdrop-NumberField" ||
-        e.target.value === "number"
-      ) {
-        setstate((state) => ({ ...state, boxdescription: true }));
-      }
-      //default final state
-      setstate((state) => ({ ...state, allow: true, success: true }));
+    const doNotEnableSheetMode = ["radio", "checkbox", "number", "file"]; 
+    
+    if (doNotEnableSheetMode.includes(e.target.value)) {
+      setischecked(false);
     } else {
-      setstate({ success: false });
+      setischecked(true);
     }
   };
 
@@ -190,6 +156,26 @@ const Form = ({ submitted }) => {
     submitted();
   };
 
+
+  const addRow = () => {
+    setRows([...rows, { id: uuidv4() }]);
+  };
+
+  const deleteRow = (id) => {
+    setRows(rows.filter(row => row.id !== id));
+  };
+
+
+  const handleChange = (index, event) => {
+    const newRows = rows.map((row, rowIndex) => {
+      if (rowIndex === index) {
+        return { ...row, value: event.target.value };
+      }
+      return row;
+    });
+    setRows(newRows);
+  };
+
   return (
     <>
       <div className="">
@@ -198,7 +184,7 @@ const Form = ({ submitted }) => {
             <Alert
               show={show}
               variant=""
-              className="w-100 h-100 bg-0 d-flex justify-content-center align-items-center position-absolute z-1 top-0 left-0"
+              className="w-100 h-[100vh] bg-0 d-flex justify-content-center align-items-center position-absolute z-1 top-0 left-0"
             >
               <div className="bs bg-white rounded-4 p-3 pb-4">
                 <div>
@@ -211,157 +197,126 @@ const Form = ({ submitted }) => {
                       <BsX />
                     </button>
                   </div>
+                  {/* {!showLabels ? (
+                    <>
+                      <p className="mt-3 fs-5 fw-bold text-center ">
+                        Dear User, kindly prefill this column with labels for each row:
+                      </p>
+                      <table className="table my-4">
+                        <thead>
+                          <tr>
+                            {labelColArr.map((header, ind) => (
+                              <th key={ind}>{header}</th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rows.map((row, rowIndex) => (
+                            <tr key={row.id}>
+                              {labelColArr.map((header, colIndex) => (
+                                <td key={colIndex}>
+                                  <input
+                                    type="text"
+                                    name={`${header}_${rowIndex + 1}`}
+                                    className="form-control"
+                                  />
+                                </td>
+                              ))}
+                              {rowIndex !== 0 && (
+                                <td>
+                                  <button type="button" className="btn btn-danger" onClick={() => deleteRow(row.id)}>
+                                    <BsTrash />
+                                  </button>
+                                </td>
+                              )}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                      <div className="d-flex justify-content-end">
+                        <button type="button" className="btn btn-success w-auto px-3" onClick={addRow}>
+                          <BsPlus /> Add More
+                        </button>
+                      </div>
+                      <div className="d-flex justify-content-center my-3">
+                        <button type="submit" className="btn mx-2 py-2 create-btn-form">
+                          Save
+                        </button>
+                        <button type="submit" className="btn mx-2 py-2 create-btn-form">
+                          Cancle
+                        </button>
+                      </div>
 
+                    </>
+                  ) : null} */}
                   {!showLabels ? (
-                    <p className="mt-3 fs-5 fw-bold text-center ">
-                      Would you like to prefill a column?
-                    </p>
-                  ) : !showCols ? (
-                    <p className="mt-3 fs-5 fw-bold text-center ">
-                      Select a Column to fill it
-                    </p>
-                  ) : (
-                    <p className="mt-3 fs-5 fw-bold text-center ">
-                      Enter the data into the Columns Below
-                    </p>
-                  )}
+                    <>
+                      <table className="table table-fixed my-4">
+                        <thead>
+                          <tr>
+                            <th>{prefixedLabel}</th>
+                            {labelColArr.map((header, ind) => (
+                              <th key={ind}>{header}</th>
+                            ))}
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rows.map((row, rowIndex) => (
+                            <tr key={row.id}>
+                              <td>
+                                <input
+                                  type="text"
+                                  name={`prefixedLabel_${rowIndex + 1}`}
+                                  className="form-control"
+                                  value={row.value}
+                                  onChange={(e) => handleChange(rowIndex, e)}
+                                />
+                              </td>
+                              {labelColArr.map((header, colIndex) => (
+                                <td key={colIndex}>
+                                  <input
+                                    type="text"
+                                    disabled={true}
+                                    className="form-control cursor-disabled"
+                                  />
+                                </td>
+                              ))}
+                              {rowIndex !== 0 && (
+                                <td>
+                                  <button type="button" className="btn btn-danger" onClick={() => deleteRow(row.id)}>
+                                    <BsTrash />
+                                  </button>
+                                </td>
+                              )}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                      <div className="d-flex justify-content-end">
+                        <button type="button" className="btn btn-success w-auto px-3" onClick={addRow}>
+                          <BsPlus /> Add More
+                        </button>
+                      </div>
+                      <div className="d-flex justify-content-center my-3">
+                        <button type="submit" className="btn mx-2 py-2 create-btn-form">
+                          Save
+                        </button>
+                        <button type="button" className="btn mx-2 py-2 create-btn-form" onClick={() => console.log('Cancel button clicked')}>
+                          Cancel
+                        </button>
+                      </div>
+                    </>
+                  ) : null}
 
                   <div className="col-12 mb-4 d-flex justify-content-center ">
                     <div className="blue-line mt-3"></div>
                   </div>
 
-                  {showCols ? (
-                    <div className="carousal-form mb-4">
-                      <Carousel
-                        interval={null}
-                        indicators={false}
-                        // wrap={false}
-                        prevIcon={
-                          <BsFillCaretLeftFill className="text-dark fs-10" />
-                        }
-                        nextIcon={
-                          <BsFillCaretRightFill className="text-dark fs-10" />
-                        }
-                      >
-                        {!ischecked && (
-                          <Carousel.Item>
-                            <div>
-                              <input
-                                disabled
-                                type="text"
-                                className="form-control form-column "
-                                id="DataPointname"
-                                aria-describedby="Data-Point-name"
-                              />
-                            </div>
-                          </Carousel.Item>
-                        )}
-                        {ischecked &&
-                          columns.map((res, ind) => {
-                            return (
-                              <Carousel.Item key={ind}>
-                                <div>
-                                  <input
-                                    onChange={(e) => dataColumnhandler(e, ind)}
-                                    autoFocus={true}
-                                    placeholder={`Column-${ind + 1}`}
-                                    type="text"
-                                    className="form-control form-column "
-                                    id="DataPointname"
-                                    aria-describedby="Data-Point-name"
-                                  />
-                                </div>
-                              </Carousel.Item>
-                            );
-                          })}
-                      </Carousel>
-                    </div>
-                  ) : null}
-
-                  {showLabels && !showCols ? (
-                    <div className="carousal-form mb-4">
-                      {labelColArr.map((elem, ind) => {
-                        return (
-                          <button
-                            type="button"
-                            className="btn-light rounded-2 border-0 px-3 py-2 me-2"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              setShowCols(elem);
-                            }}
-                          >
-                            {elem}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  ) : null}
-
-                  {!showLabels || showCols ? (
-                    !showCols ? (
-                      <div className="d-flex justify-content-center gap-2">
-                        <button
-                          type="button"
-                          className="btn-light rounded-2 border-0 px-3"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setShowLabels(true);
-                          }}
-                        >
-                          Yes
-                        </button>
-                        <button
-                          type="submit"
-                          className="btn-blue rounded-2 border-0 px-3"
-                          onClick={(e) => {
-                            setShow(false);
-                            setShowLabels(false);
-                            setShowCols(null);
-                          }}
-                        >
-                          No
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="d-flex justify-content-center gap-2">
-                        <button
-                          type="button"
-                          className="btn-light rounded-2 border-0 px-3 py-2"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setDataLabelColumn();
-                            setShowLabels(true);
-                            setShowCols(null);
-                          }}
-                        >
-                          Done
-                        </button>
-                      </div>
-                    )
-                  ) : (
-                    <div className="d-flex justify-content-center gap-2">
-                      <button
-                        type="submit"
-                        className="btn-blue rounded-2 border-0 px-3"
-                      >
-                        Create
-                      </button>
-                      <button
-                        type="button"
-                        className="btn-light rounded-2 border-0 px-3"
-                        onClick={(e) => {
-                          setShow(false);
-                          setShowLabels(false);
-                          setShowCols(null);
-                        }}
-                      >
-                        No
-                      </button>
-                    </div>
-                  )}
                 </div>
               </div>
             </Alert>
+
             <section>
               <main
                 className={` ${
@@ -438,103 +393,11 @@ const Form = ({ submitted }) => {
                     name="dataFieldType"
                     className="form-select select"
                   >
-                    <option
-                      className="options"
-                      selected
-                      value="Text"
-                      name="Text Field"
-                    >
-                      Text field
-                    </option>
-                    <option
-                      className="options"
-                      value="Whole Number"
-                      name="Text Field"
-                    >
-                      Whole Number field
-                    </option>
-                    <option
-                      className="options"
-                      value="Decimal Number"
-                      name="Text Field"
-                    >
-                      Decimal Number field
-                    </option>
-                    <option
-                      className="options"
-                      value="Email"
-                      name="Email Field"
-                    >
-                      Email field
-                    </option>
-                    <option className="options" value="Date" name="Email Field">
-                      Date field
-                    </option>
-                    <option
-                      className="options"
-                      value="Web Address"
-                      name="Email Field"
-                    >
-                      Web Address field
-                    </option>
-                    <option
-                      className="options"
-                      value="Single Selection Text Dropdown"
-                      name="Email Field"
-                    >
-                      Single selection Dropdown text field
-                    </option>
-                    <option
-                      className="options"
-                      value="Multi Selection Text Dropdown"
-                      name="Email Field"
-                    >
-                      Multi Selection Dropdown text field
-                    </option>
-                    <option
-                      className="options"
-                      // value="Mdrop-NumberField"
-                      value="Single Selection Number Dropdown"
-                      name="Email Field"
-                    >
-                      Single selection Dropdown number field
-                    </option>
-                    <option
-                      className="options"
-                      // value="Mdrop-NumberField"
-                      value="Multi Selection Number Dropdown"
-                      name="Email Field"
-                    >
-                      Multi Selection Dropdown number field
-                    </option>
-                    <option
-                      className="options"
-                      value="Radio"
-                      name="Email Field"
-                    >
-                      Radio buttons
-                    </option>
-                    <option
-                      className="options"
-                      value="Checkbox"
-                      name="Email Field"
-                    >
-                      Checkboxes
-                    </option>
-                    <option
-                      className="options"
-                      value="Currency"
-                      name="Number Field:"
-                    >
-                      Currency Price field
-                    </option>
-                    <option
-                      className="options"
-                      value="Text Area"
-                      name="TextArea Field:"
-                    >
-                      Text-area
-                    </option>
+                    {inputFieldsDataTypes.map((option, index) => (
+                      <option className="options" selected={index === 0} hidden={index === 0} value={option.value} name={option.name} >
+                        {option.dataTypeName}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -557,9 +420,9 @@ const Form = ({ submitted }) => {
                   placeholder="Description"
                 ></textarea>
               </div>
-              <div className="flex-grow-1 d-flex flex-column">
-                <div className="form-check mb-2">
-                  <label className="form-check-label" htmlFor="exampleCheck1">
+              <div className={`flex-grow-1 d-flex flex-column ${!ischecked ? 'not-allowed background-light-grap-not-allowed' : ''}`}>
+                {/* <div className="form-check mb-2">
+                  <label className={`form-check-label ${!ischecked ? 'not-allowed ' : ''}`} htmlFor="exampleCheck1">
                     Enable Sheet Mode
                   </label>
                   <input
@@ -567,55 +430,47 @@ const Form = ({ submitted }) => {
                     onChange={checkbox}
                     name="enableSheetMode"
                     type="checkbox"
-                    className="form-check-input"
+                    className={`form-check-input ${!ischecked ? 'not-allowed' : ''}`}
                     id="exampleCheck1"
                     checked={ischecked}
                   />
-                </div>
+                </div> */}
                 <div className="mb-2">
                   <label
                     htmlFor="DataPointType"
-                    className="form-label form-text"
+                    className={`form-label form-text ${!ischecked ? 'not-allowed' : ''}`}
                   >
                     No. of Columns
                   </label>
                   <select
                     id="DataPointType"
                     onChange={createColumns}
-                    name="columns"
+                    name={`columns`}
                     disabled={!ischecked}
-                    className="form-select select"
+                    className={`form-select select ${!ischecked ? 'not-allowed' : ''}`}
                   >
                     <option value="1" selected hidden>
-                      -- select an option
+                      -- select an option --
                     </option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
+                    {noOfColumnsList.map((number) => (
+                      <option key={number} value={number}>
+                        {number}
+                      </option>
+                    ))}
                   </select>
                 </div>
-                <label htmlFor="DataPointType" className="form-label form-text">
+                <label htmlFor="DataPointType" className={`form-label form-text ${!ischecked ? 'not-allowed' : ''}`}>
                   Label Columns
                 </label>
                 <div className="carousal-form">
                   <Carousel
                     interval={null}
                     indicators={false}
-                    // wrap={false}
                     prevIcon={
-                      <BsFillCaretLeftFill className="text-dark fs-10" />
+                      <BsFillCaretLeftFill className="text-dark fs-10 z-0" />
                     }
                     nextIcon={
-                      <BsFillCaretRightFill className="text-dark fs-10" />
+                      <BsFillCaretRightFill className="text-dark fs-10 z-0" />
                     }
                   >
                     {!ischecked && (
@@ -624,7 +479,7 @@ const Form = ({ submitted }) => {
                           <input
                             disabled
                             type="text"
-                            className="form-control form-column "
+                            className={`form-control form-column ${!ischecked ? 'not-allowed' : ''}`}
                             id="DataPointname"
                             aria-describedby="Data-Point-name"
                           />
@@ -638,20 +493,8 @@ const Form = ({ submitted }) => {
                             <div>
                               <input
                                 onChange={(e) => labelColumnhandler(e, ind)}
-                                // onChange={labelColumnhandler}
-                                // {...register(
-                                //   `${
-                                //     ischecked &&
-                                //     `${state.label || 'LabelColumns Column'}-${
-                                //       ind + 1
-                                //     }`
-                                //   }`,
-                                // )}
                                 autoFocus={true}
                                 placeholder={`Column-${ind + 1}`}
-                                // name={`${
-                                //   state.label || 'LabelColumns Column'
-                                // }-${ind + 1}`}
                                 type="text"
                                 className="form-control form-column "
                                 id="DataPointname"

@@ -294,3 +294,22 @@ button.btn-darkblue:hover {
   font-size: 17px;
   position: absolute;
 }
+
+.table-fixed {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.table-fixed th,
+.table-fixed td {
+  width: 30%; /* Adjust the width as needed */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+  white-space: normal;
+}
+
+.table-fixed th:first-child,
+.table-fixed td:first-child {
+  width: 40%; /* Wider for the first column */
+}
