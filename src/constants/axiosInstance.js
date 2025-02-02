@@ -1,7 +1,7 @@
 import axios from "axios";
 export const axiosInstance = axios.create({
-  baseURL: "http://localhost:5000",
-  // baseURL: "https://api.softcitydata.com.ng",
+  // baseURL: "http://localhost:5050",
+  baseURL: "https://api.softcitydata.com.ng",
 });
 
 const addTokenToRequest = (config) => {

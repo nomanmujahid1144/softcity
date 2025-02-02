@@ -2,27 +2,21 @@ const CreateDataPoint = require('../models/CreateDataPoint');
 
 exports.createDataPoint = async (req, res, next) => {
     try {
-        const {companyId, dataPointName, description, dataPointType, enableSheetMode, noOfColumns, labelColumns, dataColumns } = req.body;
+        const {companyId, dataPointName, description, dataPointType, noOfColumns, data } = req.body;
 
         // if noOfColumns is provided, it must be a valid integer
         if (noOfColumns && !Number.isInteger(noOfColumns)) {
             return res.status(400).json({ errors: [{ msg: "noOfColumns must be an integer" }] });
         }
-
-        // if labelColumns is provided, it must be an array
-        if (labelColumns && !Array.isArray(labelColumns)) {
-            return res.status(400).json({ errors: [{ msg: "labelColumns must be an array" }] });
-        }
+        
         // if there are no errors, create a new CreateDataPoint and save it
         const createDataPoint = new CreateDataPoint({
             companyId,
             dataPointName,
             description,
             dataPointType,
-            enableSheetMode,
             noOfColumns,
-            labelColumns,
-            dataColumns
+            data
         });
 
         const savedDataPoint = await createDataPoint.save();

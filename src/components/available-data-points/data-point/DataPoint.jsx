@@ -38,7 +38,7 @@ const DataPoint = ({
     setpoint,
     selectedDataPoints,
     setSelectedDataPoints,
-    handleRefresh
+    handleRefresh,
   } = indexData;
   const [show, setShow] = useState(false);
   const [deleteShow, setDeleteShow] = useState(false);
@@ -69,10 +69,10 @@ const DataPoint = ({
   const deleteDataPointHandler = (id) => {
     dispatch(deleteDataPoint(id));
     dispatch(getDataPoints());
-    handleRefresh();
     setShow(false);
-  }
-  
+    setDeleteShow(false);
+  };
+
   return (
     <>
       <Alert
@@ -92,9 +92,9 @@ const DataPoint = ({
               </button>
             </div>
 
-              <p className="mt-3 fs-5 fw-bold text-center ">
-                What would you like to do?
-              </p>
+            <p className="mt-3 fs-5 fw-bold text-center ">
+              What would you like to do?
+            </p>
             <div className="col-12 mb-4 d-flex justify-content-center ">
               <div className="blue-line mt-3"></div>
             </div>
@@ -103,9 +103,9 @@ const DataPoint = ({
                 <button
                   type="button"
                   className="btn-blue rounded-2 border-0 px-3"
-                  onClick={e => {
-                    window.location = `/admin/update-datapoint/${name._id}`;
-                    setShow(false)
+                  onClick={(e) => {
+                    url(`/admin/update-datapoint/${name._id}`);
+                    setShow(false);
                   }}
                 >
                   Edit
@@ -125,7 +125,8 @@ const DataPoint = ({
         </div>
       </Alert>
       <DeleteAlert
-        show={deleteShow} setShow={setDeleteShow}
+        show={deleteShow}
+        setShow={setDeleteShow}
         heading="Are you sure you want to delete this DataPoint"
         deleteButton="Yes"
         id={name._id}

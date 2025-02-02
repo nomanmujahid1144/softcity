@@ -3,7 +3,7 @@ import "./createdatapoints.css";
 import { BsArrowRightShort } from "react-icons/bs";
 import { useForm, FormProvider, useFormState } from "react-hook-form";
 import Inputs from "./Inputs";
-import { BsArrowRight, BsTrash, BsPlus  } from "react-icons/bs";
+import { BsArrowRight, BsTrash, BsPlus } from "react-icons/bs";
 import DashboardContext from "../../Context/DashboardContext";
 import { BsFillCaretLeftFill } from "react-icons/bs";
 import { BsFillCaretRightFill } from "react-icons/bs";
@@ -16,27 +16,43 @@ import {
 import Alert from "react-bootstrap/Alert";
 import "../alertProceed/alertProceed.css";
 import { BsX } from "react-icons/bs";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 const inputFieldsDataTypes = [
-  { dataTypeName: '-- Select any Data Type --', value: '', name: '' },
-  { dataTypeName: 'Text Field', value: 'text', name: 'Text Field' },
-  { dataTypeName: 'Number Field', value: 'number', name: 'Number Field' },
-  { dataTypeName: 'Decimal Field', value: 'decimal', name: 'Decimal Field' },
-  { dataTypeName: 'Email Field', value: 'email', name: 'Email Field' },
-  { dataTypeName: 'Dates Field', value: 'date', name: 'Dates Field' },
-  { dataTypeName: 'Web Address Field', value: 'url', name: 'Web Address Field' },
-  { dataTypeName: 'Maps Coordinates Field', value: 'text', name: 'Maps Coordinates Field' },
-  { dataTypeName: 'Radio Button Field', value: 'radio', name: 'Radio Button Field' },
-  { dataTypeName: 'Check Box Field', value: 'checkbox', name: 'Check Box Field' },
-  { dataTypeName: 'Counter Field', value: 'number', name: 'Counter Field' },
-  { dataTypeName: 'Image Field', value: 'file', name: 'Image Field' }
+  { dataTypeName: "-- Select any Data Type --", value: "", name: "" },
+  { dataTypeName: "Text Field", value: "text", name: "Text Field" },
+  { dataTypeName: "Number Field", value: "number", name: "Number Field" },
+  { dataTypeName: "Decimal Field", value: "decimal", name: "Decimal Field" },
+  { dataTypeName: "Email Field", value: "email", name: "Email Field" },
+  { dataTypeName: "Dates Field", value: "date", name: "Dates Field" },
+  {
+    dataTypeName: "Web Address Field",
+    value: "url",
+    name: "Web Address Field",
+  },
+  {
+    dataTypeName: "Maps Coordinates Field",
+    value: "text",
+    name: "Maps Coordinates Field",
+  },
+  {
+    dataTypeName: "Radio Button Field",
+    value: "radio",
+    name: "Radio Button Field",
+  },
+  {
+    dataTypeName: "Check Box Field",
+    value: "checkbox",
+    name: "Check Box Field",
+  },
+  { dataTypeName: "Counter Field", value: "number", name: "Counter Field" },
+  { dataTypeName: "Image Field", value: "file", name: "Image Field" },
 ];
 
-const prefixedLabel = "Dear User, kindly prefill this column with labels for each row:";
+const prefixedLabel =
+  "Dear User, kindly prefill this column with labels for each row:";
 
 const noOfColumnsList = Array.from({ length: 12 }, (_, i) => i + 1);
-
 
 const Form = ({ submitted }) => {
   const submit = useContext(DashboardContext);
@@ -82,8 +98,8 @@ const Form = ({ submitted }) => {
     e.persist();
     e.preventDefault();
     console.log(e.target.value);
-    const doNotEnableSheetMode = ["radio", "checkbox", "number", "file"]; 
-    
+    const doNotEnableSheetMode = ["radio", "checkbox", "file"];
+
     if (doNotEnableSheetMode.includes(e.target.value)) {
       setischecked(false);
     } else {
@@ -102,6 +118,7 @@ const Form = ({ submitted }) => {
   //submit
   const formreset = function () {
     setstate(false);
+    setShow(false);
     setischecked(false);
     setcolumns([]);
     reset();
@@ -124,17 +141,28 @@ const Form = ({ submitted }) => {
   };
 
   const setDataLabelColumn = (e, ind) => {
-    var dataLabelColumn  = {
+    var dataLabelColumn = {
       key: showCols,
-      data: dataColArr
-    }
-    console.log(dataLabelColumn); 
-  }
+      data: dataColArr,
+    };
+    console.log(dataLabelColumn);
+  };
 
   const onSubmit = (data) => {
     fetch_data(data);
-    // fetch_data(data)
-    // const { dataForm } = dataForm
+
+    let obj = {}; // Initialize the main object
+
+    console.log(rows)
+
+    // Loop through each row
+    rows.forEach((row) => {
+      obj[row.value] = {}; // Create a new object for each name in rows
+      // Loop through each label in labelColArr and set it as a key with an empty string as value
+      labelColArr.forEach((label) => {
+        obj[row.value][label] = "";
+      });
+    });
 
     const dataArr = {
       companyId: id,
@@ -143,8 +171,7 @@ const Form = ({ submitted }) => {
       description: data.Description,
       enableSheetMode: data.enableSheetMode,
       noOfColumns: +data.NoOfColumns,
-      labelColumns: labelColArr,
-      dataColumns: dataColArr,
+      data: obj,
     };
 
     console.log(dataArr, "Array");
@@ -156,15 +183,13 @@ const Form = ({ submitted }) => {
     submitted();
   };
 
-
   const addRow = () => {
     setRows([...rows, { id: uuidv4() }]);
   };
 
   const deleteRow = (id) => {
-    setRows(rows.filter(row => row.id !== id));
+    setRows(rows.filter((row) => row.id !== id));
   };
-
 
   const handleChange = (index, event) => {
     const newRows = rows.map((row, rowIndex) => {
@@ -284,7 +309,11 @@ const Form = ({ submitted }) => {
                               ))}
                               {rowIndex !== 0 && (
                                 <td>
-                                  <button type="button" className="btn btn-danger" onClick={() => deleteRow(row.id)}>
+                                  <button
+                                    type="button"
+                                    className="btn btn-danger"
+                                    onClick={() => deleteRow(row.id)}
+                                  >
                                     <BsTrash />
                                   </button>
                                 </td>
@@ -294,15 +323,26 @@ const Form = ({ submitted }) => {
                         </tbody>
                       </table>
                       <div className="d-flex justify-content-end">
-                        <button type="button" className="btn btn-success w-auto px-3" onClick={addRow}>
+                        <button
+                          type="button"
+                          className="btn btn-success w-auto px-3"
+                          onClick={addRow}
+                        >
                           <BsPlus /> Add More
                         </button>
                       </div>
                       <div className="d-flex justify-content-center my-3">
-                        <button type="submit" className="btn mx-2 py-2 create-btn-form">
+                        <button
+                          type="submit"
+                          className="btn mx-2 py-2 create-btn-form"
+                        >
                           Save
                         </button>
-                        <button type="button" className="btn mx-2 py-2 create-btn-form" onClick={() => console.log('Cancel button clicked')}>
+                        <button
+                          type="button"
+                          className="btn mx-2 py-2 create-btn-form"
+                          onClick={() => console.log("Cancel button clicked")}
+                        >
                           Cancel
                         </button>
                       </div>
@@ -312,7 +352,6 @@ const Form = ({ submitted }) => {
                   <div className="col-12 mb-4 d-flex justify-content-center ">
                     <div className="blue-line mt-3"></div>
                   </div>
-
                 </div>
               </div>
             </Alert>
@@ -394,7 +433,13 @@ const Form = ({ submitted }) => {
                     className="form-select select"
                   >
                     {inputFieldsDataTypes.map((option, index) => (
-                      <option className="options" selected={index === 0} hidden={index === 0} value={option.value} name={option.name} >
+                      <option
+                        className="options"
+                        selected={index === 0}
+                        hidden={index === 0}
+                        value={option.value}
+                        name={option.name}
+                      >
                         {option.dataTypeName}
                       </option>
                     ))}
@@ -420,7 +465,13 @@ const Form = ({ submitted }) => {
                   placeholder="Description"
                 ></textarea>
               </div>
-              <div className={`flex-grow-1 d-flex flex-column ${!ischecked ? 'not-allowed background-light-grap-not-allowed' : ''}`}>
+              <div
+                className={`flex-grow-1 d-flex flex-column ${
+                  !ischecked
+                    ? "not-allowed background-light-grap-not-allowed"
+                    : ""
+                }`}
+              >
                 {/* <div className="form-check mb-2">
                   <label className={`form-check-label ${!ischecked ? 'not-allowed ' : ''}`} htmlFor="exampleCheck1">
                     Enable Sheet Mode
@@ -438,7 +489,9 @@ const Form = ({ submitted }) => {
                 <div className="mb-2">
                   <label
                     htmlFor="DataPointType"
-                    className={`form-label form-text ${!ischecked ? 'not-allowed' : ''}`}
+                    className={`form-label form-text ${
+                      !ischecked ? "not-allowed" : ""
+                    }`}
                   >
                     No. of Columns
                   </label>
@@ -447,7 +500,9 @@ const Form = ({ submitted }) => {
                     onChange={createColumns}
                     name={`columns`}
                     disabled={!ischecked}
-                    className={`form-select select ${!ischecked ? 'not-allowed' : ''}`}
+                    className={`form-select select ${
+                      !ischecked ? "not-allowed" : ""
+                    }`}
                   >
                     <option value="1" selected hidden>
                       -- select an option --
@@ -459,7 +514,12 @@ const Form = ({ submitted }) => {
                     ))}
                   </select>
                 </div>
-                <label htmlFor="DataPointType" className={`form-label form-text ${!ischecked ? 'not-allowed' : ''}`}>
+                <label
+                  htmlFor="DataPointType"
+                  className={`form-label form-text ${
+                    !ischecked ? "not-allowed" : ""
+                  }`}
+                >
                   Label Columns
                 </label>
                 <div className="carousal-form">
@@ -479,7 +539,9 @@ const Form = ({ submitted }) => {
                           <input
                             disabled
                             type="text"
-                            className={`form-control form-column ${!ischecked ? 'not-allowed' : ''}`}
+                            className={`form-control form-column ${
+                              !ischecked ? "not-allowed" : ""
+                            }`}
                             id="DataPointname"
                             aria-describedby="Data-Point-name"
                           />

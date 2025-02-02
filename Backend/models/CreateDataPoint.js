@@ -12,20 +12,14 @@ const CreateDataPointSchema = new Schema({
     },
     dataPointType: {
         type: String,
-        default: 'Text field',
-    },
-    enableSheetMode: {
-        type: Boolean,
-        default: false,
+        default: 'Text',
+        required: true,
     },
     noOfColumns: {
         type: Number,
     },
-    labelColumns: {
-        type: [String],
-    },
-    dataColumns: {
-        type: [String],
+    data: {
+        type: Object,
     },
     companyId :{
         type: mongoose.Schema.Types.ObjectId,
