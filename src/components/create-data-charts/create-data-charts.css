@@ -1,0 +1,35 @@
+.main-header-before {
+  width: 18px;
+  height: 106px;
+  background-color: #547ba8;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+.title1 {
+  color: #1a1d1f;
+  font-size: 20px;
+  margin-left: 10px !important;
+}
+
+.data-charts-div {
+  width: 100% !important;
+  display: flex;
+}
+.data-charts-div2 {
+  width: 100% !important;
+}
+
+.previous-btn {
+  margin-right: 10px;
+}
+@media screen and (max-width: 768px) {
+  .previous-btn {
+    margin-right: 0px;
+  }
+}
+@media screen and (max-width: 480px) {
+  .previous-btn {
+    margin-right: 0px;
+    margin-bottom: 5px;
+  }
+}

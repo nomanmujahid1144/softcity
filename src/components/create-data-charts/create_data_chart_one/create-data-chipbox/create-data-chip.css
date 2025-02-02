@@ -1,0 +1,29 @@
+.chip-title {
+  font-size: 14px;
+  color: #fcfcfc;
+  text-align: center;
+}
+
+.chip-bg-one {
+  background-color: #14365d;
+  /* width: 207px; */
+  /* width: 207px; */
+  /* height: 37px; */
+  height: auto;
+  border-radius: 5px 0px 0px 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 8px;
+}
+
+.chip-bg-two {
+  background-color: #fcc92c;
+  width: 37px;
+  /* height: 37px; */
+  height: auto;
+  border-radius: 0px 5px 5px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
