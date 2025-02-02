@@ -26,7 +26,7 @@ app.use(fileupload());
 // Load env vars
 dotenv.config({ path: "./config/config.env" });
 
-const PORT = 5000
+const PORT = process.env.PORT
 
 
 // Available Routes
